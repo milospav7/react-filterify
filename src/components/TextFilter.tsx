@@ -42,7 +42,7 @@ const faClassNames: AnyObject = {
 };
 
 interface ITextFilterProps {
-  reduxFilterId: string;
+  containerId: string;
   filterName: string;
   displayName?: string;
   isNavigationProperty?: boolean;
@@ -52,7 +52,7 @@ interface ITextFilterProps {
 }
 
 const TextFilter: React.FC<ITextFilterProps> = ({
-  reduxFilterId,
+  containerId,
   filterName,
   displayName,
   isNavigationProperty,
@@ -61,16 +61,15 @@ const TextFilter: React.FC<ITextFilterProps> = ({
   isNestedNavigationProperty,
 }) => {
   const { propertyFilters, navigationPropertyFilters } =
-    useGridFilter(reduxFilterId);
-
+    useGridFilter(containerId);
+  
   const getDefaultOperator = () => {
     let defaultOperator = "contains";
     if (isNavigationProperty) {
       const supportedOperators = Object.keys(operatorsMap);
       const customExpression =
-        (navigationPropertyFilters[filterName] &&
-          navigationPropertyFilters[filterName].customExpression) ||
-        null;
+        navigationPropertyFilters[filterName]?.customExpression ?? null;
+
       if (customExpression)
         supportedOperators.forEach((k) => {
           if (customExpression.indexOf(k) >= 0) defaultOperator = k;
@@ -109,7 +108,7 @@ const TextFilter: React.FC<ITextFilterProps> = ({
 
       dispatcher(
         updateNavigationPropertyFilter(
-          reduxFilterId,
+          containerId,
           navigationPropertyName,
           filterName,
           value,
@@ -118,7 +117,7 @@ const TextFilter: React.FC<ITextFilterProps> = ({
         )
       );
     } else
-      dispatcher(updatePropertyFilter(reduxFilterId, filterName, value, opr));
+      dispatcher(updatePropertyFilter(containerId, filterName, value, opr));
   };
 
   const setPropertyFilter = (value: string | null) => {

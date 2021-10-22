@@ -44,12 +44,12 @@ const dateFormat = dateFormatter.replace('DD', 'dd').replace('YYYY', 'yyyy');
 const dateTimeFormat = dateTimeFormatter.replace('DD', 'dd').replace('YYYY', 'yyyy');
 
 const DateTimeFilterWithOperators = ({
-	reduxFilterId,
+	containerId,
 	filterName,
 	hideDateTimeSwitch = false,
 	placeholder = '',
 }) => {
-	const { propertyFilters } = useGridFilter(reduxFilterId);
+	const { propertyFilters } = useGridFilter(containerId);
 
 	const getFilterValue = () => {
 		const defVal = (propertyFilters[filterName] && propertyFilters[filterName].value) || null;
@@ -69,7 +69,7 @@ const DateTimeFilterWithOperators = ({
 
 	const setPropertyFilter = (field, date) => {
 		const queryDatetime = date || null;
-		dispatcher(updatePropertyFilter(reduxFilterId, field, queryDatetime, operator));
+		dispatcher(updatePropertyFilter(containerId, field, queryDatetime, operator));
 	};
 
 	const updateOperator = (op) => {
@@ -77,7 +77,7 @@ const DateTimeFilterWithOperators = ({
 			const date = inputRef.current.props.selected;
 			const queryDatetime = date || null;
 			setOperator(op);
-			dispatcher(updatePropertyFilter(reduxFilterId, filterName, queryDatetime, op));
+			dispatcher(updatePropertyFilter(containerId, filterName, queryDatetime, op));
 		}
 	};
 

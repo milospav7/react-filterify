@@ -1,23 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useGridFilter } from "./components/hooks";
+import TestingFilters1 from "./test/TestingFilters1";
 
 function App() {
+  const filter = useGridFilter("F1");
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="d-flex flex-row p-5">
+        <div className="w-25">
+          <TestingFilters1 containerId="F1" />
+        </div>
+        <div className="p-3">{JSON.stringify(filter)}</div>
+      </div>
     </div>
   );
 }

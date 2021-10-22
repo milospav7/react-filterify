@@ -16,14 +16,17 @@ type AnyObject = {
   [key: string]: any;
 };
 
-type ValueTypedObject<T> = Map<string, T>;
+type ValueTypedObject<T> ={
+  [key: string]: T;
+};
+
 
 type ContainerType = {
   propertyFilters: AnyObject;
   navigationPropertyFilters: AnyObject;
   functionFilters: AnyObject[];
   saveToLocalStorage: boolean;
-  globalStyleSchema?: FilterStyleSchemaType;
+  globalStyleSchema: null |FilterStyleSchemaType;
 };
 
 export {

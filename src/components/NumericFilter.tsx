@@ -37,7 +37,7 @@ const faClassNames: AnyObject = {
 };
 
 interface IProps {
-  reduxFilterId: string;
+  containerId: string;
   filterName: string;
   displayName?: string;
   placeholder?: string;
@@ -45,13 +45,13 @@ interface IProps {
 }
 
 const NumericFilter: React.FC<IProps> = ({
-  reduxFilterId,
+  containerId,
   filterName,
   displayName,
   useDecimal,
   placeholder,
 }) => {
-  const { propertyFilters } = useGridFilter(reduxFilterId);
+  const { propertyFilters } = useGridFilter(containerId);
   const propFilterValue = propertyFilters[filterName]?.value;
   const [dropdownOpen, setOpen] = useState(false);
   const operator = propertyFilters[filterName]?.operator ?? operatorsMap.eq;
@@ -65,11 +65,11 @@ const NumericFilter: React.FC<IProps> = ({
     if (value) {
       const parsed = useDecimal ? parseFloat(value) : parseInt(value, 10);
       dispatcher(
-        updatePropertyFilter(reduxFilterId, filterName, parsed, operator)
+        updatePropertyFilter(containerId, filterName, parsed, operator)
       );
     } else
       dispatcher(
-        updatePropertyFilter(reduxFilterId, filterName, value, operator)
+        updatePropertyFilter(containerId, filterName, value, operator)
       );
   };
 
@@ -82,7 +82,7 @@ const NumericFilter: React.FC<IProps> = ({
     if (op !== operator) {
       const val = inputRef.current?.props.value?.toString() ?? "";
       const parsed = useDecimal ? parseFloat(val) : parseInt(val, 10);
-      dispatcher(updatePropertyFilter(reduxFilterId, filterName, parsed, op));
+      dispatcher(updatePropertyFilter(containerId, filterName, parsed, op));
     }
   };
 

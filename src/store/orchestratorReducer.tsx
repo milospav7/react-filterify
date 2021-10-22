@@ -1,5 +1,9 @@
 import { containerInitialState, containerReducer } from "./containerReducer";
-import { ContainerType, FilterConfigurationType, ValueTypedObject } from "./types";
+import {
+  ContainerType,
+  FilterConfigurationType,
+  ValueTypedObject,
+} from "./types";
 
 const getStorageKey = (containerId: string) =>
   `${containerId}_filterify_container`; // HERE WE CAN MODIFY SELECTOR KEY
@@ -15,15 +19,16 @@ const tryGetInitStateFromStorage = (containerId: string) => {
   }
 };
 
-let prebuiltContainers: null | ValueTypedObject<ContainerType>;
+let prebuiltContainers: ValueTypedObject<ContainerType>;
 
 const shouldSaveInStorage = (id: string) =>
   prebuiltContainers && prebuiltContainers[id]?.saveToLocalStorage;
 
-export const filterifyReducer = (state = prebuiltContainers, action) => {
-  if (prebuiltContainers && !(action.id in prebuiltContainers)) return state; // TODO: update to resolve dynamically
+export const filterifyReducer = (state = prebuiltContainers, action: any) => {
+  // if (prebuiltContainers && !(action.id in prebuiltContainers)) return state; // TODO: update to resolve dynamically
+  if (!action.id) return state;
 
-  const container = state[action.id];
+  const container = state?.[action.id];
   const updatedFiltersContainer = containerReducer(container, action);
 
   const enrichedFilterState = {
@@ -45,7 +50,7 @@ export const filterifyReducer = (state = prebuiltContainers, action) => {
 export const configureFilterfyReducer = (
   preconfigurations: string[] | FilterConfigurationType[]
 ) => {
-  prebuiltContainers = new Map();
+  prebuiltContainers = {};
 
   preconfigurations.forEach((pc: string | FilterConfigurationType) => {
     if (typeof pc === "string") {

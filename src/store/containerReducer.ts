@@ -14,7 +14,7 @@ const isBoolean = (val: any) => typeof val === "boolean";
 const cloneDeep = (obj: any) => {
   var _out = new obj.constructor();
 
-  var getType = function (n) {
+  var getType = function (n: any) {
     return Object.prototype.toString.call(n).slice(8, -1);
   };
 
@@ -37,16 +37,20 @@ export const containerInitialState: ContainerType = {
   globalStyleSchema: null,
 };
 
-const removeKey = (key, { [key]: _, ...rest }) => rest;
-const isStringOrNumber = (val) => {
+const removeKey = (key: any, { [key]: _, ...rest }) => rest;
+
+const isStringOrNumber = (val: any) => {
   if (typeof val === "string") return !!val;
   if (typeof val === "number" && !isNaN(val)) return true;
   return false;
 };
 
-const isNonEmptyArray = (val) => Array.isArray(val) && val.length > 0;
+const isNonEmptyArray = (val: any) => Array.isArray(val) && val.length > 0;
 
-export const containerReducer = (state = containerInitialState, action) => {
+export const containerReducer = (
+  state = containerInitialState,
+  action: any
+) => {
   switch (action.type) {
     case FILTER_UPDATE_FILTER: {
       const {
@@ -60,7 +64,7 @@ export const containerReducer = (state = containerInitialState, action) => {
       if (isStringOrNumber(fieldValue) || isNonEmptyArray(fieldValue)) {
         const type =
           isNonEmptyArray(fieldValue) &&
-          fieldValue.some((v) => v && v instanceof Date)
+          fieldValue.some((v: any) => v && v instanceof Date)
             ? "datetime"
             : "";
         return {
@@ -206,7 +210,7 @@ export const containerReducer = (state = containerInitialState, action) => {
       const { filtersToUpdate } = action;
       let updatedState = cloneDeep(state);
 
-      filtersToUpdate.forEach((filter) => {
+      filtersToUpdate.forEach((filter: any) => {
         const { filterName, functionFilterQueryString, values } = filter;
         if (functionFilterQueryString) {
           const existing = state.functionFilters.some(
@@ -295,7 +299,7 @@ export const containerReducer = (state = containerInitialState, action) => {
       if (state.navigationPropertyFilters.TreeViewID)
         navigationPropertyFilters.TreeViewID =
           state.navigationPropertyFilters.TreeViewID;
-      if (state.functionFilters.some((f) => f.filterName === "TreeViewID"))
+      if (state.functionFilters.some((f: any) => f.filterName === "TreeViewID"))
         functionFilters.push(
           state.functionFilters.find((f) => f.filterName === "TreeViewID")
         );
@@ -321,11 +325,11 @@ export class FilterHelperMethods {
    * @param {Object} navigationPropertyFilters navigationPropertyFilters map - part of filter instance state
    */
   static convertToKendoGridFilter = (
-    filters,
+    filters: any,
     functionFilters = null,
     navigationPropertyFilters = null
   ) => {
-    const filterObject = {
+    const filterObject: any = {
       skip: 0,
       filter: {
         logic: "and",
@@ -365,7 +369,7 @@ export class FilterHelperMethods {
       ) {
         if (k.includes(";")) {
           // Multi-filter (filtering more than one fields with one filter by using field name like 'Field1;Field2;Field3')
-          const multiFilter = {
+          const multiFilter: any = {
             key: k,
             filters: [],
             logic,
@@ -401,7 +405,7 @@ export class FilterHelperMethods {
           const proccessedValue =
             isDateTime && typeof value === "string" ? new Date(value) : value; // Need this check because when parsing stringified object from local storage then Datetime object becomes string so we need to convert it back to Date object
           const index = filterObject.filter.filters.findIndex(
-            (f) => f.key === k
+            (f: any) => f.key === k
           );
 
           if (index >= 0) {
@@ -424,10 +428,12 @@ export class FilterHelperMethods {
    * Method will use navigationPropertyFilters map(from filter instance) to generate query string(with lambdas (and lambda custom expressions)). Should be used in conjunction with upper method and then both results should be passed, as args, to toODataStr method to get complete query string for grid method request
    * @param {Object} navigationPropertyFilters
    */
-  static getNavigationPropFiltersQueryString = (navigationPropertyFilters) => {
+  static getNavigationPropFiltersQueryString = (
+    navigationPropertyFilters: any
+  ) => {
     if (!navigationPropertyFilters || navigationPropertyFilters.length === {})
       return null;
-    let groupedFilters = [];
+    let groupedFilters: any = [];
     let query = "";
 
     Object.keys(navigationPropertyFilters).forEach((f) => {
@@ -435,10 +441,11 @@ export class FilterHelperMethods {
 
       if (
         groupedFilters.some(
-          (gf) => gf.navigationPropertyName === filter.navigationPropertyName
+          (gf: any) =>
+            gf.navigationPropertyName === filter.navigationPropertyName
         )
       ) {
-        groupedFilters = groupedFilters.map((gf) => {
+        groupedFilters = groupedFilters.map((gf: any) => {
           if (gf.navigationPropertyName === filter.navigationPropertyName) {
             return {
               navigationPropertyName: filter.navigationPropertyName,
@@ -468,7 +475,7 @@ export class FilterHelperMethods {
     });
 
     if (groupedFilters.length > 0) {
-      groupedFilters.forEach((f, ind) => {
+      groupedFilters.forEach((f: any, ind: number) => {
         const multipleLevelNavigationProperty =
           f.navigationPropertyName.indexOf("/") >= 0 &&
           f.navigationNameIsNested;
@@ -489,7 +496,7 @@ export class FilterHelperMethods {
         let expressionPart = "";
 
         if (f.customExpressions && f.customExpressions.length > 0) {
-          f.customExpressions.forEach((ce, i) => {
+          f.customExpressions.forEach((ce: any, i: number) => {
             if (i === f.customExpressions.length - 1)
               expressionPart += ` ${ce}`;
             else expressionPart += ` ${ce} and`;
@@ -498,10 +505,10 @@ export class FilterHelperMethods {
 
         if (f.values && f.values.length > 0) {
           if (expressionPart) expressionPart += " and";
-          f.values.forEach((v, index) => {
+          f.values.forEach((v: any, index: number) => {
             if (Array.isArray(v.value) && v.value.length > 0) {
               expressionPart += ` (`;
-              v.value.forEach((vv, i) => {
+              v.value.forEach((vv: any, i: number) => {
                 let value = vv.value ? vv.value : vv;
                 if (!isBoolean(value)) value = `'${value}'`;
                 if (i === v.value.length - 1)
@@ -528,7 +535,7 @@ export class FilterHelperMethods {
    * Concats function filter strings into one string
    * @param {Object[]} functionFilters function filters array - part of filter instance
    */
-  static getFunctionFiltersQueryString = (functionFilters) => {
+  static getFunctionFiltersQueryString = (functionFilters: any) => {
     let queryString = "";
     if (Array.isArray(functionFilters) && functionFilters.length > 0) {
       functionFilters.forEach((ff, ind) => {

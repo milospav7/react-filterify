@@ -11,7 +11,7 @@ import { AnyObject } from "../store/types";
 import { useGridFilter } from "./hooks";
 
 interface IProps {
-  reduxFilterId: string;
+  containerId: string;
   options: Array<Option | AnyObject>;
   isNavigationProperty?: boolean;
   filterName: string;
@@ -25,7 +25,7 @@ interface IProps {
 }
 
 const DropdownFilter: React.FC<IProps> = ({
-  reduxFilterId,
+  containerId,
   options,
   isNavigationProperty = false,
   filterName,
@@ -38,7 +38,7 @@ const DropdownFilter: React.FC<IProps> = ({
   isBoolean,
 }) => {
   const { propertyFilters, navigationPropertyFilters } =
-    useGridFilter(reduxFilterId);
+    useGridFilter(containerId);
   const dispatcher = useDispatch();
 
   const propValue = propertyFilters[filterName]?.value;
@@ -51,7 +51,7 @@ const DropdownFilter: React.FC<IProps> = ({
     if (isNavigationProperty) {
       dispatcher(
         updateNavigationPropertyFilter(
-          reduxFilterId,
+          containerId,
           navigationPropertyName,
           filterName,
           processedValue,
@@ -61,7 +61,7 @@ const DropdownFilter: React.FC<IProps> = ({
       );
     } else
       dispatcher(
-        updatePropertyFilter(reduxFilterId, filterName, processedValue)
+        updatePropertyFilter(containerId, filterName, processedValue)
       );
   };
 

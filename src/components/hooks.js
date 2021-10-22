@@ -2,15 +2,15 @@ import { useSelector } from "react-redux";
 
 export const useGridFilter = (containerId) => ({
   propertyFilters: useSelector(
-    (state) => state?.filterify?.[containerId]?.propertyFilters
+    (state) => state?.[containerId]?.propertyFilters
   ),
   navigationPropertyFilters: useSelector(
-    (state) => state?.filterify?.[containerId]?.navigationPropertyFilters
+    (state) => state?.[containerId]?.navigationPropertyFilters
   ),
   functionFilters: useSelector(
-    (state) => state?.filterify?.[containerId]?.functionFilters
+    (state) => state?.[containerId]?.functionFilters
   ),
   dateTimeUpdated: useSelector(
-    (state) => state?.filterify?.[containerId]?.dateTimeUpdated
+    (state) => state?.[containerId]?.dateTimeUpdated
   ),
 });

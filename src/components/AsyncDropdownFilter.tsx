@@ -11,7 +11,7 @@
 // import { AnyObject } from '../../interfaces/common.interface';
 
 // interface IProps {
-// 	reduxFilterId: string;
+// 	containerId: string;
 // 	asyncGetMethod: (url?: null, queryParams?: string) => Promise<AxiosResponse<any>>;
 // 	filterSearchProperty: string;
 // 	filterOptionLabelProperty: string;
@@ -30,7 +30,7 @@
 // }
 
 // const AsyncDropdownFilter: React.FC<IProps> = ({
-// 	reduxFilterId,
+// 	containerId,
 // 	asyncGetMethod,
 // 	filterSearchProperty,
 // 	filterOptionLabelProperty,
@@ -47,7 +47,7 @@
 // 	optionComponent = null,
 // 	filterOutNullOrEmptyRecords = true,
 // }) => {
-// 	const { propertyFilters, navigationPropertyFilters } = useGridFilter(reduxFilterId);
+// 	const { propertyFilters, navigationPropertyFilters } = useGridFilter(containerId);
 // 	const [options, setOptions] = useState({
 // 		list: [],
 // 		nextLink: null,
@@ -115,7 +115,7 @@
 // 			if (isNavigationProperty) {
 // 				dispatcher(
 // 					updateNavigationPropertyFilter(
-// 						reduxFilterId,
+// 						containerId,
 // 						navigationPropertyName,
 // 						filterName,
 // 						option,
@@ -123,11 +123,11 @@
 // 						isNestedNavigationProperty
 // 					)
 // 				);
-// 			} else dispatcher(updatePropertyFilter(reduxFilterId, filterName, option));
+// 			} else dispatcher(updatePropertyFilter(containerId, filterName, option));
 // 		},
 // 		[
 // 			isNavigationProperty,
-// 			reduxFilterId,
+// 			containerId,
 // 			navigationPropertyName,
 // 			filterName,
 // 			isNestedNavigationProperty,
@@ -252,3 +252,5 @@
 // };
 
 // export default AsyncDropdownFilter;
+
+export {};

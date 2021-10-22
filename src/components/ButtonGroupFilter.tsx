@@ -6,7 +6,7 @@ import { AnyObject } from "../store/types";
 import { useGridFilter } from "./hooks";
 
 interface IProps {
-  reduxFilterId: string;
+  containerId: string;
   filterName: string;
   options: Array<any>;
   optionsCustomContent?: AnyObject;
@@ -16,7 +16,7 @@ interface IProps {
 }
 
 const ButtonGroupFilter: React.FC<IProps> = ({
-  reduxFilterId,
+  containerId,
   filterName,
   options,
   optionsCustomContent = {},
@@ -24,7 +24,7 @@ const ButtonGroupFilter: React.FC<IProps> = ({
   isMulti = false,
   wrapperClassName = "",
 }) => {
-  const { propertyFilters } = useGridFilter(reduxFilterId);
+  const { propertyFilters } = useGridFilter(containerId);
   const propValue = propertyFilters[filterName]?.value;
   const propOperator = propertyFilters[filterName]?.operator;
   const dispatcher = useDispatch();
@@ -38,7 +38,7 @@ const ButtonGroupFilter: React.FC<IProps> = ({
             : [...propValue, value];
           dispatcher(
             updatePropertyFilter(
-              reduxFilterId,
+              containerId,
               filterName,
               nextFilterValue,
               operator,
@@ -48,7 +48,7 @@ const ButtonGroupFilter: React.FC<IProps> = ({
         } else
           dispatcher(
             updatePropertyFilter(
-              reduxFilterId,
+              containerId,
               filterName,
               [value],
               operator,
@@ -57,11 +57,11 @@ const ButtonGroupFilter: React.FC<IProps> = ({
           );
       } else {
         if (propValue !== undefined && operator === propOperator)
-          dispatcher(updatePropertyFilter(reduxFilterId, filterName, null));
+          dispatcher(updatePropertyFilter(containerId, filterName, null));
         else
           dispatcher(
             updatePropertyFilter(
-              reduxFilterId,
+              containerId,
               filterName,
               value,
               operator,
@@ -70,7 +70,7 @@ const ButtonGroupFilter: React.FC<IProps> = ({
           );
       }
     },
-    [isMulti, propValue, dispatcher, filterName, reduxFilterId, propOperator]
+    [isMulti, propValue, dispatcher, filterName, containerId, propOperator]
   );
 
   const isOptionSelected = useCallback(
