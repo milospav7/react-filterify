@@ -12,13 +12,21 @@ import {
   Input,
 } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
-import { AnyObject } from "../store/types";
+import {
+  faCaretDown,
+  faEquals,
+  faGreaterThan,
+  faGreaterThanEqual,
+  faLessThan,
+  faLessThanEqual,
+  faNotEqual,
+} from "@fortawesome/free-solid-svg-icons";
+import { ValueTypedObject } from "../store/types";
 import { useFilterifyFilter } from "./hooks";
 import { updatePropertyFilter } from "../store/actionCreators";
 import { DebouncedInputField } from "./DebouncedInputField";
 
-const operatorsMap: AnyObject = {
+const operatorsMap: ValueTypedObject<string> = {
   eq: "eq",
   ne: "ne",
   gt: "gt",
@@ -27,13 +35,13 @@ const operatorsMap: AnyObject = {
   le: "le",
 };
 
-const faClassNames: AnyObject = {
-  eq: "fas fa-equals",
-  ne: "fas fa-not-equal",
-  gt: "fas fa-greater-than",
-  ge: "fas fa-greater-than-equal",
-  lt: "fas fa-less-than",
-  le: "fas fa-less-than-equal",
+const faIcons: ValueTypedObject<any> = {
+  eq: faEquals,
+  ne: faNotEqual,
+  gt: faGreaterThan,
+  ge: faGreaterThanEqual,
+  lt: faLessThan,
+  le: faLessThanEqual,
 };
 
 interface IProps {
@@ -95,7 +103,10 @@ const NumericFilter: React.FC<IProps> = ({
           <InputGroupAddon addonType="prepend">
             <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
               <DropdownToggle className="p-0 m-0 rounded-left text-muted z-index-auto">
-                <FontAwesomeIcon icon={faCaretDown} className="mx-1" />
+                <FontAwesomeIcon
+                  icon={faCaretDown}
+                  className="mx-1 text-light"
+                />
               </DropdownToggle>
               <DropdownMenu>
                 <DropdownItem
@@ -139,16 +150,16 @@ const NumericFilter: React.FC<IProps> = ({
           </InputGroupAddon>
           <InputGroupAddon addonType="prepend">
             <InputGroupText>
-              <i
+              <FontAwesomeIcon
+                icon={faIcons[operator]}
                 style={{ fontSize: ".9em" }}
-                className={`${faClassNames[operator]} text-muted`}
               />
             </InputGroupText>
           </InputGroupAddon>
           <DebouncedInputField
             inputReference={inputRef}
             fieldName={filterName}
-            displayName={displayName || filterName}
+            displayName={displayName ?? filterName}
             reduxValue={filterValue}
             onChange={setPropertyFilter}
             type="number"

@@ -13,8 +13,15 @@ import {
   InputGroupText,
 } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
-import { AnyObject } from "../store/types";
+import {
+  faAsterisk,
+  faCaretDown,
+  faCommentDots,
+  faCommentSlash,
+  faEquals,
+  faNotEqual,
+} from "@fortawesome/free-solid-svg-icons";
+import { ValueTypedObject } from "../store/types";
 import { useFilterifyFilter } from "./hooks";
 import {
   updateNavigationPropertyFilter,
@@ -22,7 +29,7 @@ import {
 } from "../store/actionCreators";
 import { DebouncedInputField } from "./DebouncedInputField";
 
-const operatorsMap: AnyObject = {
+const operatorsMap: ValueTypedObject<string> = {
   contains: "contains",
   doesnotcontain: "doesnotcontain",
   startswith: "startswith",
@@ -31,14 +38,14 @@ const operatorsMap: AnyObject = {
   ne: "ne",
 };
 
-const faClassNames: AnyObject = {
-  contains: "fas fa-comment-dots",
-  doesnotcontain: "fas fa-comment-slash",
-  notlike: "fas fa-comment-slash",
-  eq: "fas fa-equals",
-  ne: "fas fa-not-equal",
-  startswith: "fas fa-asterisk",
-  endswith: "fas fa-asterisk",
+const faIcons: ValueTypedObject<any> = {
+  contains: faCommentDots,
+  doesnotcontain: faCommentSlash,
+  notlike: faCommentSlash,
+  eq: faEquals,
+  ne: faNotEqual,
+  startswith: faAsterisk,
+  endswith: faAsterisk,
 };
 
 interface ITextFilterProps {
@@ -62,7 +69,7 @@ const TextFilter: React.FC<ITextFilterProps> = ({
 }) => {
   const { propertyFilters, navigationPropertyFilters } =
     useFilterifyFilter(containerId);
-  
+
   const getDefaultOperator = () => {
     let defaultOperator = "contains";
     if (isNavigationProperty) {
@@ -150,7 +157,7 @@ const TextFilter: React.FC<ITextFilterProps> = ({
           <InputGroupAddon addonType="prepend">
             <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
               <DropdownToggle className="p-0 m-0 rounded-left text-muted z-index-auto">
-                <FontAwesomeIcon icon={faCaretDown} className="mx-1" />
+                <FontAwesomeIcon icon={faCaretDown} className="mx-1 text-light" />
               </DropdownToggle>
               <DropdownMenu>
                 <DropdownItem
@@ -199,9 +206,9 @@ const TextFilter: React.FC<ITextFilterProps> = ({
                   ....
                 </span>
               )}
-              <i
+              <FontAwesomeIcon
+                icon={faIcons[operator]}
                 style={{ fontSize: ".9em" }}
-                className={faClassNames[operator]}
               />
               {operator === operatorsMap.startswith && (
                 <span style={{ lineHeight: "1" }} className="ml-1">
