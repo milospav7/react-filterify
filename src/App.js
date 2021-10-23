@@ -1,4 +1,6 @@
+import ReactJson from "react-json-view";
 import "./App.css";
+import "./style/style.css";
 import { useFilterifyFilter } from "./components/hooks";
 import TestingFilters1 from "./test/TestingFilters1";
 
@@ -10,7 +12,9 @@ function App() {
         <div className="col-4">
           <TestingFilters1 containerId="F1" />
         </div>
-        <div className="p-3">{JSON.stringify(filter)}</div>
+        <div className="p-3">
+          <ReactJson src={filter} style={{textAlign: 'left'}} />
+        </div>
       </div>
     </div>
   );

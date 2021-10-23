@@ -8,14 +8,6 @@ export const yesNo = [
   { value: "true", label: "Yes" },
   { value: "false", label: "No" },
 ];
-
-const navPropertyNames = {
-  OPERATIONAL_REGION: "OperationalRegion",
-  OUTAGE_REGION: "OutageRegion",
-  MAINTENANCE_REGION: "MaintenanceRegion",
-  BIDDING_ZONE: "BiddingZone",
-  SUBSTATION: "Substation",
-};
 interface IProps {
   containerId: string;
   resetOnUnmount?: boolean;
@@ -28,22 +20,22 @@ const TestingFilters1: React.FC<IProps> = ({
 }) => (
   <div className={wrapperClassName}>
     <div className="mb-2">
-      <Label for="Substation" className="pb-0 text-muted" size="sm">
-        Substation
+      <Label for="Book" className="pb-0 text-dark font-weight-bold d-block text-left" size="sm">
+        Book name
       </Label>
       <TextFilter
         key="sbs"
         isNavigationProperty
-        navigationPropertyName="OutageItems/RelatedSubstations"
-        navigationPropertyFilterField="SubstationName"
+        navigationPropertyName="Books/Name"
+        navigationPropertyFilterField="Name"
         isNestedNavigationProperty
         containerId={containerId}
-        filterName={navPropertyNames.SUBSTATION}
+        filterName="Book name"
       />
     </div>
     <div className="mb-2">
-      <Label for="BiddingZoneID" className="pb-0 text-muted" size="sm">
-        Bidding Zone
+      <Label for="BookWriter" className="pb-0 text-dark font-weight-bold d-block text-left" size="sm">
+        Book writer
       </Label>
       <DropdownFilter
         key="bndgz"
@@ -51,9 +43,13 @@ const TestingFilters1: React.FC<IProps> = ({
         containerId={containerId}
         isNavigationProperty
         isNestedNavigationProperty
-        navigationPropertyName="OutageItems/RelatedSubstations"
-        filterName={navPropertyNames.BIDDING_ZONE}
-        options={["Zone 1", "Zone 2", "Zone 3"].map((v) => ({
+        navigationPropertyName="Books/Writer"
+        filterName="Book writer"
+        options={[
+          "Ivo Andric",
+          "Jovan Sterija Popovic",
+          "Jovan Jovanovic Zmaj",
+        ].map((v) => ({
           label: v,
           value: v,
         }))}
@@ -62,15 +58,15 @@ const TestingFilters1: React.FC<IProps> = ({
       />
     </div>
     <div className="mb-2">
-      <Label for="PlanStatusID" className="pb-0 text-muted" size="sm">
-        PlanStatus
+      <Label className="pb-0 text-dark font-weight-bold d-block text-left" size="sm">
+        User status
       </Label>
       <DropdownFilter
         key="plsts"
         size="sm"
         containerId={containerId}
-        filterName="PlanStatus"
-        options={["Created", "Approved", "Delayed"].map((v) => ({
+        filterName="UserStatus"
+        options={["Active", "Inactive", "Banned"].map((v) => ({
           label: v,
           value: v,
         }))}
@@ -79,58 +75,40 @@ const TestingFilters1: React.FC<IProps> = ({
       />
     </div>
     <div className="mb-2">
-      <Label for="PlanYear" className="pb-0 text-muted" size="sm">
-        PlanYear
+      <Label className="pb-0 text-dark font-weight-bold d-block text-left" size="sm">
+        Year when joined
       </Label>
       <NumericFilter
         key="ply"
-        displayName="PlanYear"
-        filterName="PlanYear"
+        displayName="Year when joined"
+        filterName="YearJoined"
         containerId={containerId}
       />
     </div>
     <div className="mb-2">
-      <Label for="IsContinuous" className="pb-0 text-muted" size="sm">
-        IsContinuous
+      <Label className="pb-0 text-dark font-weight-bold d-block text-left" size="sm">
+        Is premium user
       </Label>
       <DropdownFilter
         key="iscnt"
         size="sm"
         containerId={containerId}
-        filterName="IsContinuous"
+        filterName="IsPremiumUser"
         options={yesNo}
         isBoolean
         isClearable
       />
     </div>
 
-    <div className="mb-2">
-      <Label
-        for="IsSwitchingOrderRequired"
-        className="pb-0 text-muted"
-        size="sm"
-      >
-        IsSwitchingOrderRequired
-      </Label>
-      <DropdownFilter
-        key="iswrq"
-        size="sm"
-        containerId={containerId}
-        filterName="IsSwitchingOrderRequired"
-        options={yesNo}
-        isBoolean
-        isClearable
-      />
-    </div>
     <div className="mb-4">
-      <Label for="UserName" className="pb-0 text-muted" size="sm">
-        UserName
+      <Label className="pb-0 text-dark font-weight-bold d-block text-left" size="sm">
+        Registered by
       </Label>
       <TextFilter
         key="usrnm"
         containerId={containerId}
-        filterName="IpsUserNameCreated"
-        displayName="UserName"
+        filterName="RegisterdBy"
+        displayName="Registered by"
       />
     </div>
   </div>

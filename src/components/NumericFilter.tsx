@@ -163,7 +163,7 @@ const NumericFilter: React.FC<IProps> = ({
             reduxValue={filterValue}
             onChange={setPropertyFilter}
             type="number"
-            placeholder={placeholder}
+            placeholder={placeholder ?? displayName}
           />
         </InputGroup>
       </div>
