@@ -15,7 +15,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { AnyObject } from "../store/types";
-import { useGridFilter } from "./hooks";
+import { useFilterifyFilter } from "./hooks";
 import {
   updateNavigationPropertyFilter,
   updatePropertyFilter,
@@ -61,7 +61,7 @@ const TextFilter: React.FC<ITextFilterProps> = ({
   isNestedNavigationProperty,
 }) => {
   const { propertyFilters, navigationPropertyFilters } =
-    useGridFilter(containerId);
+    useFilterifyFilter(containerId);
   
   const getDefaultOperator = () => {
     let defaultOperator = "contains";

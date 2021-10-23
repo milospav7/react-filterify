@@ -3,14 +3,14 @@ import { useDispatch } from "react-redux";
 import { Button, ButtonGroup } from "reactstrap";
 import { updatePropertyFilter } from "../store/actionCreators";
 import { AnyObject } from "../store/types";
-import { useGridFilter } from "./hooks";
+import { useFilterifyFilter } from "./hooks";
 
 interface IProps {
   containerId: string;
   filterName: string;
   options: Array<any>;
   optionsCustomContent?: AnyObject;
-  optionsCustomFilterValues?: AnyObject;
+  optionsCustomcurrentFilterValues?: AnyObject;
   isMulti?: boolean;
   wrapperClassName?: string;
 }
@@ -20,92 +20,101 @@ const ButtonGroupFilter: React.FC<IProps> = ({
   filterName,
   options,
   optionsCustomContent = {},
-  optionsCustomFilterValues = {},
+  optionsCustomcurrentFilterValues = {},
   isMulti = false,
   wrapperClassName = "",
 }) => {
-  const { propertyFilters } = useGridFilter(containerId);
-  const propValue = propertyFilters[filterName]?.value;
-  const propOperator = propertyFilters[filterName]?.operator;
+  const { propertyFilters } = useFilterifyFilter(containerId);
+  const currentFilterValue = propertyFilters[filterName]?.value;
+  const filterOperaetor = propertyFilters[filterName]?.operator;
   const dispatcher = useDispatch();
+
+  const updateInMultiValueMode = useCallback(
+    (value, operator, logic) => {
+      if (currentFilterValue) {
+        let newValue = currentFilterValue.some((v: any) => v === value)
+          ? currentFilterValue.filter((v: any) => v !== value)
+          : [...currentFilterValue, value];
+
+        dispatcher(
+          updatePropertyFilter(
+            containerId,
+            filterName,
+            newValue,
+            operator,
+            logic
+          )
+        );
+      } else
+        dispatcher(
+          updatePropertyFilter(
+            containerId,
+            filterName,
+            [value],
+            operator,
+            logic
+          )
+        );
+    },
+    [containerId, dispatcher, filterName, currentFilterValue]
+  );
+
+  const updateInSingleValueMode = useCallback(
+    (value, operator, logic) => {
+      if (currentFilterValue !== undefined && operator === filterOperaetor)
+        dispatcher(updatePropertyFilter(containerId, filterName, null));
+      else
+        dispatcher(
+          updatePropertyFilter(containerId, filterName, value, operator, logic)
+        );
+    },
+    [containerId, currentFilterValue, dispatcher, filterName, filterOperaetor]
+  );
 
   const setPropertyFilter = useCallback(
     (value, operator = "eq", logic = "or") => {
       if (isMulti) {
-        if (propValue) {
-          let nextFilterValue = propValue.some((v: any) => v === value)
-            ? propValue.filter((v: any) => v !== value)
-            : [...propValue, value];
-          dispatcher(
-            updatePropertyFilter(
-              containerId,
-              filterName,
-              nextFilterValue,
-              operator,
-              logic
-            )
-          );
-        } else
-          dispatcher(
-            updatePropertyFilter(
-              containerId,
-              filterName,
-              [value],
-              operator,
-              logic
-            )
-          );
+        updateInMultiValueMode(value, operator, logic);
       } else {
-        if (propValue !== undefined && operator === propOperator)
-          dispatcher(updatePropertyFilter(containerId, filterName, null));
-        else
-          dispatcher(
-            updatePropertyFilter(
-              containerId,
-              filterName,
-              value,
-              operator,
-              logic
-            )
-          );
+        updateInSingleValueMode(value, operator, logic);
       }
     },
-    [isMulti, propValue, dispatcher, filterName, containerId, propOperator]
+    [isMulti, updateInMultiValueMode, updateInSingleValueMode]
   );
 
   const isOptionSelected = useCallback(
-    (optValue, optOperator = "eq") => {
+    (option, optOperator = "eq") => {
       if (isMulti)
-        return !!propValue?.some(
-          (v: any) => v === optValue && optOperator === propOperator
+        return !!currentFilterValue?.some(
+          (v: any) => v === option && optOperator === filterOperaetor
         );
-      return propValue === optValue && optOperator === propOperator;
+      return currentFilterValue === option && optOperator === filterOperaetor;
     },
-    [propValue, isMulti, propOperator]
+    [currentFilterValue, isMulti, filterOperaetor]
   );
 
   const updateFilter = useCallback(
     (opt) => {
-      if (optionsCustomFilterValues[opt]) {
+      if (optionsCustomcurrentFilterValues[opt]) {
         setPropertyFilter(
-          optionsCustomFilterValues[opt].value,
-          optionsCustomFilterValues[opt].operator,
-          optionsCustomFilterValues[opt].logic
+          optionsCustomcurrentFilterValues[opt].value,
+          optionsCustomcurrentFilterValues[opt].operator,
+          optionsCustomcurrentFilterValues[opt].logic
         );
       } else setPropertyFilter(opt);
     },
-    [optionsCustomFilterValues, setPropertyFilter]
+    [optionsCustomcurrentFilterValues, setPropertyFilter]
   );
 
   const isButtonOptionSelected = useCallback(
     (opt) =>
-      optionsCustomFilterValues[opt]
+      optionsCustomcurrentFilterValues[opt]
         ? isOptionSelected(
-            optionsCustomFilterValues[opt].value,
-            optionsCustomFilterValues[opt].operator
+            optionsCustomcurrentFilterValues[opt].value,
+            optionsCustomcurrentFilterValues[opt].operator
           )
         : isOptionSelected(opt),
-    [optionsCustomFilterValues, isOptionSelected]
+    [optionsCustomcurrentFilterValues, isOptionSelected]
   );
 
   const memoizedFilter = useMemo(

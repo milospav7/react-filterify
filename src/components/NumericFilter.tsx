@@ -14,7 +14,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { AnyObject } from "../store/types";
-import { useGridFilter } from "./hooks";
+import { useFilterifyFilter } from "./hooks";
 import { updatePropertyFilter } from "../store/actionCreators";
 import { DebouncedInputField } from "./DebouncedInputField";
 
@@ -51,7 +51,7 @@ const NumericFilter: React.FC<IProps> = ({
   useDecimal,
   placeholder,
 }) => {
-  const { propertyFilters } = useGridFilter(containerId);
+  const { propertyFilters } = useFilterifyFilter(containerId);
   const propFilterValue = propertyFilters[filterName]?.value;
   const [dropdownOpen, setOpen] = useState(false);
   const operator = propertyFilters[filterName]?.operator ?? operatorsMap.eq;

@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 
-export const useGridFilter = (containerId) => ({
+export const useFilterifyFilter = (containerId) => ({
   propertyFilters: useSelector(
     (state) => state?.[containerId]?.propertyFilters
   ),

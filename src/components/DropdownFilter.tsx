@@ -8,7 +8,7 @@ import {
   updatePropertyFilter,
 } from "../store/actionCreators";
 import { AnyObject } from "../store/types";
-import { useGridFilter } from "./hooks";
+import { useFilterifyFilter } from "./hooks";
 
 interface IProps {
   containerId: string;
@@ -38,7 +38,7 @@ const DropdownFilter: React.FC<IProps> = ({
   isBoolean,
 }) => {
   const { propertyFilters, navigationPropertyFilters } =
-    useGridFilter(containerId);
+    useFilterifyFilter(containerId);
   const dispatcher = useDispatch();
 
   const propValue = propertyFilters[filterName]?.value;
