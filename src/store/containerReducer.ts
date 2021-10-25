@@ -53,13 +53,7 @@ export const containerReducer = (
 ) => {
   switch (action.type) {
     case FILTER_UPDATE_FILTER: {
-      const {
-        fieldName,
-        fieldValue,
-        operator,
-        multipleValuesLogicOperator,
-        allowNullValue,
-      } = action;
+      const { fieldName, fieldValue, operator, logic, allowNullValue } = action;
 
       if (isStringOrNumber(fieldValue) || isNonEmptyArray(fieldValue)) {
         const type =
@@ -74,7 +68,7 @@ export const containerReducer = (
             [fieldName]: {
               value: fieldValue,
               operator,
-              multipleValuesLogicOperator,
+              logic,
               type,
             },
           },
@@ -90,7 +84,7 @@ export const containerReducer = (
             [fieldName]: {
               value: fieldValue,
               operator,
-              multipleValuesLogicOperator,
+              logic,
               type: "boolean",
             },
           },
@@ -111,7 +105,7 @@ export const containerReducer = (
             [fieldName]: {
               value: fieldValue,
               operator,
-              multipleValuesLogicOperator,
+              logic,
               type: "datetime",
             },
           },
@@ -125,7 +119,7 @@ export const containerReducer = (
             [fieldName]: {
               value: fieldValue,
               operator,
-              multipleValuesLogicOperator,
+              logic,
               type: "",
             },
           },
@@ -347,7 +341,7 @@ export class FilterHelperMethods {
       const filterValue = filters[k].value;
       const operator = filters[k].operator || "eq";
       const filterType = filters[k].type;
-      const logic = filters[k].multipleValuesLogicOperator || "or";
+      const logic = filters[k].logic || "or";
 
       if (
         !Array.isArray(filterValue) &&

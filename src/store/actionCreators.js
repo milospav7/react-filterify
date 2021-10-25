@@ -14,14 +14,14 @@ import {
  * @param {*} fieldName name of the property/field used for filtering. If contains ';' char then it will be processed as multi filter - filtering more than one field with one common filter(value). Example: 'Width;Height'
  * @param {*} fieldValue value used for filtering - both number/string and array of number/string are supported
  * @param {*} operator operator used for field filtering - contains, eq, neq etc..
- * @param {*} multipleValuesLogicOperator operator used as logic operator between multiple values..
+ * @param {*} logic operator used as logic operator between multiple values..
  */
 export const updatePropertyFilter = (
   id,
   fieldName,
   fieldValue,
   operator = "eq",
-  multipleValuesLogicOperator = "or",
+  logic = "or",
   allowNullValue = false
 ) => ({
   type: FILTER_UPDATE_FILTER,
@@ -29,7 +29,7 @@ export const updatePropertyFilter = (
   fieldName,
   fieldValue,
   operator,
-  multipleValuesLogicOperator,
+  logic,
   allowNullValue,
 });
 

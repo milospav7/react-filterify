@@ -1,5 +1,6 @@
 import React from "react";
 import { Label } from "reactstrap";
+import ClearButton from "../components/ClearButton";
 import DropdownFilter from "../components/DropdownFilter";
 import NumericFilter from "../components/NumericFilter";
 import TextFilter from "../components/TextFilter";
@@ -19,22 +20,30 @@ const TestingFilters1: React.FC<IProps> = ({
   wrapperClassName = "",
 }) => (
   <div className={wrapperClassName}>
-    <div className="mb-2">
-      <Label for="Book" className="pb-0 text-dark font-weight-bold d-block text-left" size="sm">
+    <ClearButton containerId="F1" />
+    <div className="mb-2 mt-3">
+      <Label
+        for="Book"
+        className="pb-0 text-dark font-weight-bold d-block text-left"
+        size="sm"
+      >
         Book name
       </Label>
       <TextFilter
         key="sbs"
         isNavigationProperty
-        navigationPropertyName="Books/Name"
+        navigationPropertyName="Books"
         navigationPropertyFilterField="Name"
-        isNestedNavigationProperty
         containerId={containerId}
         filterName="Book name"
       />
     </div>
     <div className="mb-2">
-      <Label for="BookWriter" className="pb-0 text-dark font-weight-bold d-block text-left" size="sm">
+      <Label
+        for="BookWriter"
+        className="pb-0 text-dark font-weight-bold d-block text-left"
+        size="sm"
+      >
         Book writer
       </Label>
       <DropdownFilter
@@ -42,9 +51,8 @@ const TestingFilters1: React.FC<IProps> = ({
         size="sm"
         containerId={containerId}
         isNavigationProperty
-        isNestedNavigationProperty
-        navigationPropertyName="Books/Writer"
-        filterName="Book writer"
+        navigationPropertyName="Books"
+        filterName="Writer"
         options={[
           "Ivo Andric",
           "Jovan Sterija Popovic",
@@ -58,7 +66,10 @@ const TestingFilters1: React.FC<IProps> = ({
       />
     </div>
     <div className="mb-2">
-      <Label className="pb-0 text-dark font-weight-bold d-block text-left" size="sm">
+      <Label
+        className="pb-0 text-dark font-weight-bold d-block text-left"
+        size="sm"
+      >
         User status
       </Label>
       <DropdownFilter
@@ -75,7 +86,10 @@ const TestingFilters1: React.FC<IProps> = ({
       />
     </div>
     <div className="mb-2">
-      <Label className="pb-0 text-dark font-weight-bold d-block text-left" size="sm">
+      <Label
+        className="pb-0 text-dark font-weight-bold d-block text-left"
+        size="sm"
+      >
         Year when joined
       </Label>
       <NumericFilter
@@ -86,7 +100,10 @@ const TestingFilters1: React.FC<IProps> = ({
       />
     </div>
     <div className="mb-2">
-      <Label className="pb-0 text-dark font-weight-bold d-block text-left" size="sm">
+      <Label
+        className="pb-0 text-dark font-weight-bold d-block text-left"
+        size="sm"
+      >
         Is premium user
       </Label>
       <DropdownFilter
@@ -101,7 +118,10 @@ const TestingFilters1: React.FC<IProps> = ({
     </div>
 
     <div className="mb-4">
-      <Label className="pb-0 text-dark font-weight-bold d-block text-left" size="sm">
+      <Label
+        className="pb-0 text-dark font-weight-bold d-block text-left"
+        size="sm"
+      >
         Registered by
       </Label>
       <TextFilter
