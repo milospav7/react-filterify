@@ -34,7 +34,7 @@ const TestingFilters1: React.FC<IProps> = ({
         isNavigationProperty
         navigationProperty="Books"
         containerId={containerId}
-        filterName="Name"
+        filteringProperty="Name"
       />
     </div>
     <div className="mb-2">
@@ -51,7 +51,7 @@ const TestingFilters1: React.FC<IProps> = ({
         containerId={containerId}
         isNavigationProperty
         navigationProperty="Books"
-        filterName="Writer"
+        filteringProperty="Writer"
         options={[
           "Ivo Andric",
           "Jovan Sterija Popovic",
@@ -75,7 +75,7 @@ const TestingFilters1: React.FC<IProps> = ({
         key="plsts"
         size="sm"
         containerId={containerId}
-        filterName="UserStatus"
+        filteringProperty="UserStatus"
         options={["Active", "Inactive", "Banned"].map((v) => ({
           label: v,
           value: v,
@@ -94,7 +94,7 @@ const TestingFilters1: React.FC<IProps> = ({
       <NumericFilter
         key="ply"
         displayName="Year when joined"
-        filterName="YearJoined"
+        filteringProperty="YearJoined"
         containerId={containerId}
       />
     </div>
@@ -109,7 +109,7 @@ const TestingFilters1: React.FC<IProps> = ({
         key="iscnt"
         size="sm"
         containerId={containerId}
-        filterName="IsPremiumUser"
+        filteringProperty="IsPremiumUser"
         options={yesNo}
         isBoolean
         isClearable
@@ -126,7 +126,7 @@ const TestingFilters1: React.FC<IProps> = ({
       <TextFilter
         key="usrnm"
         containerId={containerId}
-        filterName="RegisterdBy"
+        filteringProperty="RegisterdBy"
         displayName="Registered by"
       />
     </div>

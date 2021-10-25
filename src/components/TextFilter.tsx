@@ -49,7 +49,7 @@ const faIcons: ValueTypedObject<any> = {
 
 interface ITextFilterProps {
   containerId: string;
-  filterName: string;
+  filteringProperty: string;
   displayName?: string;
   isNavigationProperty?: boolean;
   navigationProperty?: string;
@@ -58,7 +58,7 @@ interface ITextFilterProps {
 
 const TextFilter: React.FC<ITextFilterProps> = ({
   containerId,
-  filterName,
+  filteringProperty,
   displayName,
   isNavigationProperty,
   navigationProperty,
@@ -73,7 +73,7 @@ const TextFilter: React.FC<ITextFilterProps> = ({
     if (isNavigationProperty) {
       const supportedOperators = Object.keys(operatorsMap);
       const customExpression =
-        navigationPropertyFilters[filterName]?.customExpression ?? null;
+        navigationPropertyFilters[filteringProperty]?.customExpression ?? null;
 
       if (customExpression)
         supportedOperators.forEach((k) => {
@@ -81,13 +81,13 @@ const TextFilter: React.FC<ITextFilterProps> = ({
         });
     } else {
       const propFOpr =
-        (propertyFilters[filterName] && propertyFilters[filterName].operator) ||
+        (propertyFilters[filteringProperty] && propertyFilters[filteringProperty].operator) ||
         null;
       if (propFOpr) defaultOperator = propFOpr;
     }
     return operatorsMap[defaultOperator];
   }, [
-    filterName,
+    filteringProperty,
     isNavigationProperty,
     navigationPropertyFilters,
     propertyFilters,
@@ -108,31 +108,31 @@ const TextFilter: React.FC<ITextFilterProps> = ({
       if (isNavigationProperty) {
         let customExpression = "";
         if (opr === "eq" || opr === "ne")
-          customExpression = `(s/${filterName} ${opr} '${value}')`;
+          customExpression = `(s/${filteringProperty} ${opr} '${value}')`;
         else if (opr === "contains")
-          customExpression = `contains(s/${filterName}, '${value}')`;
+          customExpression = `contains(s/${filteringProperty}, '${value}')`;
         else if (opr === "doesnotcontain")
-          customExpression = `(indexof(s/${filterName}, '${value}') eq -1)`;
+          customExpression = `(indexof(s/${filteringProperty}, '${value}') eq -1)`;
         else if (opr === "startswith" || opr === "endswith")
-          customExpression = `${opr}(s/${filterName}, '${value}')`;
+          customExpression = `${opr}(s/${filteringProperty}, '${value}')`;
 
         dispatcher(
           updateNavigationPropertyFilter(
             containerId,
             navigationProperty,
-            filterName,
+            filteringProperty,
             value,
             customExpression,
             isNestedNavigationProperty
           )
         );
       } else
-        dispatcher(updatePropertyFilter(containerId, filterName, value, opr));
+        dispatcher(updatePropertyFilter(containerId, filteringProperty, value, opr));
     },
     [
       containerId,
       dispatcher,
-      filterName,
+      filteringProperty,
       isNavigationProperty,
       isNestedNavigationProperty,
       navigationProperty,
@@ -145,10 +145,10 @@ const TextFilter: React.FC<ITextFilterProps> = ({
 
   const filterValue = useMemo(() => {
     if (isNavigationProperty)
-      return navigationPropertyFilters[filterName]?.value ?? "";
-    return propertyFilters[filterName]?.value ?? "";
+      return navigationPropertyFilters[filteringProperty]?.value ?? "";
+    return propertyFilters[filteringProperty]?.value ?? "";
   }, [
-    filterName,
+    filteringProperty,
     isNavigationProperty,
     navigationPropertyFilters,
     propertyFilters,
@@ -242,11 +242,11 @@ const TextFilter: React.FC<ITextFilterProps> = ({
           </InputGroupAddon>
           <DebouncedInputField
             inputReference={inputRef}
-            fieldName={filterName}
-            displayName={displayName || filterName}
+            filteringProperty={filteringProperty}
+            displayName={displayName || filteringProperty}
             reduxValue={filterValue}
             onChange={setPropertyFilter}
-            placeholder={displayName || filterName}
+            placeholder={displayName || filteringProperty}
           />
         </InputGroup>
       </div>

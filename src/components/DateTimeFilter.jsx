@@ -54,14 +54,14 @@ const dateTimeFormat = dateTimeFormatter
 
 const DateTimeFilterWithOperators = ({
   containerId,
-  filterName,
+  filteringProperty,
   hideDateTimeSwitch = false,
   placeholder = "",
 }) => {
   const { propertyFilters } = useFilterifyFilter(containerId);
   const [dropdownOpen, setOpen] = useState(false);
   const [operator, setOperator] = useState(
-    propertyFilters[filterName].operator ?? operatorsMap.eq
+    propertyFilters[filteringProperty].operator ?? operatorsMap.eq
   );
   const [showTime, setShowTime] = useState(false);
   const dispatcher = useDispatch();
@@ -69,19 +69,19 @@ const DateTimeFilterWithOperators = ({
   const toggle = () => setOpen(!dropdownOpen);
 
   const currentFilterValue = useMemo(() => {
-    const defVal = propertyFilters[filterName]?.value ?? null;
+    const defVal = propertyFilters[filteringProperty]?.value ?? null;
     if (defVal) return moment(defVal).toDate();
     return undefined;
-  }, [filterName, propertyFilters]);
+  }, [filteringProperty, propertyFilters]);
 
   const setPropertyFilter = useCallback(
     (date) => {
       const queryDatetime = date ?? null;
       dispatcher(
-        updatePropertyFilter(containerId, filterName, queryDatetime, operator)
+        updatePropertyFilter(containerId, filteringProperty, queryDatetime, operator)
       );
     },
-    [containerId, dispatcher, filterName, operator]
+    [containerId, dispatcher, filteringProperty, operator]
   );
 
   const updateOperator = useCallback(
@@ -91,11 +91,11 @@ const DateTimeFilterWithOperators = ({
         const queryDatetime = date ?? null;
         setOperator(op);
         dispatcher(
-          updatePropertyFilter(containerId, filterName, queryDatetime, op)
+          updatePropertyFilter(containerId, filteringProperty, queryDatetime, op)
         );
       }
     },
-    [containerId, dispatcher, filterName, operator]
+    [containerId, dispatcher, filteringProperty, operator]
   );
 
   const operatorSelected = (op) => operator === op;
@@ -158,7 +158,7 @@ const DateTimeFilterWithOperators = ({
         </InputGroupAddon>
         <DatePicker
           ref={inputRef}
-          key={`${filterName}-f`}
+          key={`${filteringProperty}-f`}
           showTimeSelect={showTime}
           className="form-control form-control-sm"
           wrapperClassName="react-datepicker-wrapper-ips-sm width-auto col m-0 p-0 rounded-right"
@@ -166,7 +166,7 @@ const DateTimeFilterWithOperators = ({
           selected={currentFilterValue}
           onChange={setPropertyFilter}
           isClearable
-          placeholderText={placeholder ?? filterName}
+          placeholderText={placeholder ?? filteringProperty}
           locale="en-gb"
         />
         {!hideDateTimeSwitch && (
@@ -175,10 +175,10 @@ const DateTimeFilterWithOperators = ({
               onClick={() => setShowTime(!showTime)}
               className="cursor-pointer"
             >
-              <span data-tip data-for={`display-time-${filterName}`}>
+              <span data-tip data-for={`display-time-${filteringProperty}`}>
                 <ReactTooltip
                   place="top"
-                  id={`display-time-${filterName}`}
+                  id={`display-time-${filteringProperty}`}
                   effect="solid"
                 >
                   {showTime

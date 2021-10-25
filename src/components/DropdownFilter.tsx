@@ -12,13 +12,13 @@ import { useFilterifyFilter } from "./hooks";
 
 interface IProps {
   containerId: string;
+  filteringProperty: string;
   options: Array<Option | AnyObject>;
+  navigationProperty?: string;
   isNavigationProperty?: boolean;
-  filterName: string;
+  isNestedNavigationProperty?: boolean;
   isLoading?: boolean;
   isClearable?: boolean;
-  navigationProperty?: string;
-  isNestedNavigationProperty?: boolean;
   isMulti?: boolean;
   size?: string;
   isBoolean?: boolean;
@@ -28,7 +28,7 @@ const DropdownFilter: React.FC<IProps> = ({
   containerId,
   options,
   isNavigationProperty = false,
-  filterName,
+  filteringProperty,
   navigationProperty,
   isNestedNavigationProperty = false,
   isMulti = false,
@@ -41,8 +41,8 @@ const DropdownFilter: React.FC<IProps> = ({
     useFilterifyFilter(containerId);
   const dispatcher = useDispatch();
 
-  const propValue = propertyFilters[filterName]?.value;
-  const navPropValue = navigationPropertyFilters[filterName]?.value;
+  const propValue = propertyFilters[filteringProperty]?.value;
+  const navPropValue = navigationPropertyFilters[filteringProperty]?.value;
 
   const updateCorrespondingFilter = (option: Option | AnyObject) => {
     const processedValue =
@@ -53,7 +53,7 @@ const DropdownFilter: React.FC<IProps> = ({
         updateNavigationPropertyFilter(
           containerId,
           navigationProperty,
-          filterName,
+          filteringProperty,
           processedValue,
           null,
           isNestedNavigationProperty
@@ -61,21 +61,21 @@ const DropdownFilter: React.FC<IProps> = ({
       );
     } else
       dispatcher(
-        updatePropertyFilter(containerId, filterName, processedValue)
+        updatePropertyFilter(containerId, filteringProperty, processedValue)
       );
   };
 
   const filterValue = useMemo(() => {
     if (isNavigationProperty) {
       if (navPropValue !== undefined)
-        return navigationPropertyFilters[filterName].type === "boolean"
+        return navigationPropertyFilters[filteringProperty].type === "boolean"
           ? options.find((opt) => opt.value === JSON.stringify(navPropValue))
           : navPropValue;
       return null;
     }
 
     if (propValue !== undefined)
-      return propertyFilters[filterName].type === "boolean"
+      return propertyFilters[filteringProperty].type === "boolean"
         ? options.find((opt) => opt.value === JSON.stringify(propValue))
         : propValue;
 
@@ -85,7 +85,7 @@ const DropdownFilter: React.FC<IProps> = ({
   const memoizedFilter = useMemo(
     () => (
       <Select
-        key={`${filterName}-ddf`}
+        key={`${filteringProperty}-ddf`}
         size={size}
         options={options}
         value={filterValue}

@@ -46,7 +46,7 @@ const faIcons: ValueTypedObject<any> = {
 
 interface IProps {
   containerId: string;
-  filterName: string;
+  filteringProperty: string;
   displayName?: string;
   placeholder?: string;
   useDecimal?: boolean;
@@ -54,15 +54,15 @@ interface IProps {
 
 const NumericFilter: React.FC<IProps> = ({
   containerId,
-  filterName,
+  filteringProperty,
   displayName,
   useDecimal,
   placeholder,
 }) => {
   const { propertyFilters } = useFilterifyFilter(containerId);
-  const propFilterValue = propertyFilters[filterName]?.value;
+  const propFilterValue = propertyFilters[filteringProperty]?.value;
   const [dropdownOpen, setOpen] = useState(false);
-  const operator = propertyFilters[filterName]?.operator ?? operatorsMap.eq;
+  const operator = propertyFilters[filteringProperty]?.operator ?? operatorsMap.eq;
 
   const dispatcher = useDispatch();
   const inputRef = useRef<Input>(null);
@@ -73,11 +73,11 @@ const NumericFilter: React.FC<IProps> = ({
     if (value) {
       const parsed = useDecimal ? parseFloat(value) : parseInt(value, 10);
       dispatcher(
-        updatePropertyFilter(containerId, filterName, parsed, operator)
+        updatePropertyFilter(containerId, filteringProperty, parsed, operator)
       );
     } else
       dispatcher(
-        updatePropertyFilter(containerId, filterName, value, operator)
+        updatePropertyFilter(containerId, filteringProperty, value, operator)
       );
   };
 
@@ -90,7 +90,7 @@ const NumericFilter: React.FC<IProps> = ({
     if (op !== operator) {
       const val = inputRef.current?.props.value?.toString() ?? "";
       const parsed = useDecimal ? parseFloat(val) : parseInt(val, 10);
-      dispatcher(updatePropertyFilter(containerId, filterName, parsed, op));
+      dispatcher(updatePropertyFilter(containerId, filteringProperty, parsed, op));
     }
   };
 
@@ -158,8 +158,8 @@ const NumericFilter: React.FC<IProps> = ({
           </InputGroupAddon>
           <DebouncedInputField
             inputReference={inputRef}
-            fieldName={filterName}
-            displayName={displayName ?? filterName}
+            filteringProperty={filteringProperty}
+            displayName={displayName ?? filteringProperty}
             reduxValue={filterValue}
             onChange={setPropertyFilter}
             type="number"

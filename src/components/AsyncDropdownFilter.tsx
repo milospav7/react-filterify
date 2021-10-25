@@ -17,7 +17,7 @@
 // 	filterOptionLabelProperty: string;
 // 	filterOptionValueProperty: string;
 // 	isNavigationProperty?: boolean;
-// 	filterName: string;
+// 	filteringProperty: string;
 // 	isClearable?: boolean;
 // 	navigationProperty?: string;
 // 	isNestedNavigationProperty?: boolean;
@@ -36,7 +36,7 @@
 // 	filterOptionLabelProperty,
 // 	filterOptionValueProperty,
 // 	fixedFilters,
-// 	filterName,
+// 	filteringProperty,
 // 	groupByFields,
 // 	isNavigationProperty = false,
 // 	isClearable = false,
@@ -55,8 +55,8 @@
 // 	});
 // 	const dispatcher = useDispatch();
 
-// 	const propValue = propertyFilters[filterName]?.value;
-// 	const navPropValue = navigationPropertyFilters[filterName]?.value;
+// 	const propValue = propertyFilters[filteringProperty]?.value;
+// 	const navPropValue = navigationPropertyFilters[filteringProperty]?.value;
 
 // 	const fixedDataFilter = useMemo(() => {
 // 		let fixedFilter: AnyObject = filterOutNullOrEmptyRecords
@@ -117,19 +117,19 @@
 // 					updateNavigationPropertyFilter(
 // 						containerId,
 // 						navigationProperty,
-// 						filterName,
+// 						filteringProperty,
 // 						option,
 // 						null,
 // 						isNestedNavigationProperty
 // 					)
 // 				);
-// 			} else dispatcher(updatePropertyFilter(containerId, filterName, option));
+// 			} else dispatcher(updatePropertyFilter(containerId, filteringProperty, option));
 // 		},
 // 		[
 // 			isNavigationProperty,
 // 			containerId,
 // 			navigationProperty,
-// 			filterName,
+// 			filteringProperty,
 // 			isNestedNavigationProperty,
 // 			dispatcher,
 // 		]
@@ -138,14 +138,14 @@
 // 	const filterValue = useMemo(() => {
 // 		if (isNavigationProperty) {
 // 			if (navPropValue !== undefined)
-// 				return navigationPropertyFilters[filterName].type === 'boolean'
+// 				return navigationPropertyFilters[filteringProperty].type === 'boolean'
 // 					? options.list.find((opt: any) => opt.value === JSON.stringify(navPropValue))
 // 					: navPropValue;
 // 			return null;
 // 		}
 
 // 		if (propValue !== undefined)
-// 			return propertyFilters[filterName].type === 'boolean'
+// 			return propertyFilters[filteringProperty].type === 'boolean'
 // 				? options.list.find((opt: any) => opt.value === JSON.stringify(propValue))
 // 				: propValue;
 
@@ -153,7 +153,7 @@
 // 	}, [
 // 		propValue,
 // 		navPropValue,
-// 		filterName,
+// 		filteringProperty,
 // 		isNavigationProperty,
 // 		options,
 // 		navigationPropertyFilters,
@@ -215,7 +215,7 @@
 // 	const memoizedFilter = useMemo(
 // 		() => (
 // 			<IpsAsyncSelect
-// 				key={`asnc-flt-${filterName}`}
+// 				key={`asnc-flt-${filteringProperty}`}
 // 				size={size}
 // 				defaultOptions={options.list.map((opt: any) => ({
 // 					value: opt[filterOptionValueProperty],
@@ -244,7 +244,7 @@
 // 			isClearable,
 // 			size,
 // 			updateCorrespondingFilter,
-// 			filterName,
+// 			filteringProperty,
 // 		]
 // 	);
 

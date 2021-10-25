@@ -7,7 +7,7 @@ import { useFilterifyFilter } from "./hooks";
 
 interface IProps {
   containerId: string;
-  filterName: string;
+  filteringProperty: string;
   options: Array<any>;
   optionsCustomContent?: AnyObject;
   optionsCustomcurrentFilterValues?: AnyObject;
@@ -17,7 +17,7 @@ interface IProps {
 
 const ButtonGroupFilter: React.FC<IProps> = ({
   containerId,
-  filterName,
+  filteringProperty,
   options,
   optionsCustomContent = {},
   optionsCustomcurrentFilterValues = {},
@@ -25,8 +25,8 @@ const ButtonGroupFilter: React.FC<IProps> = ({
   wrapperClassName = "",
 }) => {
   const { propertyFilters } = useFilterifyFilter(containerId);
-  const currentFilterValue = propertyFilters[filterName]?.value;
-  const filterOperaetor = propertyFilters[filterName]?.operator;
+  const currentFilterValue = propertyFilters[filteringProperty]?.value;
+  const filterOperaetor = propertyFilters[filteringProperty]?.operator;
   const dispatcher = useDispatch();
 
   const updateInMultiValueMode = useCallback(
@@ -39,7 +39,7 @@ const ButtonGroupFilter: React.FC<IProps> = ({
         dispatcher(
           updatePropertyFilter(
             containerId,
-            filterName,
+            filteringProperty,
             newValue,
             operator,
             logic
@@ -49,26 +49,26 @@ const ButtonGroupFilter: React.FC<IProps> = ({
         dispatcher(
           updatePropertyFilter(
             containerId,
-            filterName,
+            filteringProperty,
             [value],
             operator,
             logic
           )
         );
     },
-    [containerId, dispatcher, filterName, currentFilterValue]
+    [containerId, dispatcher, filteringProperty, currentFilterValue]
   );
 
   const updateInSingleValueMode = useCallback(
     (value, operator, logic) => {
       if (currentFilterValue !== undefined && operator === filterOperaetor)
-        dispatcher(updatePropertyFilter(containerId, filterName, null));
+        dispatcher(updatePropertyFilter(containerId, filteringProperty, null));
       else
         dispatcher(
-          updatePropertyFilter(containerId, filterName, value, operator, logic)
+          updatePropertyFilter(containerId, filteringProperty, value, operator, logic)
         );
     },
-    [containerId, currentFilterValue, dispatcher, filterName, filterOperaetor]
+    [containerId, currentFilterValue, dispatcher, filteringProperty, filterOperaetor]
   );
 
   const setPropertyFilter = useCallback(
@@ -120,10 +120,10 @@ const ButtonGroupFilter: React.FC<IProps> = ({
   const memoizedFilter = useMemo(
     () => (
       <div className={wrapperClassName}>
-        <ButtonGroup key={`bgf-${filterName}`} size="sm">
+        <ButtonGroup key={`bgf-${filteringProperty}`} size="sm">
           {options.map((opt, ind) => (
             <Button
-              key={`${ind}-${filterName}`}
+              key={`${ind}-${filteringProperty}`}
               className="no-higlight-focus"
               color="light"
               onClick={() => {
@@ -141,7 +141,7 @@ const ButtonGroupFilter: React.FC<IProps> = ({
       optionsCustomContent,
       options,
       wrapperClassName,
-      filterName,
+      filteringProperty,
       updateFilter,
       isButtonOptionSelected,
     ]

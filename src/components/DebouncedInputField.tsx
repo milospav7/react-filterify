@@ -3,7 +3,7 @@ import { Input } from "reactstrap";
 import { InputType } from "reactstrap/es/Input";
 
 interface IDebouncedFieldProps {
-  fieldName: string;
+  filteringProperty: string;
   displayName?: string;
   inputReference: Ref<Input>;
   onChange: (value: string | null) => void;
@@ -15,7 +15,7 @@ interface IDebouncedFieldProps {
 let timeout: NodeJS.Timeout | null = null;
 
 export const DebouncedInputField: React.FC<IDebouncedFieldProps> = ({
-  fieldName,
+  filteringProperty,
   displayName,
   inputReference,
   onChange,
@@ -41,11 +41,11 @@ export const DebouncedInputField: React.FC<IDebouncedFieldProps> = ({
 
   return (
     <Input
-      key={`${fieldName}-dbf`}
+      key={`${filteringProperty}-dbf`}
       bsSize="sm"
       placeholder={placeholder || displayName}
       ref={inputReference}
-      name={fieldName}
+      name={filteringProperty}
       type={type ?? "text"}
       value={value}
       onChange={(ev: any) => saveWithDebounce(ev.target.value)}
