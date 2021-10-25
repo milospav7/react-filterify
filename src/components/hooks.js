@@ -24,7 +24,7 @@ export const useFilterCounter = (containerId, excludeTreeViewFilter = true) => {
     (state) => state[containerId].navigationPropertyFilters ?? {}
   );
   const functionFilters = useSelector(
-    (state) => (state[containerId] && state[containerId].functionFilters) || []
+    (state) => state[containerId].functionFilters ?? []
   );
 
   if (containerId) {

@@ -32,10 +32,9 @@ const TestingFilters1: React.FC<IProps> = ({
       <TextFilter
         key="sbs"
         isNavigationProperty
-        navigationPropertyName="Books"
-        navigationPropertyFilterField="Name"
+        navigationProperty="Books"
         containerId={containerId}
-        filterName="Book name"
+        filterName="Name"
       />
     </div>
     <div className="mb-2">
@@ -51,7 +50,7 @@ const TestingFilters1: React.FC<IProps> = ({
         size="sm"
         containerId={containerId}
         isNavigationProperty
-        navigationPropertyName="Books"
+        navigationProperty="Books"
         filterName="Writer"
         options={[
           "Ivo Andric",

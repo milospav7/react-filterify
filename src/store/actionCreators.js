@@ -57,30 +57,30 @@ export const resetPropertyFiltersByNames = (id, filterNames) => ({
 /**
  *	Updates navigationPropetyFilters map inside filter instance
  * @param {*} id redux filter Id - must be initialized inside gridFilters.js reducer
- * @param {*} navigationPropertyName name of collection based property that we want to filter with lambda expression
+ * @param {*} navigationProperty name of collection based property that we want to filter with lambda expression
  * @param {*} fieldName name of the property/field of navigation entity, used for filtering inside lambda expression
  * @param {*} fieldValue value used for filtering - both number/string and array of number/string are supported
  * @param {*} customExpression use only when you want to pass functions inside lambda expression(when fieldValue argument is not good enough) - for example if we want to include 'inCachedView(s/SubstationID, 21fdb7bb-39db-435d-af9a-60d695303ad1, true)' in navigation property lambda, then we need to pass this 'inCachedView(s/SubstationID, 21fdb7bb-39db-435d-af9a-60d695303ad1, true)' using customExpression argument
- * @param {*} navigationNameIsNested indicates whether provided navigation property name represents nav property inside nav property(important when constructing query string, because if it is nested it means that two lambdas will be created for this filter - one inside another). Example: navigationPropertyName: 'Users/Books', this is nested and will generate smth like '...Users/any(u: Books/any(b: andHereComesCustomExpressionOrFieldValuesWithOperators))..' At the moment we support maximum of 2 level nesting.
+ * @param {*} navigationPropertyIsNested indicates whether provided navigation property name represents nav property inside nav property(important when constructing query string, because if it is nested it means that two lambdas will be created for this filter - one inside another). Example: navigationProperty: 'Users/Books', this is nested and will generate smth like '...Users/any(u: Books/any(b: andHereComesCustomExpressionOrFieldValuesWithOperators))..' At the moment we support maximum of 2 level nesting.
  * @example1 updateNavigationPropertyFilter(12, 'RelatedSubstations', 'OperationalRegion', 'OpZone 1', null) - for final filter result(after using gridFilter reducer helper methods): RelatedSubstations/any(s: ( s
  * @example2 updateNavigationPropertyFilter(12, 'RelatedSubstations', 'OperationalRegion', '21fdb7bb-39db-435d-af9a-60d695303ad1', 'inCachedView(s/SubstationID, 21fdb7bb-39db-435d-af9a-60d695303ad1, true)') for final filter result(after using gridFilter reducer helper methods): RelatedSubstations/any(s: inCachedView(s/SubstationID, 21fdb7bb-39db-435d-af9a-60d695303ad , true)), /OperationalRegion eq 'OpZone 1')
  * @note There is one limitation when using customExpression argument. If you need lambda input parameter inside passed expression, use 's' for lambda input-paramter, example: 'isNotEmpty(s.Name)',
  */
 export const updateNavigationPropertyFilter = (
   id,
-  navigationPropertyName,
+  navigationProperty,
   fieldName,
   fieldValue,
   customExpression = null,
-  navigationNameIsNested = false
+  navigationPropertyIsNested = false
 ) => ({
   type: FILTER_UPDATE_NAVIGATION_PROPERTY_FILTER,
   id,
-  navigationPropertyName,
+  navigationProperty,
   fieldName,
   fieldValue,
   customExpression,
-  navigationNameIsNested,
+  navigationPropertyIsNested,
 });
 
 /**

@@ -17,7 +17,7 @@ interface IProps {
   filterName: string;
   isLoading?: boolean;
   isClearable?: boolean;
-  navigationPropertyName?: string;
+  navigationProperty?: string;
   isNestedNavigationProperty?: boolean;
   isMulti?: boolean;
   size?: string;
@@ -29,7 +29,7 @@ const DropdownFilter: React.FC<IProps> = ({
   options,
   isNavigationProperty = false,
   filterName,
-  navigationPropertyName,
+  navigationProperty,
   isNestedNavigationProperty = false,
   isMulti = false,
   size,
@@ -52,7 +52,7 @@ const DropdownFilter: React.FC<IProps> = ({
       dispatcher(
         updateNavigationPropertyFilter(
           containerId,
-          navigationPropertyName,
+          navigationProperty,
           filterName,
           processedValue,
           null,

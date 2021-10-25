@@ -34,7 +34,7 @@ export const containerInitialState: ContainerType = {
   navigationPropertyFilters: {},
   functionFilters: [],
   saveToLocalStorage: false,
-  globalStyleSchema: null,
+  styleSchema: null,
 };
 
 const removeKey = (key: any, { [key]: _, ...rest }) => rest;
@@ -136,11 +136,11 @@ export const containerReducer = (
     }
     case FILTER_UPDATE_NAVIGATION_PROPERTY_FILTER: {
       const {
-        navigationPropertyName,
+        navigationProperty,
         fieldName,
         fieldValue,
         customExpression,
-        navigationNameIsNested,
+        navigationPropertyIsNested,
       } = action;
       const haveValue =
         isNonEmptyArray(fieldValue) ||
@@ -154,9 +154,9 @@ export const containerReducer = (
             ...state.navigationPropertyFilters,
             [fieldName]: {
               value: fieldValue,
-              navigationPropertyName,
+              navigationProperty,
               customExpression,
-              navigationNameIsNested,
+              navigationPropertyIsNested,
               type: isBoolean(fieldValue) ? "boolean" : "",
             },
           },
@@ -436,34 +436,34 @@ export class FilterHelperMethods {
       if (
         groupedFilters.some(
           (gf: any) =>
-            gf.navigationPropertyName === filter.navigationPropertyName
+            gf.navigationProperty === filter.navigationProperty
         )
       ) {
         groupedFilters = groupedFilters.map((gf: any) => {
-          if (gf.navigationPropertyName === filter.navigationPropertyName) {
+          if (gf.navigationProperty === filter.navigationProperty) {
             return {
-              navigationPropertyName: filter.navigationPropertyName,
+              navigationProperty: filter.navigationProperty,
               values: filter.customExpression
                 ? gf.values
                 : [...gf.values, { field: f, value: filter.value }],
               customExpressions: filter.customExpression
                 ? [...gf.customExpressions, filter.customExpression]
                 : gf.customExpressions,
-              navigationNameIsNested: filter.navigationNameIsNested,
+              navigationPropertyIsNested: filter.navigationPropertyIsNested,
             };
           }
           return gf;
         });
       } else {
         groupedFilters.push({
-          navigationPropertyName: filter.navigationPropertyName,
+          navigationProperty: filter.navigationProperty,
           values: filter.customExpression
             ? []
             : [{ field: f, value: filter.value }],
           customExpressions: filter.customExpression
             ? [filter.customExpression]
             : [],
-          navigationNameIsNested: filter.navigationNameIsNested,
+          navigationPropertyIsNested: filter.navigationPropertyIsNested,
         });
       }
     });
@@ -471,13 +471,13 @@ export class FilterHelperMethods {
     if (groupedFilters.length > 0) {
       groupedFilters.forEach((f: any, ind: number) => {
         const multipleLevelNavigationProperty =
-          f.navigationPropertyName.indexOf("/") >= 0 &&
-          f.navigationNameIsNested;
+          f.navigationProperty.indexOf("/") >= 0 &&
+          f.navigationPropertyIsNested;
 
-        const splittedName = f.navigationPropertyName.split("/");
+        const splittedName = f.navigationProperty.split("/");
         const navPropName = multipleLevelNavigationProperty
           ? splittedName.slice(0, splittedName.length - 1).join("/")
-          : f.navigationPropertyName;
+          : f.navigationProperty;
         const subNavPropName = multipleLevelNavigationProperty
           ? splittedName[splittedName.length - 1]
           : null;

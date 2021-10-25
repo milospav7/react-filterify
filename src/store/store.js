@@ -5,7 +5,19 @@ import { configureFilterfyReducer } from "./orchestratorReducer";
 const composedEnhancers = composeWithDevTools();
 
 const store = createStore(
-  configureFilterfyReducer(["F1", "F2"]),
+  configureFilterfyReducer([
+    {
+      id: "F1",
+      saveToLocalStorage: true,
+      styleSchema: {
+        highlightWhenInUse: true,
+        labelColor: "red",
+        labelFontSize: "13px",
+        placeholderColor: "green",
+      },
+    },
+    "F2",
+  ]),
   composedEnhancers
 );
 

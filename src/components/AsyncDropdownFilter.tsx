@@ -19,7 +19,7 @@
 // 	isNavigationProperty?: boolean;
 // 	filterName: string;
 // 	isClearable?: boolean;
-// 	navigationPropertyName?: string;
+// 	navigationProperty?: string;
 // 	isNestedNavigationProperty?: boolean;
 // 	isMulti?: boolean;
 // 	size?: string;
@@ -40,7 +40,7 @@
 // 	groupByFields,
 // 	isNavigationProperty = false,
 // 	isClearable = false,
-// 	navigationPropertyName = '',
+// 	navigationProperty = '',
 // 	isNestedNavigationProperty = false,
 // 	isMulti = false,
 // 	size = '',
@@ -116,7 +116,7 @@
 // 				dispatcher(
 // 					updateNavigationPropertyFilter(
 // 						containerId,
-// 						navigationPropertyName,
+// 						navigationProperty,
 // 						filterName,
 // 						option,
 // 						null,
@@ -128,7 +128,7 @@
 // 		[
 // 			isNavigationProperty,
 // 			containerId,
-// 			navigationPropertyName,
+// 			navigationProperty,
 // 			filterName,
 // 			isNestedNavigationProperty,
 // 			dispatcher,

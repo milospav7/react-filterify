@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import {
@@ -53,8 +52,7 @@ interface ITextFilterProps {
   filterName: string;
   displayName?: string;
   isNavigationProperty?: boolean;
-  navigationPropertyName?: string;
-  navigationPropertyFilterField?: string;
+  navigationProperty?: string;
   isNestedNavigationProperty?: boolean;
 }
 
@@ -63,15 +61,15 @@ const TextFilter: React.FC<ITextFilterProps> = ({
   filterName,
   displayName,
   isNavigationProperty,
-  navigationPropertyName,
-  navigationPropertyFilterField,
+  navigationProperty,
   isNestedNavigationProperty,
 }) => {
   const { propertyFilters, navigationPropertyFilters } =
     useFilterifyFilter(containerId);
 
-  const getDefaultOperator = () => {
+  const getDefaultOperator = useCallback(() => {
     let defaultOperator = "contains";
+
     if (isNavigationProperty) {
       const supportedOperators = Object.keys(operatorsMap);
       const customExpression =
@@ -88,7 +86,13 @@ const TextFilter: React.FC<ITextFilterProps> = ({
       if (propFOpr) defaultOperator = propFOpr;
     }
     return operatorsMap[defaultOperator];
-  };
+  }, [
+    filterName,
+    isNavigationProperty,
+    navigationPropertyFilters,
+    propertyFilters,
+  ]);
+
   const [dropdownOpen, setOpen] = useState(false);
   const [operator, setOperator] = useState(getDefaultOperator());
   const dispatcher = useDispatch();
@@ -96,36 +100,44 @@ const TextFilter: React.FC<ITextFilterProps> = ({
 
   const toggle = () => setOpen(!dropdownOpen);
 
-  const updateCorrespondingFilter = (
-    value: string | ReadonlyArray<string> | number | undefined | null,
-    opr: string
-  ) => {
-    const navFilterField = navigationPropertyFilterField || filterName;
+  const updateCorrespondingFilter = useCallback(
+    (
+      value: string | ReadonlyArray<string> | number | undefined | null,
+      opr: string
+    ) => {
+      if (isNavigationProperty) {
+        let customExpression = "";
+        if (opr === "eq" || opr === "ne")
+          customExpression = `(s/${filterName} ${opr} '${value}')`;
+        else if (opr === "contains")
+          customExpression = `contains(s/${filterName}, '${value}')`;
+        else if (opr === "doesnotcontain")
+          customExpression = `(indexof(s/${filterName}, '${value}') eq -1)`;
+        else if (opr === "startswith" || opr === "endswith")
+          customExpression = `${opr}(s/${filterName}, '${value}')`;
 
-    if (isNavigationProperty) {
-      let customExpression = "";
-      if (opr === "eq" || opr === "ne")
-        customExpression = `(s/${navFilterField} ${opr} '${value}')`;
-      else if (opr === "contains")
-        customExpression = `contains(s/${navFilterField}, '${value}')`;
-      else if (opr === "doesnotcontain")
-        customExpression = `(indexof(s/${navFilterField}, '${value}') eq -1)`;
-      else if (opr === "startswith" || opr === "endswith")
-        customExpression = `${opr}(s/${navFilterField}, '${value}')`;
-
-      dispatcher(
-        updateNavigationPropertyFilter(
-          containerId,
-          navigationPropertyName,
-          filterName,
-          value,
-          customExpression,
-          isNestedNavigationProperty
-        )
-      );
-    } else
-      dispatcher(updatePropertyFilter(containerId, filterName, value, opr));
-  };
+        dispatcher(
+          updateNavigationPropertyFilter(
+            containerId,
+            navigationProperty,
+            filterName,
+            value,
+            customExpression,
+            isNestedNavigationProperty
+          )
+        );
+      } else
+        dispatcher(updatePropertyFilter(containerId, filterName, value, opr));
+    },
+    [
+      containerId,
+      dispatcher,
+      filterName,
+      isNavigationProperty,
+      isNestedNavigationProperty,
+      navigationProperty,
+    ]
+  );
 
   const setPropertyFilter = (value: string | null) => {
     updateCorrespondingFilter(value, operator);
@@ -136,19 +148,27 @@ const TextFilter: React.FC<ITextFilterProps> = ({
       return navigationPropertyFilters[filterName]?.value ?? "";
     return propertyFilters[filterName]?.value ?? "";
   }, [
-    propertyFilters[filterName]?.value,
-    navigationPropertyFilters[filterName]?.value,
+    filterName,
+    isNavigationProperty,
+    navigationPropertyFilters,
+    propertyFilters,
   ]);
 
-  const updateOperator = (op: string) => {
-    if (op !== operator) {
-      const val = inputRef?.current?.props.value;
-      updateCorrespondingFilter(val, op);
-      setOperator(op);
-    }
-  };
+  const updateOperator = useCallback(
+    (op: string) => {
+      if (op !== operator) {
+        const val = inputRef?.current?.props.value;
+        updateCorrespondingFilter(val, op);
+        setOperator(op);
+      }
+    },
+    [operator, updateCorrespondingFilter]
+  );
 
-  const operatorSelected = (op: string) => operator === op;
+  const operatorSelected = useCallback(
+    (op: string) => operator === op,
+    [operator]
+  );
 
   const memoizedFilter = useMemo(
     () => (
@@ -157,7 +177,10 @@ const TextFilter: React.FC<ITextFilterProps> = ({
           <InputGroupAddon addonType="prepend">
             <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
               <DropdownToggle className="p-0 m-0 rounded-left text-muted z-index-auto">
-                <FontAwesomeIcon icon={faCaretDown} className="mx-1 text-light" />
+                <FontAwesomeIcon
+                  icon={faCaretDown}
+                  className="mx-1 text-light"
+                />
               </DropdownToggle>
               <DropdownMenu>
                 <DropdownItem
@@ -228,6 +251,7 @@ const TextFilter: React.FC<ITextFilterProps> = ({
         </InputGroup>
       </div>
     ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [filterValue, dropdownOpen]
   );
 

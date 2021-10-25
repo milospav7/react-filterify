@@ -9,7 +9,7 @@ type FilterStyleSchemaType = {
 type FilterConfigurationType = {
   id: string;
   saveToLocalStorage: boolean;
-  globalStyleSchema?: FilterStyleSchemaType;
+  styleSchema?: FilterStyleSchemaType;
 };
 
 type AnyObject = {
@@ -26,7 +26,7 @@ type ContainerType = {
   navigationPropertyFilters: AnyObject;
   functionFilters: AnyObject[];
   saveToLocalStorage: boolean;
-  globalStyleSchema: null |FilterStyleSchemaType;
+  styleSchema: null |FilterStyleSchemaType;
 };
 
 export {

@@ -63,7 +63,7 @@ export const configureFilterfyReducer = (
       prebuiltContainers[pc.id] = {
         ...initialState,
         saveToLocalStorage: pc.saveToLocalStorage,
-        globalStyleSchema: pc.globalStyleSchema,
+        styleSchema: pc.styleSchema,
       };
     }
   });
