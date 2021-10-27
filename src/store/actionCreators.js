@@ -87,20 +87,20 @@ export const updateNavigationPropertyFilter = (
  * Updates functionFilters array inside filter instance
  * @param {*} id redux filter Id - must be initialized inside gridFilters.js reducer
  * @param {*} filteringProperty unique identifier of function filter string. Should be field name
- * @param {*} functionFilterQueryString function filter that needs to be included in query string - non standard functions
+ * @param {*} filterQueryString function filter that needs to be included in query string - non standard functions
  * @param {*} values this can be used as a container for values that are provided inside function query string, as a separete object for putting raw values only. Format/structure is not strict, and should be constrained only by the way of retreiving these values back in caller component - for example when we need to read these values on component mount we can use this object from redux(because we can't read them from raw query string)
- * @example functionFilterQueryString: 'insideTimeFrame(PlannedStartTime, PlannedEndTime, 2020-06-30T22:00:00.000Z, null, false, false)'
+ * @example filterQueryString: 'insideTimeFrame(PlannedStartTime, PlannedEndTime, 2020-06-30T22:00:00.000Z, null, false, false)'
  */
 export const updateFunctionFilter = (
   id,
   filteringProperty,
-  functionFilterQueryString,
+  filterQueryString,
   values = null
 ) => ({
   type: FILTER_UPDATE_FUNCTION_FILTER,
   id,
   filteringProperty,
-  functionFilterQueryString,
+  filterQueryString,
   values,
 });
 
