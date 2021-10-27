@@ -7,27 +7,14 @@ import {
   FILTER_OVERRIDE_FILTER_STATE,
   FILTER_UPDATE_MULTIPLE_FUNCTION_FILTERS,
 } from "./actionTypes";
+import {
+  cloneDeep,
+  isBoolean,
+  isNonEmptyArray,
+  isStringOrNumber,
+  removeKey,
+} from "./helpers";
 import { ContainerType } from "./types";
-
-const isBoolean = (val: any) => typeof val === "boolean";
-
-const cloneDeep = (obj: any) => {
-  var _out = new obj.constructor();
-
-  var getType = function (n: any) {
-    return Object.prototype.toString.call(n).slice(8, -1);
-  };
-
-  for (var _key in obj) {
-    if (obj.hasOwnProperty(_key)) {
-      _out[_key] =
-        getType(obj[_key]) === "Object" || getType(obj[_key]) === "Array"
-          ? cloneDeep(obj[_key])
-          : obj[_key];
-    }
-  }
-  return _out;
-};
 
 export const containerInitialState: ContainerType = {
   propertyFilters: {},
@@ -37,30 +24,43 @@ export const containerInitialState: ContainerType = {
   styleSchema: null,
 };
 
-const removeKey = (key: any, { [key]: _, ...rest }) => rest;
-
-const isStringOrNumber = (val: any) => {
-  if (typeof val === "string") return !!val;
-  if (typeof val === "number" && !isNaN(val)) return true;
-  return false;
-};
-
-const isNonEmptyArray = (val: any) => Array.isArray(val) && val.length > 0;
-
 export const containerReducer = (
   state = containerInitialState,
   action: any
 ) => {
   switch (action.type) {
     case FILTER_UPDATE_FILTER: {
-      const { filteringProperty, filteringValue, operator, logic, allowNullValue } = action;
+      const {
+        filteringProperty,
+        filteringValue,
+        operator,
+        logic,
+        allowNullValue,
+      } = action;
+      const noValue = filteringValue === null;
 
-      if (isStringOrNumber(filteringValue) || isNonEmptyArray(filteringValue)) {
-        const type =
-          isNonEmptyArray(filteringValue) &&
-          filteringValue.some((v: any) => v && v instanceof Date)
-            ? "datetime"
-            : "";
+      if (noValue) {
+        if (allowNullValue) {
+          return {
+            ...state,
+            propertyFilters: {
+              ...state.propertyFilters,
+              [filteringProperty]: {
+                value: filteringValue,
+                operator,
+                logic,
+              },
+            },
+          };
+        }
+
+        return {
+          ...state,
+          propertyFilters: {
+            ...removeKey(filteringProperty, state.propertyFilters),
+          },
+        };
+      } else {
         return {
           ...state,
           propertyFilters: {
@@ -69,70 +69,10 @@ export const containerReducer = (
               value: filteringValue,
               operator,
               logic,
-              type,
             },
           },
         };
       }
-
-      // if the value is null, it should be removed from filters.
-      if (filteringValue !== null && typeof filteringValue === "boolean") {
-        return {
-          ...state,
-          propertyFilters: {
-            ...state.propertyFilters,
-            [filteringProperty]: {
-              value: filteringValue,
-              operator,
-              logic,
-              type: "boolean",
-            },
-          },
-        };
-      }
-
-      // Potential Datetime field checking
-      if (
-        typeof filteringValue === "object" &&
-        filteringValue !== null &&
-        !Array.isArray(filteringValue)
-      )
-        // TODO: maybe to try with instaceof DateTime
-        return {
-          ...state,
-          propertyFilters: {
-            ...state.propertyFilters,
-            [filteringProperty]: {
-              value: filteringValue,
-              operator,
-              logic,
-              type: "datetime",
-            },
-          },
-        };
-
-      if (allowNullValue) {
-        return {
-          ...state,
-          propertyFilters: {
-            ...state.propertyFilters,
-            [filteringProperty]: {
-              value: filteringValue,
-              operator,
-              logic,
-              type: "",
-            },
-          },
-        };
-      }
-
-      // There is no value => remove it from storage
-      return {
-        ...state,
-        propertyFilters: {
-          ...removeKey(filteringProperty, state.propertyFilters),
-        },
-      };
     }
     case FILTER_UPDATE_NAVIGATION_PROPERTY_FILTER: {
       const {
@@ -142,6 +82,7 @@ export const containerReducer = (
         customExpression,
         navigationPropertyIsNested,
       } = action;
+
       const haveValue =
         isNonEmptyArray(filteringValue) ||
         isStringOrNumber(filteringValue) ||
@@ -157,7 +98,6 @@ export const containerReducer = (
               navigationProperty,
               customExpression,
               navigationPropertyIsNested,
-              type: isBoolean(filteringValue) ? "boolean" : "",
             },
           },
         };
@@ -171,6 +111,7 @@ export const containerReducer = (
     }
     case FILTER_UPDATE_FUNCTION_FILTER: {
       const { filteringProperty, functionFilterQueryString, values } = action;
+
       if (functionFilterQueryString) {
         const existing = state.functionFilters.some(
           (f) => f.filteringProperty === filteringProperty
@@ -188,7 +129,11 @@ export const containerReducer = (
           ...state,
           functionFilters: [
             ...state.functionFilters,
-            { filteringProperty, queryString: functionFilterQueryString, values },
+            {
+              filteringProperty,
+              queryString: functionFilterQueryString,
+              values,
+            },
           ],
         };
       }
@@ -206,6 +151,7 @@ export const containerReducer = (
 
       filtersToUpdate.forEach((filter: any) => {
         const { filteringProperty, functionFilterQueryString, values } = filter;
+
         if (functionFilterQueryString) {
           const existing = state.functionFilters.some(
             (f) => f.filteringProperty === filteringProperty
@@ -224,7 +170,11 @@ export const containerReducer = (
               ...updatedState,
               functionFilters: [
                 ...state.functionFilters,
-                { filteringProperty, queryString: functionFilterQueryString, values },
+                {
+                  filteringProperty,
+                  queryString: functionFilterQueryString,
+                  values,
+                },
               ],
             };
         } else
@@ -239,35 +189,14 @@ export const containerReducer = (
       return updatedState;
     }
     case FILTER_RESET_ALL_FILTERS:
-      {
-        const { keepTreeViewFilter } = action;
-        // TODO: this should be refactored, filter reducer should know nothing about data that is coming in
-        if (keepTreeViewFilter)
-          return {
-            functionFilters: state.functionFilters.filter(
-              (f) => f.filteringProperty === "TreeViewID"
-            ),
-            navigationPropertyFilters: state.navigationPropertyFilters
-              .TreeViewID
-              ? {
-                  TreeViewID: state.navigationPropertyFilters.TreeViewID,
-                }
-              : {},
-            propertyFilters: state.propertyFilters.TreeViewID
-              ? {
-                  TreeViewID: state.propertyFilters.TreeViewID,
-                }
-              : {},
-          };
-      }
       return containerInitialState;
     case FILTER_RESET_POPERTY_FILTERS: {
-      const { filteringPropertys } = action;
+      const filteringProperties: any[] = action.filteringProperties;
 
-      if (Array.isArray(filteringPropertys) && filteringPropertys.length) {
+      if (filteringProperties?.length) {
         let modifiedPropertyFiltetrs = cloneDeep(state.propertyFilters);
 
-        filteringPropertys.forEach((filter) => {
+        filteringProperties.forEach((filter) => {
           if (state.propertyFilters[filter])
             modifiedPropertyFiltetrs = removeKey(
               filter,
@@ -284,25 +213,15 @@ export const containerReducer = (
     }
     case FILTER_OVERRIDE_FILTER_STATE: {
       const { filterState } = action;
-      const navigationPropertyFilters =
-        filterState?.navigationPropertyFilters ||
-        containerInitialState.navigationPropertyFilters;
-      const functionFilters =
-        filterState?.functionFilters || containerInitialState.functionFilters;
-
-      if (state.navigationPropertyFilters.TreeViewID)
-        navigationPropertyFilters.TreeViewID =
-          state.navigationPropertyFilters.TreeViewID;
-      if (state.functionFilters.some((f: any) => f.filteringProperty === "TreeViewID"))
-        functionFilters.push(
-          state.functionFilters.find((f) => f.filteringProperty === "TreeViewID")
-        );
 
       return {
         propertyFilters:
-          filterState?.propertyFilters || containerInitialState.propertyFilters,
-        navigationPropertyFilters,
-        functionFilters,
+          filterState?.propertyFilters ?? containerInitialState.propertyFilters,
+        navigationPropertyFilters:
+          filterState?.navigationPropertyFilters ??
+          containerInitialState.navigationPropertyFilters,
+        functionFilters:
+          filterState?.functionFilters ?? containerInitialState.functionFilters,
       };
     }
     default:
@@ -435,8 +354,7 @@ export class FilterHelperMethods {
 
       if (
         groupedFilters.some(
-          (gf: any) =>
-            gf.navigationProperty === filter.navigationProperty
+          (gf: any) => gf.navigationProperty === filter.navigationProperty
         )
       ) {
         groupedFilters = groupedFilters.map((gf: any) => {

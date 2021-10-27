@@ -46,12 +46,12 @@ export const resetAllFilters = (id, keepTreeViewFilter = false) => ({
 /**
  * Resets all in filter instance, reverts to initial state
  * @param {*} id redux filter Id - must be initialized inside gridFilters.js reducer
- * @param {*} filteringPropertys collections of filter names that should be reseted
+ * @param {*} filteringProperties collections of filter names that should be reseted
  */
-export const resetPropertyFiltersByNames = (id, filteringPropertys) => ({
+export const resetPropertyFiltersByNames = (id, filteringProperties) => ({
   type: FILTER_RESET_POPERTY_FILTERS,
   id,
-  filteringPropertys,
+  filteringProperties,
 });
 
 /**
