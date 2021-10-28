@@ -1,11 +1,11 @@
 import {
-  FILTER_OVERRIDE_FILTER_STATE,
-  FILTER_RESET_ALL_FILTERS,
-  FILTER_RESET_POPERTY_FILTERS,
-  FILTER_UPDATE_FILTER,
-  FILTER_UPDATE_FUNCTION_FILTER,
-  FILTER_UPDATE_MULTIPLE_FUNCTION_FILTERS,
-  FILTER_UPDATE_NAVIGATION_PROPERTY_FILTER,
+  OVERRIDE_STATE,
+  RESET_ALL_FILTERS,
+  RESET_POPERTY_FILTERS,
+  UPDATE_FILTER,
+  UPDATE_FUNCTION_FILTER,
+  UPDATE_MULTIPLE_FUNCTION_FILTERS,
+  UPDATE_NAVIGATION_PROPERTY_FILTER,
 } from "./actionTypes";
 
 /**
@@ -24,7 +24,7 @@ export const updatePropertyFilter = (
   logic = "or",
   allowNullValue = false
 ) => ({
-  type: FILTER_UPDATE_FILTER,
+  type: UPDATE_FILTER,
   id,
   filteringProperty,
   filteringValue,
@@ -38,7 +38,7 @@ export const updatePropertyFilter = (
  * @param {*} id redux filter Id - must be initialized inside gridFilters.js reducer
  */
 export const resetAllFilters = (id, keepTreeViewFilter = false) => ({
-  type: FILTER_RESET_ALL_FILTERS,
+  type: RESET_ALL_FILTERS,
   id,
   keepTreeViewFilter,
 });
@@ -49,7 +49,7 @@ export const resetAllFilters = (id, keepTreeViewFilter = false) => ({
  * @param {*} filteringProperties collections of filter names that should be reseted
  */
 export const resetPropertyFiltersByNames = (id, filteringProperties) => ({
-  type: FILTER_RESET_POPERTY_FILTERS,
+  type: RESET_POPERTY_FILTERS,
   id,
   filteringProperties,
 });
@@ -74,7 +74,7 @@ export const updateNavigationPropertyFilter = (
   customExpression = null,
   navigationPropertyIsNested = false
 ) => ({
-  type: FILTER_UPDATE_NAVIGATION_PROPERTY_FILTER,
+  type: UPDATE_NAVIGATION_PROPERTY_FILTER,
   id,
   navigationProperty,
   filteringProperty,
@@ -97,7 +97,7 @@ export const updateFunctionFilter = (
   filterQueryString,
   values = null
 ) => ({
-  type: FILTER_UPDATE_FUNCTION_FILTER,
+  type: UPDATE_FUNCTION_FILTER,
   id,
   filteringProperty,
   filterQueryString,
@@ -105,13 +105,13 @@ export const updateFunctionFilter = (
 });
 
 export const updateMultipleFunctionFilters = (id, filtersToUpdate) => ({
-  type: FILTER_UPDATE_MULTIPLE_FUNCTION_FILTERS,
+  type: UPDATE_MULTIPLE_FUNCTION_FILTERS,
   id,
   filtersToUpdate,
 });
 
 export const overrideFilterState = (id, filterState) => ({
-  type: FILTER_OVERRIDE_FILTER_STATE,
+  type: OVERRIDE_STATE,
   id,
   filterState,
 });

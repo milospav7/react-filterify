@@ -1,11 +1,11 @@
 import {
-  FILTER_UPDATE_FILTER,
-  FILTER_RESET_ALL_FILTERS,
-  FILTER_UPDATE_NAVIGATION_PROPERTY_FILTER,
-  FILTER_UPDATE_FUNCTION_FILTER,
-  FILTER_RESET_POPERTY_FILTERS,
-  FILTER_OVERRIDE_FILTER_STATE,
-  FILTER_UPDATE_MULTIPLE_FUNCTION_FILTERS,
+  UPDATE_FILTER,
+  RESET_ALL_FILTERS,
+  UPDATE_NAVIGATION_PROPERTY_FILTER,
+  UPDATE_FUNCTION_FILTER,
+  RESET_POPERTY_FILTERS,
+  OVERRIDE_STATE,
+  UPDATE_MULTIPLE_FUNCTION_FILTERS,
 } from "./actionTypes";
 import { cloneDeep, isBoolean, removeKey } from "./helpers";
 import { ContainerType } from "./types";
@@ -23,7 +23,7 @@ export const containerReducer = (
   action: any
 ) => {
   switch (action.type) {
-    case FILTER_UPDATE_FILTER: {
+    case UPDATE_FILTER: {
       const {
         filteringProperty,
         filteringValue,
@@ -54,7 +54,7 @@ export const containerReducer = (
         },
       };
     }
-    case FILTER_UPDATE_NAVIGATION_PROPERTY_FILTER: {
+    case UPDATE_NAVIGATION_PROPERTY_FILTER: {
       const {
         navigationProperty,
         filteringProperty,
@@ -86,7 +86,7 @@ export const containerReducer = (
         },
       };
     }
-    case FILTER_UPDATE_FUNCTION_FILTER: {
+    case UPDATE_FUNCTION_FILTER: {
       const { filteringProperty, filterQueryString, values } = action;
       const shouldRemoveFilter = filterQueryString === null;
 
@@ -127,20 +127,19 @@ export const containerReducer = (
         ],
       };
     }
-    case FILTER_UPDATE_MULTIPLE_FUNCTION_FILTERS: {
+    case UPDATE_MULTIPLE_FUNCTION_FILTERS: {
       const { filtersToUpdate } = action;
-      let updatedState = cloneDeep(state);
 
       filtersToUpdate.forEach((filter: any) => {
         const { filteringProperty, filterQueryString, values } = filter;
 
         if (filterQueryString) {
-          const existing = state.functionFilters.some(
+          const updateExisting = state.functionFilters.some(
             (f) => f.filteringProperty === filteringProperty
           );
-          if (existing)
-            updatedState = {
-              ...updatedState,
+          if (updateExisting)
+            return {
+              ...state,
               functionFilters: state.functionFilters.map((f) =>
                 f.filteringProperty === filteringProperty
                   ? { ...f, queryString: filterQueryString, values }
@@ -148,8 +147,8 @@ export const containerReducer = (
               ),
             };
           else
-            updatedState = {
-              ...updatedState,
+            return {
+              ...state,
               functionFilters: [
                 ...state.functionFilters,
                 {
@@ -159,41 +158,39 @@ export const containerReducer = (
                 },
               ],
             };
-        } else
-          updatedState = {
-            ...updatedState,
+        }
+        // Remove
+        else
+          return {
+            ...state,
             functionFilters: state.functionFilters.filter(
               (f) => f.filteringProperty !== filteringProperty
             ),
           };
       });
 
-      return updatedState;
-    }
-    case FILTER_RESET_ALL_FILTERS:
-      return containerInitialState;
-    case FILTER_RESET_POPERTY_FILTERS: {
-      const filteringProperties: any[] = action.filteringProperties;
-
-      if (filteringProperties?.length) {
-        let modifiedPropertyFiltetrs = cloneDeep(state.propertyFilters);
-
-        filteringProperties.forEach((filter) => {
-          if (state.propertyFilters[filter])
-            modifiedPropertyFiltetrs = removeKey(
-              filter,
-              modifiedPropertyFiltetrs
-            );
-        });
-        return {
-          ...state,
-          propertyFilters: modifiedPropertyFiltetrs,
-        };
-      }
-
       return state;
     }
-    case FILTER_OVERRIDE_FILTER_STATE: {
+    case RESET_ALL_FILTERS:
+      return containerInitialState;
+    case RESET_POPERTY_FILTERS: {
+      const filteringProperties: any[] = action.filteringProperties;
+
+      let modifiedPropertyFiltetrs = cloneDeep(state.propertyFilters);
+
+      filteringProperties.forEach((filter) => {
+        if (state.propertyFilters[filter])
+          modifiedPropertyFiltetrs = removeKey(
+            filter,
+            modifiedPropertyFiltetrs
+          );
+      });
+      return {
+        ...state,
+        propertyFilters: modifiedPropertyFiltetrs,
+      };
+    }
+    case OVERRIDE_STATE: {
       const { filterState } = action;
 
       return {

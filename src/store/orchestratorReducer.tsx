@@ -5,6 +5,8 @@ import {
   ValueTypedObject,
 } from "./types";
 
+let PREBUILT_CONTAINERS: ValueTypedObject<ContainerType>;
+
 const getStorageKey = (containerId: string) =>
   `${containerId}_filterify_container`; // HERE WE CAN MODIFY SELECTOR KEY
 
@@ -13,19 +15,15 @@ const tryGetInitStateFromStorage = (containerId: string) => {
     const fromLocalStorage = localStorage.getItem(getStorageKey(containerId));
     if (fromLocalStorage) return JSON.parse(fromLocalStorage);
     return { ...containerInitialState };
-  } catch (error) {
-    // Exceptions.logException(error);
+  } catch (_error) {
     return { ...containerInitialState }; // fallback if somehow parsing fails
   }
 };
 
-let prebuiltContainers: ValueTypedObject<ContainerType>;
-
 const shouldSaveInStorage = (id: string) =>
-  prebuiltContainers && prebuiltContainers[id]?.saveToLocalStorage;
+  PREBUILT_CONTAINERS && PREBUILT_CONTAINERS[id]?.saveToLocalStorage;
 
-export const filterifyReducer = (state = prebuiltContainers, action: any) => {
-  // if (prebuiltContainers && !(action.id in prebuiltContainers)) return state; // TODO: update to resolve dynamically
+const filterifyReducer = (state = PREBUILT_CONTAINERS, action: any) => {
   if (!action.id) return state;
 
   const container = state?.[action.id];
@@ -50,20 +48,23 @@ export const filterifyReducer = (state = prebuiltContainers, action: any) => {
 export const configureFilterfyReducer = (
   preconfigurations: string[] | FilterConfigurationType[]
 ) => {
-  prebuiltContainers = {};
+  if (!preconfigurations || preconfigurations.length === 0)
+    throw new Error("TODO: handle error");
 
-  preconfigurations.forEach((pc: string | FilterConfigurationType) => {
-    if (typeof pc === "string") {
-      prebuiltContainers[pc] = { ...containerInitialState };
+  PREBUILT_CONTAINERS = {};
+
+  preconfigurations.forEach((config: string | FilterConfigurationType) => {
+    if (typeof config === "string") {
+      PREBUILT_CONTAINERS[config] = { ...containerInitialState };
     } else {
-      let initialState = pc.saveToLocalStorage
-        ? tryGetInitStateFromStorage(pc.id)
+      let initialState = config.saveToLocalStorage
+        ? tryGetInitStateFromStorage(config.id)
         : { ...containerInitialState };
 
-      prebuiltContainers[pc.id] = {
+      PREBUILT_CONTAINERS[config.id] = {
         ...initialState,
-        saveToLocalStorage: pc.saveToLocalStorage,
-        styleSchema: pc.styleSchema,
+        saveToLocalStorage: config.saveToLocalStorage,
+        styleSchema: config.styleSchema,
       };
     }
   });
