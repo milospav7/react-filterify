@@ -23,7 +23,7 @@ const tryGetInitStateFromStorage = (containerId: string) => {
 const shouldSaveInStorage = (id: string) =>
   PREBUILT_CONTAINERS && PREBUILT_CONTAINERS[id]?.saveToLocalStorage;
 
-const filterifyReducer = (state = PREBUILT_CONTAINERS, action: any) => {
+const filterifyFilters = (state = PREBUILT_CONTAINERS, action: any) => {
   if (!action.id) return state;
 
   const container = state[action.id];
@@ -71,5 +71,5 @@ export const configureFilterfyReducer = (
     }
   });
 
-  return filterifyReducer;
+  return filterifyFilters;
 };
