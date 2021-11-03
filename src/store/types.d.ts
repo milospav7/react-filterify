@@ -6,27 +6,29 @@ type FilterStyleSchemaType = {
   highlightWhenInUse: boolean;
 };
 
-type FilterConfigurationType = {
+type DetailedConfigurationType = {
   id: string;
   saveToLocalStorage: boolean;
   styleSchema?: FilterStyleSchemaType;
 };
 
+type FilterConfigurationType = string | DetailedConfigurationType;
+
 type AnyObject = {
   [key: string]: any;
 };
 
-type ValueTypedObject<T> ={
+type ValueTypedObject<T> = {
   [key: string]: T;
 };
-
 
 type ContainerType = {
   propertyFilters: AnyObject;
   navigationPropertyFilters: AnyObject;
   functionFilters: AnyObject[];
   saveToLocalStorage: boolean;
-  styleSchema: null |FilterStyleSchemaType;
+  styleSchema: null | FilterStyleSchemaType;
+  dateTimeUpdated: null | string;
 };
 
 export {

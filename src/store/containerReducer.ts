@@ -16,6 +16,7 @@ export const containerInitialState: ContainerType = {
   functionFilters: [],
   saveToLocalStorage: false,
   styleSchema: null,
+  dateTimeUpdated: null,
 };
 
 export const containerReducer = (

@@ -26,12 +26,12 @@ const shouldSaveInStorage = (id: string) =>
 const filterifyReducer = (state = PREBUILT_CONTAINERS, action: any) => {
   if (!action.id) return state;
 
-  const container = state?.[action.id];
+  const container = state[action.id];
   const updatedFiltersContainer = containerReducer(container, action);
 
   const enrichedFilterState = {
     ...updatedFiltersContainer,
-    dateTimeUpdated: new Date().toString(),
+    dateTimeUpdated: new Date().toString(), // Enrich for datetime stamp
   };
   if (shouldSaveInStorage(action.id))
     localStorage.setItem(
@@ -49,11 +49,13 @@ export const configureFilterfyReducer = (
   preconfigurations: string[] | FilterConfigurationType[]
 ) => {
   if (!preconfigurations || preconfigurations.length === 0)
-    throw new Error("TODO: handle error");
+    throw new Error(
+      "Filteirfy reducer configurator function 'configureFilterfyReducer' must recive at least one filter configuration."
+    );
 
   PREBUILT_CONTAINERS = {};
 
-  preconfigurations.forEach((config: string | FilterConfigurationType) => {
+  preconfigurations.forEach((config: FilterConfigurationType) => {
     if (typeof config === "string") {
       PREBUILT_CONTAINERS[config] = { ...containerInitialState };
     } else {
