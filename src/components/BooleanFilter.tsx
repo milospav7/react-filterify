@@ -10,8 +10,8 @@ import {
 import { useFilterifyFilter } from "./hooks";
 
 export const options = [
-  { value: "true", label: "Yes" },
-  { value: "false", label: "No" },
+  { value: true, label: "Yes" },
+  { value: false, label: "No" },
 ];
 
 interface IProps {
