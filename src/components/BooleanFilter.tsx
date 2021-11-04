@@ -7,7 +7,6 @@ import {
   updateNavigationPropertyFilter,
   updatePropertyFilter,
 } from "../store/actionCreators";
-import { AnyObject } from "../store/types";
 import { useFilterifyFilter } from "./hooks";
 
 export const options = [
