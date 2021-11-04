@@ -1,14 +1,11 @@
 import React from "react";
 import { Label } from "reactstrap";
+import BooleanFilter from "../components/BooleanFilter";
 import ClearButton from "../components/ClearButton";
 import DropdownFilter from "../components/DropdownFilter";
 import NumericFilter from "../components/NumericFilter";
 import TextFilter from "../components/TextFilter";
 
-export const yesNo = [
-  { value: "true", label: "Yes" },
-  { value: "false", label: "No" },
-];
 interface IProps {
   containerId: string;
   resetOnUnmount?: boolean;
@@ -105,13 +102,11 @@ const TestingFilters1: React.FC<IProps> = ({
       >
         Is premium user
       </Label>
-      <DropdownFilter
+      <BooleanFilter
         key="iscnt"
         size="sm"
         containerId={containerId}
         filteringProperty="IsPremiumUser"
-        options={yesNo}
-        isBoolean
         isClearable
       />
     </div>

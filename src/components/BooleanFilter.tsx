@@ -10,10 +10,14 @@ import {
 import { AnyObject } from "../store/types";
 import { useFilterifyFilter } from "./hooks";
 
+export const options = [
+  { value: "true", label: "Yes" },
+  { value: "false", label: "No" },
+];
+
 interface IProps {
   containerId: string;
   filteringProperty: string;
-  options: Array<Option | AnyObject>;
   navigationProperty?: string;
   isNavigationProperty?: boolean;
   isNestedNavigationProperty?: boolean;
@@ -23,9 +27,8 @@ interface IProps {
   size?: string;
 }
 
-const DropdownFilter: React.FC<IProps> = ({
+const BooleanFilter: React.FC<IProps> = ({
   containerId,
-  options,
   isNavigationProperty = false,
   filteringProperty,
   navigationProperty,
@@ -72,7 +75,7 @@ const DropdownFilter: React.FC<IProps> = ({
   const memoizedFilter = useMemo(
     () => (
       <Select
-        key={`${filteringProperty}-ddf`}
+        key={`${filteringProperty}-blf`}
         size={size}
         options={options}
         value={filterValue}
@@ -88,4 +91,4 @@ const DropdownFilter: React.FC<IProps> = ({
   return memoizedFilter;
 };
 
-export default DropdownFilter;
+export default BooleanFilter;
