@@ -6,13 +6,11 @@ type FilterStyleSchemaType = {
   highlightWhenInUse: boolean;
 };
 
-type DetailedConfigurationType = {
+type FilterConfigurationType = {
   id: string;
   saveToLocalStorage: boolean;
   styleSchema?: FilterStyleSchemaType;
 };
-
-type FilterConfigurationType = string | DetailedConfigurationType;
 
 type AnyObject = {
   [key: string]: any;
@@ -27,8 +25,8 @@ type ContainerType = {
   navigationPropertyFilters: AnyObject;
   functionFilters: AnyObject[];
   saveToLocalStorage: boolean;
-  styleSchema: null | FilterStyleSchemaType;
-  dateTimeUpdated: null | string;
+  styleSchema?: null | FilterStyleSchemaType;
+  dateTimeUpdated?: null | string;
 };
 
 export {

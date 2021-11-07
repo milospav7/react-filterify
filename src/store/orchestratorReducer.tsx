@@ -10,13 +10,16 @@ let PREBUILT_CONTAINERS: ValueTypedObject<ContainerType>;
 const getStorageKey = (containerId: string) =>
   `${containerId}_filterify_container`; // HERE WE CAN MODIFY SELECTOR KEY
 
-const tryGetInitStateFromStorage = (containerId: string) => {
+const tryGetInitStateFromStorage = (
+  containerId: string,
+  defaultState: ContainerType
+) => {
   try {
     const fromLocalStorage = localStorage.getItem(getStorageKey(containerId));
     if (fromLocalStorage) return JSON.parse(fromLocalStorage);
-    return { ...containerInitialState };
+    return defaultState;
   } catch (_error) {
-    return { ...containerInitialState }; // fallback if somehow parsing fails
+    return defaultState; // fallback if somehow parsing fails
   }
 };
 
@@ -46,7 +49,7 @@ const filterifyFilters = (state = PREBUILT_CONTAINERS, action: any) => {
 };
 
 export const configureFilterfyReducer = (
-  preconfigurations: string[] | FilterConfigurationType[]
+  preconfigurations: FilterConfigurationType[]
 ) => {
   if (!preconfigurations || preconfigurations.length === 0)
     throw new Error(
@@ -56,19 +59,21 @@ export const configureFilterfyReducer = (
   PREBUILT_CONTAINERS = {};
 
   preconfigurations.forEach((config: FilterConfigurationType) => {
-    if (typeof config === "string") {
-      PREBUILT_CONTAINERS[config] = { ...containerInitialState };
-    } else {
-      let initialState = config.saveToLocalStorage
-        ? tryGetInitStateFromStorage(config.id)
-        : { ...containerInitialState };
+    const defaultState: ContainerType = {
+      ...containerInitialState,
+      saveToLocalStorage: config.saveToLocalStorage,
+      styleSchema: config.styleSchema,
+    };
 
-      PREBUILT_CONTAINERS[config.id] = {
-        ...initialState,
-        saveToLocalStorage: config.saveToLocalStorage,
-        styleSchema: config.styleSchema,
-      };
-    }
+    let initialState = config.saveToLocalStorage
+      ? tryGetInitStateFromStorage(config.id, defaultState)
+      : defaultState;
+
+    PREBUILT_CONTAINERS[config.id] = {
+      ...initialState,
+      saveToLocalStorage: config.saveToLocalStorage,
+      styleSchema: config.styleSchema,
+    };
   });
 
   return filterifyFilters;
