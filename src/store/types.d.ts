@@ -24,7 +24,7 @@ type ContainerType = {
   propertyFilters: AnyObject;
   navigationPropertyFilters: AnyObject;
   functionFilters: AnyObject[];
-  saveToLocalStorage: boolean;
+  saveToLocalStorage?: boolean;
   styleSchema?: null | FilterStyleSchemaType;
   dateTimeUpdated?: null | string;
 };

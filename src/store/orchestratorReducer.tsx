@@ -69,11 +69,7 @@ export const configureFilterfyReducer = (
       ? tryGetInitStateFromStorage(config.id, defaultState)
       : defaultState;
 
-    PREBUILT_CONTAINERS[config.id] = {
-      ...initialState,
-      saveToLocalStorage: config.saveToLocalStorage,
-      styleSchema: config.styleSchema,
-    };
+    PREBUILT_CONTAINERS[config.id] = initialState;
   });
 
   return filterifyFilters;

@@ -14,9 +14,6 @@ export const containerInitialState: ContainerType = {
   propertyFilters: {},
   navigationPropertyFilters: {},
   functionFilters: [],
-  saveToLocalStorage: false,
-  styleSchema: null,
-  dateTimeUpdated: null,
 };
 
 export const containerReducer = (
@@ -238,9 +235,9 @@ export class FilterHelperMethods {
 
     Object.keys(filters).forEach((k) => {
       const filterValue = filters[k].value;
-      const operator = filters[k].operator || "eq";
+      const operator = filters[k].operator ?? "eq";
       const filterType = filters[k].type;
-      const logic = filters[k].logic || "or";
+      const logic = filters[k].logic ?? "or";
 
       if (
         !Array.isArray(filterValue) &&

@@ -2,15 +2,12 @@ import React, { useCallback, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { Button, ButtonGroup } from "reactstrap";
 import { updatePropertyFilter } from "../store/actionCreators";
-import { AnyObject } from "../store/types";
 import { useFilterifyFilter } from "./hooks";
 
 interface IProps {
   containerId: string;
   filteringProperty: string;
   options: Array<any>;
-  optionsCustomContent?: AnyObject;
-  optionsCustomcurrentFilterValues?: AnyObject;
   isMulti?: boolean;
   wrapperClassName?: string;
 }
@@ -19,10 +16,8 @@ const ButtonGroupFilter: React.FC<IProps> = ({
   containerId,
   filteringProperty,
   options,
-  optionsCustomContent = {},
-  optionsCustomcurrentFilterValues = {},
   isMulti = false,
-  wrapperClassName = "",
+  wrapperClassName,
 }) => {
   const { propertyFilters } = useFilterifyFilter(containerId);
   const currentFilterValue = propertyFilters[filteringProperty]?.value;
@@ -65,10 +60,22 @@ const ButtonGroupFilter: React.FC<IProps> = ({
         dispatcher(updatePropertyFilter(containerId, filteringProperty, null));
       else
         dispatcher(
-          updatePropertyFilter(containerId, filteringProperty, value, operator, logic)
+          updatePropertyFilter(
+            containerId,
+            filteringProperty,
+            value,
+            operator,
+            logic
+          )
         );
     },
-    [containerId, currentFilterValue, dispatcher, filteringProperty, filterOperaetor]
+    [
+      containerId,
+      currentFilterValue,
+      dispatcher,
+      filteringProperty,
+      filterOperaetor,
+    ]
   );
 
   const setPropertyFilter = useCallback(
@@ -93,30 +100,6 @@ const ButtonGroupFilter: React.FC<IProps> = ({
     [currentFilterValue, isMulti, filterOperaetor]
   );
 
-  const updateFilter = useCallback(
-    (opt) => {
-      if (optionsCustomcurrentFilterValues[opt]) {
-        setPropertyFilter(
-          optionsCustomcurrentFilterValues[opt].value,
-          optionsCustomcurrentFilterValues[opt].operator,
-          optionsCustomcurrentFilterValues[opt].logic
-        );
-      } else setPropertyFilter(opt);
-    },
-    [optionsCustomcurrentFilterValues, setPropertyFilter]
-  );
-
-  const isButtonOptionSelected = useCallback(
-    (opt) =>
-      optionsCustomcurrentFilterValues[opt]
-        ? isOptionSelected(
-            optionsCustomcurrentFilterValues[opt].value,
-            optionsCustomcurrentFilterValues[opt].operator
-          )
-        : isOptionSelected(opt),
-    [optionsCustomcurrentFilterValues, isOptionSelected]
-  );
-
   const memoizedFilter = useMemo(
     () => (
       <div className={wrapperClassName}>
@@ -127,23 +110,22 @@ const ButtonGroupFilter: React.FC<IProps> = ({
               className="no-higlight-focus"
               color="light"
               onClick={() => {
-                updateFilter(opt);
+                setPropertyFilter(opt);
               }}
-              active={isButtonOptionSelected(opt)}
+              active={isOptionSelected(opt)}
             >
-              {optionsCustomContent?.[opt] ?? opt}
+              {opt}
             </Button>
           ))}
         </ButtonGroup>
       </div>
     ),
     [
-      optionsCustomContent,
-      options,
       wrapperClassName,
       filteringProperty,
-      updateFilter,
-      isButtonOptionSelected,
+      options,
+      isOptionSelected,
+      setPropertyFilter,
     ]
   );
 
