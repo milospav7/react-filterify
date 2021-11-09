@@ -28,3 +28,15 @@ export const isStringOrNumber = (val: any) => {
 
 export const isNonEmptyArray = (val: any) =>
   Array.isArray(val) && val.length > 0;
+
+export const valueShouldBeRemoved = (val: any) => {
+  if (val === null || val === undefined) return true;
+  if (typeof val === "string") return !val.trim();
+  if (
+    typeof val === "number" ||
+    typeof val === "boolean" ||
+    typeof val === "object"
+  )
+    return false;
+  return true;
+};

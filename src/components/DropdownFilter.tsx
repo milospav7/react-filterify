@@ -7,13 +7,13 @@ import {
   updateNavigationPropertyFilter,
   updatePropertyFilter,
 } from "../store/actionCreators";
-import { AnyObject } from "../store/types";
+import { FilterOption } from "../store/types";
 import { useFilterifyFilter } from "./hooks";
 
 interface IProps {
   containerId: string;
   filteringProperty: string;
-  options: Array<Option | AnyObject>;
+  options: Array<Option | FilterOption>;
   navigationProperty?: string; // TODO: Support for complex type in order to support more than one level navigation props filtering
   isLoading?: boolean;
   isClearable?: boolean;

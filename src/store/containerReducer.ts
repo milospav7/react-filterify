@@ -7,7 +7,12 @@ import {
   OVERRIDE_STATE,
   UPDATE_MULTIPLE_FUNCTION_FILTERS,
 } from "./actionTypes";
-import { cloneDeep, isBoolean, removeKey } from "./helpers";
+import {
+  cloneDeep,
+  valueShouldBeRemoved,
+  isBoolean,
+  removeKey,
+} from "./helpers";
 import { ContainerType } from "./types";
 
 export const containerInitialState: ContainerType = {
@@ -29,7 +34,8 @@ export const containerReducer = (
         logic,
         allowNullValue,
       } = action;
-      const shouldRemoveFilter = !allowNullValue && filteringValue === null;
+      const shouldRemoveFilter =
+        !allowNullValue && valueShouldBeRemoved(filteringValue);
 
       if (shouldRemoveFilter) {
         return {
@@ -57,10 +63,10 @@ export const containerReducer = (
         navigationProperty,
         filteringProperty,
         filteringValue,
-        customExpression,
+        generatedExpression,
         navigationPropertyIsNested,
       } = action;
-      const shouldRemoveFilter = filteringValue === null;
+      const shouldRemoveFilter = valueShouldBeRemoved(filteringValue);
 
       if (shouldRemoveFilter) {
         return {
@@ -78,7 +84,7 @@ export const containerReducer = (
           [filteringProperty]: {
             value: filteringValue,
             navigationProperty,
-            customExpression,
+            generatedExpression,
             navigationPropertyIsNested,
           },
         },
@@ -342,12 +348,12 @@ export class FilterHelperMethods {
           if (gf.navigationProperty === filter.navigationProperty) {
             return {
               navigationProperty: filter.navigationProperty,
-              values: filter.customExpression
+              values: filter.generatedExpression
                 ? gf.values
                 : [...gf.values, { field: f, value: filter.value }],
-              customExpressions: filter.customExpression
-                ? [...gf.customExpressions, filter.customExpression]
-                : gf.customExpressions,
+              generatedExpressions: filter.generatedExpression
+                ? [...gf.generatedExpressions, filter.generatedExpression]
+                : gf.generatedExpressions,
               navigationPropertyIsNested: filter.navigationPropertyIsNested,
             };
           }
@@ -356,11 +362,11 @@ export class FilterHelperMethods {
       } else {
         groupedFilters.push({
           navigationProperty: filter.navigationProperty,
-          values: filter.customExpression
+          values: filter.generatedExpression
             ? []
             : [{ field: f, value: filter.value }],
-          customExpressions: filter.customExpression
-            ? [filter.customExpression]
+          generatedExpressions: filter.generatedExpression
+            ? [filter.generatedExpression]
             : [],
           navigationPropertyIsNested: filter.navigationPropertyIsNested,
         });
@@ -388,9 +394,9 @@ export class FilterHelperMethods {
         else query += `${navPropName}/any(s: {expressionPart})`;
         let expressionPart = "";
 
-        if (f.customExpressions && f.customExpressions.length > 0) {
-          f.customExpressions.forEach((ce: any, i: number) => {
-            if (i === f.customExpressions.length - 1)
+        if (f.generatedExpressions && f.generatedExpressions.length > 0) {
+          f.generatedExpressions.forEach((ce: any, i: number) => {
+            if (i === f.generatedExpressions.length - 1)
               expressionPart += ` ${ce}`;
             else expressionPart += ` ${ce} and`;
           });

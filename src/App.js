@@ -2,7 +2,7 @@ import ReactJson from "react-json-view";
 import "./App.css";
 import "./style/style.css";
 import { useFilterifyFilter } from "./components/hooks";
-import TestingFilters1 from "./test/TestingFilters1";
+import TestingFilters1 from "./test/UserFilters";
 
 function App() {
   const filter = useFilterifyFilter("F1");

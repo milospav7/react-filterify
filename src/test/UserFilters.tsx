@@ -12,7 +12,7 @@ interface IProps {
   wrapperClassName?: string;
 }
 
-const TestingFilters1: React.FC<IProps> = ({
+const UserFilters: React.FC<IProps> = ({
   containerId,
   wrapperClassName = "",
 }) => (
@@ -126,4 +126,4 @@ const TestingFilters1: React.FC<IProps> = ({
   </div>
 );
 
-export default TestingFilters1;
+export default UserFilters;

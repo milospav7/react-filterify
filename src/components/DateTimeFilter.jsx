@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo, useCallback } from "react";
+import { useState, useRef, useMemo, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import DatePicker, { registerLocale } from "react-datepicker";
 import enGb from "date-fns/locale/en-GB";
@@ -26,6 +26,7 @@ import {
   dateFormatter,
   dateTimeFormatter,
 } from "../../config/dateTimeSettings";
+import RenderIf from "./RenderIf";
 
 registerLocale("en-gb", enGb);
 
@@ -78,7 +79,12 @@ const DateTimeFilterWithOperators = ({
     (date) => {
       const queryDatetime = date ?? null;
       dispatcher(
-        updatePropertyFilter(containerId, filteringProperty, queryDatetime, operator)
+        updatePropertyFilter(
+          containerId,
+          filteringProperty,
+          queryDatetime,
+          operator
+        )
       );
     },
     [containerId, dispatcher, filteringProperty, operator]
@@ -91,7 +97,12 @@ const DateTimeFilterWithOperators = ({
         const queryDatetime = date ?? null;
         setOperator(op);
         dispatcher(
-          updatePropertyFilter(containerId, filteringProperty, queryDatetime, op)
+          updatePropertyFilter(
+            containerId,
+            filteringProperty,
+            queryDatetime,
+            op
+          )
         );
       }
     },
@@ -169,7 +180,7 @@ const DateTimeFilterWithOperators = ({
           placeholderText={placeholder ?? filteringProperty}
           locale="en-gb"
         />
-        {!hideDateTimeSwitch && (
+        <RenderIf condition={!hideDateTimeSwitch}>
           <InputGroupAddon addonType="append">
             <InputGroupText
               onClick={() => setShowTime(!showTime)}
@@ -193,7 +204,7 @@ const DateTimeFilterWithOperators = ({
               </span>
             </InputGroupText>
           </InputGroupAddon>
-        )}
+        </RenderIf>
       </InputGroup>
     </div>
   );

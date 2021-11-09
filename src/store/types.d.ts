@@ -16,6 +16,11 @@ type AnyObject = {
   [key: string]: any;
 };
 
+type FilterOption = {
+  label: string;
+  value: string;
+};
+
 type ValueTypedObject<T> = {
   [key: string]: T;
 };
@@ -35,4 +40,5 @@ export {
   FilterConfigurationType,
   ValueTypedObject,
   ContainerType,
+  FilterOption,
 };

@@ -68,12 +68,12 @@ const TextFilter: React.FC<ITextFilterProps> = ({
 
     if (navigationProperty) {
       const supportedOperators = Object.keys(operatorsMap);
-      const customExpression =
-        navigationPropertyFilters[filteringProperty]?.customExpression ?? null;
+      const generatedExpression =
+        navigationPropertyFilters[filteringProperty]?.generatedExpression ?? null;
 
-      if (customExpression)
+      if (generatedExpression)
         supportedOperators.forEach((k) => {
-          if (customExpression.indexOf(k) >= 0) defaultOperator = k;
+          if (generatedExpression.indexOf(k) >= 0) defaultOperator = k;
         });
     } else {
       const propFOpr =
@@ -103,15 +103,15 @@ const TextFilter: React.FC<ITextFilterProps> = ({
       opr: string
     ) => {
       if (navigationProperty) {
-        let customExpression = "";
+        let generatedExpression = "";
         if (opr === "eq" || opr === "ne")
-          customExpression = `(s/${filteringProperty} ${opr} '${value}')`;
+          generatedExpression = `(s/${filteringProperty} ${opr} '${value}')`;
         else if (opr === "contains")
-          customExpression = `contains(s/${filteringProperty}, '${value}')`;
+          generatedExpression = `contains(s/${filteringProperty}, '${value}')`;
         else if (opr === "doesnotcontain")
-          customExpression = `(indexof(s/${filteringProperty}, '${value}') eq -1)`;
+          generatedExpression = `(indexof(s/${filteringProperty}, '${value}') eq -1)`;
         else if (opr === "startswith" || opr === "endswith")
-          customExpression = `${opr}(s/${filteringProperty}, '${value}')`;
+          generatedExpression = `${opr}(s/${filteringProperty}, '${value}')`;
 
         dispatcher(
           updateNavigationPropertyFilter(
@@ -119,7 +119,7 @@ const TextFilter: React.FC<ITextFilterProps> = ({
             navigationProperty,
             filteringProperty,
             value,
-            customExpression
+            generatedExpression
           )
         );
       } else
