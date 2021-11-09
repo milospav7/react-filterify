@@ -14,9 +14,7 @@ interface IProps {
   containerId: string;
   filteringProperty: string;
   options: Array<Option | AnyObject>;
-  navigationProperty?: string;
-  isNavigationProperty?: boolean;
-  isNestedNavigationProperty?: boolean;
+  navigationProperty?: string; // TODO: Support for complex type in order to support more than one level navigation props filtering
   isLoading?: boolean;
   isClearable?: boolean;
   isMulti?: boolean;
@@ -26,10 +24,8 @@ interface IProps {
 const DropdownFilter: React.FC<IProps> = ({
   containerId,
   options,
-  isNavigationProperty = false,
   filteringProperty,
   navigationProperty,
-  isNestedNavigationProperty = false,
   isMulti = false,
   size,
   isLoading,
@@ -41,15 +37,14 @@ const DropdownFilter: React.FC<IProps> = ({
 
   const updateFilter = useCallback(
     (option: Option) => {
-      if (isNavigationProperty) {
+      if (navigationProperty) {
         dispatcher(
           updateNavigationPropertyFilter(
             containerId,
             navigationProperty,
             filteringProperty,
             option,
-            null,
-            isNestedNavigationProperty
+            null
           )
         );
       } else
@@ -61,7 +56,7 @@ const DropdownFilter: React.FC<IProps> = ({
   );
 
   const filterValue = useMemo(() => {
-    if (isNavigationProperty)
+    if (navigationProperty)
       return navigationPropertyFilters[filteringProperty]?.value ?? null;
     return propertyFilters[filteringProperty]?.value ?? null;
   }, [

@@ -28,10 +28,9 @@ const TestingFilters1: React.FC<IProps> = ({
       </Label>
       <TextFilter
         key="sbs"
-        isNavigationProperty
         navigationProperty="Books"
-        containerId={containerId}
         filteringProperty="Name"
+        containerId={containerId}
       />
     </div>
     <div className="mb-2">
@@ -46,7 +45,6 @@ const TestingFilters1: React.FC<IProps> = ({
         key="bndgz"
         size="sm"
         containerId={containerId}
-        isNavigationProperty
         navigationProperty="Books"
         filteringProperty="Writer"
         options={[

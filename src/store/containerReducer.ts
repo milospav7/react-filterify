@@ -169,8 +169,12 @@ export const containerReducer = (
 
       return state;
     }
-    case RESET_ALL_FILTERS:
-      return containerInitialState;
+    case RESET_ALL_FILTERS: {
+      return {
+        ...state,
+        ...containerInitialState,
+      };
+    }
     case RESET_POPERTY_FILTERS: {
       const filteringProperties: any[] = action.filteringProperties;
 

@@ -9,7 +9,7 @@ import {
 } from "../store/actionCreators";
 import { useFilterifyFilter } from "./hooks";
 
-export const options = [
+const options = [
   { value: true, label: "Yes" },
   { value: false, label: "No" },
 ];
@@ -18,8 +18,6 @@ interface IProps {
   containerId: string;
   filteringProperty: string;
   navigationProperty?: string;
-  isNavigationProperty?: boolean;
-  isNestedNavigationProperty?: boolean;
   isLoading?: boolean;
   isClearable?: boolean;
   isMulti?: boolean;
@@ -28,10 +26,8 @@ interface IProps {
 
 const BooleanFilter: React.FC<IProps> = ({
   containerId,
-  isNavigationProperty = false,
   filteringProperty,
   navigationProperty,
-  isNestedNavigationProperty = false,
   isMulti = false,
   size,
   isLoading,
@@ -43,15 +39,14 @@ const BooleanFilter: React.FC<IProps> = ({
 
   const updateFilter = useCallback(
     (option: Option) => {
-      if (isNavigationProperty) {
+      if (navigationProperty) {
         dispatcher(
           updateNavigationPropertyFilter(
             containerId,
             navigationProperty,
             filteringProperty,
             option,
-            null,
-            isNestedNavigationProperty
+            null
           )
         );
       } else
@@ -63,7 +58,7 @@ const BooleanFilter: React.FC<IProps> = ({
   );
 
   const filterValue = useMemo(() => {
-    if (isNavigationProperty)
+    if (navigationProperty)
       return navigationPropertyFilters[filteringProperty]?.value ?? null;
     return propertyFilters[filteringProperty]?.value ?? null;
   }, [

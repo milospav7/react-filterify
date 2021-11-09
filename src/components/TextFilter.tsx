@@ -51,18 +51,14 @@ interface ITextFilterProps {
   containerId: string;
   filteringProperty: string;
   displayName?: string;
-  isNavigationProperty?: boolean;
   navigationProperty?: string;
-  isNestedNavigationProperty?: boolean;
 }
 
 const TextFilter: React.FC<ITextFilterProps> = ({
   containerId,
   filteringProperty,
   displayName,
-  isNavigationProperty,
   navigationProperty,
-  isNestedNavigationProperty,
 }) => {
   const { propertyFilters, navigationPropertyFilters } =
     useFilterifyFilter(containerId);
@@ -70,7 +66,7 @@ const TextFilter: React.FC<ITextFilterProps> = ({
   const getDefaultOperator = useCallback(() => {
     let defaultOperator = "contains";
 
-    if (isNavigationProperty) {
+    if (navigationProperty) {
       const supportedOperators = Object.keys(operatorsMap);
       const customExpression =
         navigationPropertyFilters[filteringProperty]?.customExpression ?? null;
@@ -81,14 +77,15 @@ const TextFilter: React.FC<ITextFilterProps> = ({
         });
     } else {
       const propFOpr =
-        (propertyFilters[filteringProperty] && propertyFilters[filteringProperty].operator) ||
+        (propertyFilters[filteringProperty] &&
+          propertyFilters[filteringProperty].operator) ||
         null;
       if (propFOpr) defaultOperator = propFOpr;
     }
     return operatorsMap[defaultOperator];
   }, [
     filteringProperty,
-    isNavigationProperty,
+    navigationProperty,
     navigationPropertyFilters,
     propertyFilters,
   ]);
@@ -105,7 +102,7 @@ const TextFilter: React.FC<ITextFilterProps> = ({
       value: string | ReadonlyArray<string> | number | undefined | null,
       opr: string
     ) => {
-      if (isNavigationProperty) {
+      if (navigationProperty) {
         let customExpression = "";
         if (opr === "eq" || opr === "ne")
           customExpression = `(s/${filteringProperty} ${opr} '${value}')`;
@@ -122,21 +119,15 @@ const TextFilter: React.FC<ITextFilterProps> = ({
             navigationProperty,
             filteringProperty,
             value,
-            customExpression,
-            isNestedNavigationProperty
+            customExpression
           )
         );
       } else
-        dispatcher(updatePropertyFilter(containerId, filteringProperty, value, opr));
+        dispatcher(
+          updatePropertyFilter(containerId, filteringProperty, value, opr)
+        );
     },
-    [
-      containerId,
-      dispatcher,
-      filteringProperty,
-      isNavigationProperty,
-      isNestedNavigationProperty,
-      navigationProperty,
-    ]
+    [containerId, dispatcher, filteringProperty, navigationProperty]
   );
 
   const setPropertyFilter = (value: string | null) => {
@@ -144,12 +135,12 @@ const TextFilter: React.FC<ITextFilterProps> = ({
   };
 
   const filterValue = useMemo(() => {
-    if (isNavigationProperty)
+    if (navigationProperty)
       return navigationPropertyFilters[filteringProperty]?.value ?? "";
     return propertyFilters[filteringProperty]?.value ?? "";
   }, [
     filteringProperty,
-    isNavigationProperty,
+    navigationProperty,
     navigationPropertyFilters,
     propertyFilters,
   ]);
