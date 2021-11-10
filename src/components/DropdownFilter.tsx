@@ -45,8 +45,7 @@ const DropdownFilter: React.FC<IProps> = ({
             containerId,
             navigationProperty,
             filteringProperty,
-            option,
-            null
+            option
           )
         );
       } else

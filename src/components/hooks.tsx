@@ -1,4 +1,6 @@
+import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
+import { FilteringEventHandlersType } from "../store/types";
 
 export const useFilterifyFilter = (containerId: string) => ({
   propertyFilters: useSelector(
@@ -41,4 +43,35 @@ export const useFilterCounter = (containerId: string) => {
     return counter;
   }
   return null;
+};
+
+export const useFilterSubscription = (
+  containerId: string,
+  eventHandlers: FilteringEventHandlersType,
+  raiseEventOnMount = false
+) => {
+  const { onChange } = eventHandlers;
+
+  const firstRenderRef = useRef(true);
+  const { current: isFirstRender } = firstRenderRef;
+
+  const {
+    propertyFilters,
+    navigationPropertyFilters,
+    functionFilters,
+    dateTimeUpdated: dateTimeFilterUpdated,
+  } = useFilterifyFilter(containerId);
+
+  useEffect(() => {
+    if (raiseEventOnMount)
+      onChange({ propertyFilters, navigationPropertyFilters, functionFilters });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (!isFirstRender)
+      onChange({ propertyFilters, navigationPropertyFilters, functionFilters });
+    firstRenderRef.current = false;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dateTimeFilterUpdated]);
 };

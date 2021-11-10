@@ -34,6 +34,10 @@ type ContainerType = {
   dateTimeUpdated?: null | string;
 };
 
+type FilteringEventHandlersType = {
+  onChange: (_filters: any) => void;
+};
+
 export {
   AnyObject,
   FilterStyleSchemaType,
@@ -41,4 +45,5 @@ export {
   ValueTypedObject,
   ContainerType,
   FilterOption,
+  FilteringEventHandlersType,
 };
