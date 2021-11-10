@@ -7,6 +7,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",
+    "@progress/kendo-data-query": "^1.5.5",
     "@progress/kendo-theme-bootstrap": "4.36.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",

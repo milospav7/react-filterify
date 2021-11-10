@@ -5,7 +5,7 @@ import {
   ValueTypedObject,
 } from "./types";
 
-let PREBUILT_CONTAINERS: ValueTypedObject<ContainerType>;
+let FILTER_CONTAINERS: ValueTypedObject<ContainerType> = {};
 
 const getStorageKey = (containerId: string) =>
   `${containerId}_filterify_container`; // HERE WE CAN MODIFY SELECTOR KEY
@@ -24,9 +24,9 @@ const tryGetInitStateFromStorage = (
 };
 
 const shouldSaveInStorage = (id: string) =>
-  PREBUILT_CONTAINERS[id]?.saveToLocalStorage;
+  FILTER_CONTAINERS[id]?.saveToLocalStorage;
 
-const filterifyFilters = (state = PREBUILT_CONTAINERS, action: any) => {
+const filterifyFilters = (state = FILTER_CONTAINERS, action: any) => {
   if (!action.id) return state;
 
   const container = state[action.id];
@@ -56,8 +56,6 @@ export const configureFilterfyReducer = (
       "Filteirfy reducer configurator function 'configureFilterfyReducer' must recive at least one filter configuration."
     );
 
-  PREBUILT_CONTAINERS = {};
-
   preconfigurations.forEach((config: FilterConfigurationType) => {
     const defaultState: ContainerType = {
       ...containerInitialState,
@@ -69,7 +67,7 @@ export const configureFilterfyReducer = (
       ? tryGetInitStateFromStorage(config.id, defaultState)
       : defaultState;
 
-    PREBUILT_CONTAINERS[config.id] = initialState;
+    FILTER_CONTAINERS[config.id] = initialState;
   });
 
   return filterifyFilters;

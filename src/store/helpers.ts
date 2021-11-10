@@ -40,3 +40,39 @@ export const valueShouldBeRemoved = (val: any) => {
     return false;
   return true;
 };
+
+export const concatFilterQuerySubstrings = (...args: any) => {
+  let concated = "";
+  if (Array.isArray(args) && args.length > 0) {
+    const filtered = args.filter((a) => a);
+    filtered.forEach((s, i) => {
+      if (s) {
+        if (i === filtered.length - 1) concated += ` ${s}`;
+        else concated += ` ${s} and`;
+      }
+    });
+  }
+  return concated;
+};
+
+export const includeFilterSubstring = (
+  queryString: any,
+  substring: any,
+  operator = "and"
+) => {
+  const targetQueryPart = "$filter=";
+  const containsFilters = queryString.indexOf(targetQueryPart) >= 0;
+  const index = queryString.indexOf(targetQueryPart) + targetQueryPart.length;
+
+  const filterSubstring = containsFilters
+    ? queryString.substring(index, queryString.length)
+    : queryString;
+
+  const opr = filterSubstring.startsWith("$") ? "&" : operator;
+  const remaining =
+    queryString.indexOf(targetQueryPart) > 0
+      ? queryString.substring(0, queryString.indexOf(targetQueryPart))
+      : "";
+
+  return `${remaining}$filter=${substring} ${opr} ${filterSubstring}`;
+};

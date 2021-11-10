@@ -1,3 +1,4 @@
+import { serializeFilter } from "../utils/odata-filtering.operators";
 import {
   UPDATE_FILTER,
   RESET_ALL_FILTERS,
@@ -12,6 +13,8 @@ import {
   valueShouldBeRemoved,
   isBoolean,
   removeKey,
+  concatFilterQuerySubstrings,
+  includeFilterSubstring,
 } from "./helpers";
 import { ContainerType } from "./types";
 
@@ -224,18 +227,19 @@ export class FilterHelperMethods {
    * @param {Object[]} functionFilters functionFilters array - part of filter instance state
    * @param {Object} navigationPropertyFilters navigationPropertyFilters map - part of filter instance state
    */
-  static convertToKendoGridFilter = (
+  static getFilterStrings = (
     filters: any,
     functionFilters = null,
     navigationPropertyFilters = null
   ) => {
-    const filterObject: any = {
-      skip: 0,
-      filter: {
-        logic: "and",
-        filters: [],
-      },
-      filterQueryString:
+    const propertyFilters: any = {
+      logic: "and",
+      filters: [],
+    };
+
+    const filterQueryStrings: any = {
+      propertyFiltersQueryString: "",
+      functionFiltersQueryString:
         FilterHelperMethods.getFunctionFiltersQueryString(functionFilters),
       navigationPropertyFilterQueryString:
         FilterHelperMethods.getNavigationPropFiltersQueryString(
@@ -255,7 +259,7 @@ export class FilterHelperMethods {
       ) {
         const value =
           typeof filterValue === "string" ? new Date(filterValue) : filterValue; // Need this check because when parsing stringified object from local storage then Datetime object becomes string so we need to convert it back to Date object
-        filterObject.filter.filters.push({
+        propertyFilters.filters.push({
           field: k,
           value,
           operator,
@@ -274,7 +278,7 @@ export class FilterHelperMethods {
             filters: [],
             logic,
           };
-          filterObject.filter.filters.push(multiFilter);
+          propertyFilters.filters.push(multiFilter);
 
           k.split(";").forEach((field) => {
             multiFilter.filters.push({
@@ -284,14 +288,14 @@ export class FilterHelperMethods {
             });
           });
         } else
-          filterObject.filter.filters.push({
+          propertyFilters.filters.push({
             field: k,
             value: filterValue,
             operator,
             key: k,
           });
       } else if (Array.isArray(filterValue) && filterValue.length > 0) {
-        filterObject.filter.filters.push({
+        propertyFilters.filters.push({
           key: k,
           filters: [],
           logic,
@@ -304,7 +308,7 @@ export class FilterHelperMethods {
 
           const proccessedValue =
             isDateTime && typeof value === "string" ? new Date(value) : value; // Need this check because when parsing stringified object from local storage then Datetime object becomes string so we need to convert it back to Date object
-          const index = filterObject.filter.filters.findIndex(
+          const index = propertyFilters.filters.findIndex(
             (f: any) => f.key === k
           );
 
@@ -315,13 +319,16 @@ export class FilterHelperMethods {
               operator: filterOperator,
             };
             if (v.value) filterToAssign = { ...filterToAssign, ...v };
-            filterObject.filter.filters[index].filters.push(filterToAssign);
+            propertyFilters.filters[index].filters.push(filterToAssign);
           }
         });
       }
     });
 
-    return filterObject;
+    filterQueryStrings.propertyFiltersQueryString =
+      serializeFilter(propertyFilters);
+
+    return filterQueryStrings;
   };
 
   /**
@@ -443,5 +450,28 @@ export class FilterHelperMethods {
       });
     }
     return queryString;
+  };
+
+  static generateODataFilterString = (filters: any) => {
+    const {
+      propertyFiltersQueryString,
+      navigationPropertyFilterQueryString,
+      functionFiltersQueryString,
+    } = FilterHelperMethods.getFilterStrings(
+      filters.propertyFilters,
+      filters.functionFilters,
+      filters.navigationPropertyFilters
+    );
+
+    const odataFilterQuery = concatFilterQuerySubstrings(
+      propertyFiltersQueryString,
+      navigationPropertyFilterQueryString,
+      functionFiltersQueryString
+    );
+
+    return odataFilterQuery.replace(
+      /('[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}')/gi,
+      (x) => x.substring(1, x.length - 1)
+    );
   };
 }
