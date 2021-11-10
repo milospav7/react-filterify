@@ -1,6 +1,5 @@
 import React, { useState, useMemo, useCallback } from "react";
 import { useRef } from "react";
-import { useDispatch } from "react-redux";
 import {
   InputGroup,
   InputGroupAddon,
@@ -21,11 +20,11 @@ import {
   faNotEqual,
 } from "@fortawesome/free-solid-svg-icons";
 import { ValueTypedObject } from "../store/types";
-import { useFilterifyFilter } from "./hooks";
 import {
-  updateNavigationPropertyFilter,
-  updatePropertyFilter,
-} from "../store/actionCreators";
+  useContainerFilterActions,
+  useContainerFilterState,
+  useFilterifyFilter,
+} from "./hooks";
 import { DebouncedInputField } from "./DebouncedInputField";
 import { BaseFilterProps } from "../store/interfaces";
 import FilterDecorator from "./FilterDecorator";
@@ -54,6 +53,25 @@ interface ITextFilterProps extends BaseFilterProps {
   displayName?: string;
 }
 
+const generateCustomExpression = (
+  filteringProperty: string,
+  opr: string,
+  value: string
+) => {
+  let generatedExpression = "";
+
+  if (opr === "eq" || opr === "ne")
+    generatedExpression = `(s/${filteringProperty} ${opr} '${value}')`;
+  else if (opr === "contains")
+    generatedExpression = `contains(s/${filteringProperty}, '${value}')`;
+  else if (opr === "doesnotcontain")
+    generatedExpression = `(indexof(s/${filteringProperty}, '${value}') eq -1)`;
+  else if (opr === "startswith" || opr === "endswith")
+    generatedExpression = `${opr}(s/${filteringProperty}, '${value}')`;
+
+  return generatedExpression;
+};
+
 const TextFilter: React.FC<ITextFilterProps> = ({
   containerId,
   filteringProperty,
@@ -67,7 +85,7 @@ const TextFilter: React.FC<ITextFilterProps> = ({
   const { propertyFilters, navigationPropertyFilters } =
     useFilterifyFilter(containerId);
 
-  const getDefaultOperator = useCallback(() => {
+  const getInitialOperator = useCallback(() => {
     let defaultOperator = "contains";
 
     if (navigationProperty) {
@@ -96,69 +114,45 @@ const TextFilter: React.FC<ITextFilterProps> = ({
   ]);
 
   const [dropdownOpen, setOpen] = useState(false);
-  const [operator, setOperator] = useState(getDefaultOperator());
-  const dispatcher = useDispatch();
+  const [operator, setOperator] = useState(getInitialOperator());
   const inputRef = useRef<Input>(null);
-
   const toggle = () => setOpen(!dropdownOpen);
 
-  const updateCorrespondingFilter = useCallback(
-    (
-      value: string | ReadonlyArray<string> | number | undefined | null,
-      opr: string
-    ) => {
-      if (navigationProperty) {
-        let generatedExpression = "";
-        if (opr === "eq" || opr === "ne")
-          generatedExpression = `(s/${filteringProperty} ${opr} '${value}')`;
-        else if (opr === "contains")
-          generatedExpression = `contains(s/${filteringProperty}, '${value}')`;
-        else if (opr === "doesnotcontain")
-          generatedExpression = `(indexof(s/${filteringProperty}, '${value}') eq -1)`;
-        else if (opr === "startswith" || opr === "endswith")
-          generatedExpression = `${opr}(s/${filteringProperty}, '${value}')`;
+  const { updateFilter } = useContainerFilterActions(
+    containerId,
+    filteringProperty,
+    navigationProperty
+  );
+  const { filterValue } = useContainerFilterState(
+    containerId,
+    filteringProperty,
+    navigationProperty
+  );
 
-        dispatcher(
-          updateNavigationPropertyFilter(
-            containerId,
-            navigationProperty,
-            filteringProperty,
-            value,
-            generatedExpression
-          )
-        );
-      } else
-        dispatcher(
-          updatePropertyFilter(containerId, filteringProperty, value, opr)
-        );
+  const updateTargetFilter = useCallback(
+    (value: any, opr: string) => {
+      let generatedExpression = navigationProperty
+        ? generateCustomExpression(filteringProperty, opr, value)
+        : "";
+
+      updateFilter(value, opr, generatedExpression);
     },
-    [containerId, dispatcher, filteringProperty, navigationProperty]
+    [filteringProperty, navigationProperty, updateFilter]
   );
 
   const setPropertyFilter = (value: string | null) => {
-    updateCorrespondingFilter(value, operator);
+    updateTargetFilter(value, operator);
   };
-
-  const filterValue = useMemo(() => {
-    if (navigationProperty)
-      return navigationPropertyFilters[filteringProperty]?.value ?? "";
-    return propertyFilters[filteringProperty]?.value ?? "";
-  }, [
-    filteringProperty,
-    navigationProperty,
-    navigationPropertyFilters,
-    propertyFilters,
-  ]);
 
   const updateOperator = useCallback(
     (op: string) => {
       if (op !== operator) {
         const val = inputRef?.current?.props.value;
-        updateCorrespondingFilter(val, op);
+        updateTargetFilter(val, op);
         setOperator(op);
       }
     },
-    [operator, updateCorrespondingFilter]
+    [operator, updateTargetFilter]
   );
 
   const operatorSelected = useCallback(

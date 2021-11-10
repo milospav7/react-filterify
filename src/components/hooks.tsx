@@ -1,5 +1,10 @@
-import { useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  updateNavigationPropertyFilter,
+  updatePropertyFilter,
+} from "../store/actionCreators";
 import { FilteringEventHandlersType } from "../store/types";
 
 export const useFilterifyFilter = (containerId: string) => ({
@@ -74,4 +79,60 @@ export const useFilterSubscription = (
     firstRenderRef.current = false;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dateTimeFilterUpdated]);
+};
+
+export const useContainerFilterActions = (
+  containerId: string,
+  filteringProperty: string,
+  navigationProperty?: string
+) => {
+  const dispatcher = useDispatch();
+
+  const updateFilter = useCallback(
+    (filterValue: any, operator?: string, customExpression?: string) => {
+      if (navigationProperty) {
+        dispatcher(
+          updateNavigationPropertyFilter(
+            containerId,
+            navigationProperty,
+            filteringProperty,
+            filterValue,
+            customExpression
+          )
+        );
+      } else
+        dispatcher(
+          updatePropertyFilter(
+            containerId,
+            filteringProperty,
+            filterValue,
+            operator
+          )
+        );
+    },
+    [containerId, dispatcher, filteringProperty, navigationProperty]
+  );
+
+  return { updateFilter };
+};
+
+export const useContainerFilterState = (
+  containerId: string,
+  filteringProperty: string,
+  navigationProperty?: string
+) => {
+  const { propertyFilters, navigationPropertyFilters } =
+    useFilterifyFilter(containerId);
+  const filterOperator = propertyFilters[filteringProperty]?.operator;
+
+  const filterValue = useMemo(() => {
+    if (navigationProperty)
+      return navigationPropertyFilters[filteringProperty]?.value ?? null;
+    return propertyFilters[filteringProperty]?.value ?? null;
+  }, [
+    navigationPropertyFilters[filteringProperty]?.value,
+    propertyFilters[filteringProperty]?.value,
+  ]);
+
+  return { filterValue, filterOperator };
 };

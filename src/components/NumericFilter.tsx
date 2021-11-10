@@ -22,7 +22,10 @@ import {
   faNotEqual,
 } from "@fortawesome/free-solid-svg-icons";
 import { ValueTypedObject } from "../store/types";
-import { useFilterifyFilter } from "./hooks";
+import {
+  useContainerFilterActions,
+  useContainerFilterState,
+} from "./hooks";
 import { updatePropertyFilter } from "../store/actionCreators";
 import { DebouncedInputField } from "./DebouncedInputField";
 import { BaseFilterProps } from "../store/interfaces";
@@ -55,6 +58,7 @@ interface IProps extends BaseFilterProps {
 const NumericFilter: React.FC<IProps> = ({
   containerId,
   filteringProperty,
+  navigationProperty,
   displayName,
   useDecimal,
   placeholder,
@@ -63,33 +67,29 @@ const NumericFilter: React.FC<IProps> = ({
   labelClassName,
   label,
 }) => {
-  const { propertyFilters } = useFilterifyFilter(containerId);
-  const propFilterValue = propertyFilters[filteringProperty]?.value;
   const [dropdownOpen, setOpen] = useState(false);
-  const operator =
-    propertyFilters[filteringProperty]?.operator ?? operatorsMap.eq;
-
+  const toggle = () => setOpen(!dropdownOpen);
   const dispatcher = useDispatch();
   const inputRef = useRef<Input>(null);
 
-  const toggle = () => setOpen(!dropdownOpen);
+  const { updateFilter } = useContainerFilterActions(
+    containerId,
+    filteringProperty,
+    navigationProperty
+  );
+  const { filterValue, filterOperator } = useContainerFilterState(
+    containerId,
+    filteringProperty,
+    navigationProperty
+  );
+  const operator = filterOperator ?? operatorsMap.eq;
 
-  const setPropertyFilter = (value: string | null) => {
+  const updateTargetFilter = (value: string | null) => {
     if (value) {
       const parsed = useDecimal ? parseFloat(value) : parseInt(value, 10);
-      dispatcher(
-        updatePropertyFilter(containerId, filteringProperty, parsed, operator)
-      );
-    } else
-      dispatcher(
-        updatePropertyFilter(containerId, filteringProperty, value, operator)
-      );
+      updateFilter(parsed, operator);
+    } else updateFilter(value, operator);
   };
-
-  const filterValue = useMemo(
-    () => (propFilterValue !== undefined ? propFilterValue : ""),
-    [propFilterValue]
-  );
 
   const updateOperator = (op: string) => {
     if (op !== operator) {
@@ -174,7 +174,7 @@ const NumericFilter: React.FC<IProps> = ({
               filteringProperty={filteringProperty}
               displayName={displayName ?? filteringProperty}
               reduxValue={filterValue}
-              onChange={setPropertyFilter}
+              onChange={updateTargetFilter}
               type="number"
               placeholder={placeholder ?? displayName}
             />

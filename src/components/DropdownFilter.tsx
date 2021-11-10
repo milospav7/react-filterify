@@ -1,16 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useMemo } from "react";
-import { useDispatch } from "react-redux";
 import Select from "react-select";
 import { Option } from "react-select/src/filters";
-import {
-  updateNavigationPropertyFilter,
-  updatePropertyFilter,
-} from "../store/actionCreators";
 import { BaseFilterProps } from "../store/interfaces";
 import { FilterOption } from "../store/types";
 import FilterDecorator from "./FilterDecorator";
-import { useFilterifyFilter } from "./hooks";
+import { useContainerFilterActions, useContainerFilterState } from "./hooks";
 
 interface IProps extends BaseFilterProps {
   options: Array<Option | FilterOption>;
@@ -33,37 +28,18 @@ const DropdownFilter: React.FC<IProps> = ({
   labelClassName,
   label,
 }) => {
-  const { propertyFilters, navigationPropertyFilters } =
-    useFilterifyFilter(containerId);
-  const dispatcher = useDispatch();
-
-  const updateFilter = useCallback(
-    (option: Option) => {
-      if (navigationProperty) {
-        dispatcher(
-          updateNavigationPropertyFilter(
-            containerId,
-            navigationProperty,
-            filteringProperty,
-            option
-          )
-        );
-      } else
-        dispatcher(
-          updatePropertyFilter(containerId, filteringProperty, option)
-        );
-    },
-    [dispatcher]
+  const { updateFilter } = useContainerFilterActions(
+    containerId,
+    filteringProperty,
+    navigationProperty
+  );
+  const { filterValue } = useContainerFilterState(
+    containerId,
+    filteringProperty,
+    navigationProperty
   );
 
-  const filterValue = useMemo(() => {
-    if (navigationProperty)
-      return navigationPropertyFilters[filteringProperty]?.value ?? null;
-    return propertyFilters[filteringProperty]?.value ?? null;
-  }, [
-    navigationPropertyFilters[filteringProperty]?.value,
-    propertyFilters[filteringProperty]?.value,
-  ]);
+  const updateTargetFilter = useCallback((value) => updateFilter(value), []);
 
   const memoizedFilter = useMemo(
     () => (
@@ -79,7 +55,7 @@ const DropdownFilter: React.FC<IProps> = ({
           options={options}
           value={filterValue}
           isMulti={isMulti}
-          onChange={updateFilter}
+          onChange={updateTargetFilter}
           isClearable={isClearable}
           isLoading={isLoading}
         />
