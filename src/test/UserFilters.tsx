@@ -17,8 +17,22 @@ const UserFilters: React.FC<IProps> = ({
   wrapperClassName = "",
 }) => (
   <div className={wrapperClassName}>
-    <ClearButton containerId="F1" />
-    <div className="mb-2 mt-3">
+    <div className="mb-2">
+      <Label
+        for="Book"
+        className="pb-0 text-dark font-weight-bold d-block text-left"
+        size="sm"
+      >
+        User name
+      </Label>
+      <TextFilter
+        key="usn"
+        filteringProperty="UserName"
+        displayName="User name"
+        containerId={containerId}
+      />
+    </div>
+    <div className="mb-2">
       <Label
         for="Book"
         className="pb-0 text-dark font-weight-bold d-block text-left"
@@ -108,7 +122,6 @@ const UserFilters: React.FC<IProps> = ({
         isClearable
       />
     </div>
-
     <div className="mb-4">
       <Label
         className="pb-0 text-dark font-weight-bold d-block text-left"
@@ -123,6 +136,7 @@ const UserFilters: React.FC<IProps> = ({
         displayName="Registered by"
       />
     </div>
+    <ClearButton containerId="F1" />
   </div>
 );
 

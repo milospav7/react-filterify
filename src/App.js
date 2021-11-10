@@ -7,15 +7,21 @@ import { FilterHelperMethods } from "./store/containerReducer";
 
 function App() {
   const filter = useFilterifyFilter("F1");
+  const queryString = FilterHelperMethods.generateODataFilterString(filter);
   return (
     <div className="App">
       <div className="d-flex flex-row p-5">
         <div className="col-4">
+          <h5 className="text-muted">USER FILTERS</h5>
           <UserFilters containerId="F1" />
         </div>
         <div className="p-3">
+        <h5 className="text-muted mb-4">FILTERS IN-MEMORY STATE</h5>
+          <p className="mb-2 border border-secondary rounded text-left p-2">
+            Generated query string:{" "}
+            <span className="font-weight-bold">{queryString}</span>{" "}
+          </p>
           <ReactJson src={filter} style={{ textAlign: "left" }} />
-          {console.log(FilterHelperMethods.generateODataFilterString(filter))}
         </div>
       </div>
     </div>

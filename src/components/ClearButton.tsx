@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
+import { Button } from "reactstrap";
 import { resetAllFilters } from "../store/actionCreators";
 import { useFilterCounter } from "./hooks";
 
@@ -20,20 +21,14 @@ const ClearButton: React.FC<IClearButtonProps> = ({
   }, [dispatcher, containerId, subscribedToTreeView]);
 
   return (
-    <button
-      type="button"
-      className="cursor-pointer btn btn-link btn-sm"
-      style={{
-        position: "absolute",
-        top: "0",
-        right: "0",
-        zIndex: 101,
-      }}
+    <Button
+      size="sm"
+      className="cursor-pointer btn btn-danger btn-sm"
       disabled={filtersCounter === 0}
       onClick={resetFilters}
     >
       Clear all
-    </button>
+    </Button>
   );
 };
 
