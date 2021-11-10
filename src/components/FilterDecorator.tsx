@@ -26,7 +26,7 @@ const FilterDecorator: React.FC<IProps> = ({
           {children}
         </div>
       );
-    return <>{children}</>;
+    return <div className={className}>{children}</div>;
   }, [children, className, displayLabel, label, labelClassName]);
 
   return memoizedFilter;
