@@ -27,6 +27,8 @@ import {
   updatePropertyFilter,
 } from "../store/actionCreators";
 import { DebouncedInputField } from "./DebouncedInputField";
+import { BaseFilterProps } from "../store/interfaces";
+import FilterDecorator from "./FilterDecorator";
 
 const operatorsMap: ValueTypedObject<string> = {
   contains: "contains",
@@ -47,11 +49,9 @@ const faIcons: ValueTypedObject<any> = {
   endswith: faAsterisk,
 };
 
-interface ITextFilterProps {
+interface ITextFilterProps extends BaseFilterProps {
   containerId: string;
-  filteringProperty: string;
   displayName?: string;
-  navigationProperty?: string;
 }
 
 const TextFilter: React.FC<ITextFilterProps> = ({
@@ -59,6 +59,10 @@ const TextFilter: React.FC<ITextFilterProps> = ({
   filteringProperty,
   displayName,
   navigationProperty,
+  className,
+  withAssociatedLabel,
+  labelClassName,
+  label,
 }) => {
   const { propertyFilters, navigationPropertyFilters } =
     useFilterifyFilter(containerId);
@@ -69,7 +73,8 @@ const TextFilter: React.FC<ITextFilterProps> = ({
     if (navigationProperty) {
       const supportedOperators = Object.keys(operatorsMap);
       const generatedExpression =
-        navigationPropertyFilters[filteringProperty]?.generatedExpression ?? null;
+        navigationPropertyFilters[filteringProperty]?.generatedExpression ??
+        null;
 
       if (generatedExpression)
         supportedOperators.forEach((k) => {
@@ -163,84 +168,91 @@ const TextFilter: React.FC<ITextFilterProps> = ({
 
   const memoizedFilter = useMemo(
     () => (
-      <div>
-        <InputGroup size="sm">
-          <InputGroupAddon addonType="prepend">
-            <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
-              <DropdownToggle className="p-0 m-0 rounded-left text-muted z-index-auto">
+      <FilterDecorator
+        displayLabel={withAssociatedLabel}
+        className={className}
+        labelClassName={labelClassName}
+        label={label}
+      >
+        <div>
+          <InputGroup size="sm">
+            <InputGroupAddon addonType="prepend">
+              <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
+                <DropdownToggle className="p-0 m-0 rounded-left text-muted z-index-auto">
+                  <FontAwesomeIcon
+                    icon={faCaretDown}
+                    className="mx-1 text-light"
+                  />
+                </DropdownToggle>
+                <DropdownMenu>
+                  <DropdownItem
+                    active={operatorSelected(operatorsMap.contains)}
+                    onClick={() => updateOperator(operatorsMap.contains)}
+                  >
+                    Contains
+                  </DropdownItem>
+                  <DropdownItem
+                    active={operatorSelected(operatorsMap.doesnotcontain)}
+                    onClick={() => updateOperator(operatorsMap.doesnotcontain)}
+                  >
+                    Does not contain
+                  </DropdownItem>
+                  <DropdownItem
+                    active={operatorSelected(operatorsMap.startswith)}
+                    onClick={() => updateOperator(operatorsMap.startswith)}
+                  >
+                    Starts with
+                  </DropdownItem>
+                  <DropdownItem
+                    active={operatorSelected(operatorsMap.endswith)}
+                    onClick={() => updateOperator(operatorsMap.endswith)}
+                  >
+                    Ends with
+                  </DropdownItem>
+                  <DropdownItem
+                    active={operatorSelected(operatorsMap.eq)}
+                    onClick={() => updateOperator(operatorsMap.eq)}
+                  >
+                    Equal
+                  </DropdownItem>
+                  <DropdownItem
+                    active={operatorSelected(operatorsMap.ne)}
+                    onClick={() => updateOperator(operatorsMap.ne)}
+                  >
+                    Not equal
+                  </DropdownItem>
+                </DropdownMenu>
+              </ButtonDropdown>
+            </InputGroupAddon>
+            <InputGroupAddon addonType="prepend">
+              <InputGroupText className="text-muted">
+                {operator === operatorsMap.endswith && (
+                  <span style={{ lineHeight: "1" }} className="mr-1">
+                    ....
+                  </span>
+                )}
                 <FontAwesomeIcon
-                  icon={faCaretDown}
-                  className="mx-1 text-light"
+                  icon={faIcons[operator]}
+                  style={{ fontSize: ".9em" }}
                 />
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem
-                  active={operatorSelected(operatorsMap.contains)}
-                  onClick={() => updateOperator(operatorsMap.contains)}
-                >
-                  Contains
-                </DropdownItem>
-                <DropdownItem
-                  active={operatorSelected(operatorsMap.doesnotcontain)}
-                  onClick={() => updateOperator(operatorsMap.doesnotcontain)}
-                >
-                  Does not contain
-                </DropdownItem>
-                <DropdownItem
-                  active={operatorSelected(operatorsMap.startswith)}
-                  onClick={() => updateOperator(operatorsMap.startswith)}
-                >
-                  Starts with
-                </DropdownItem>
-                <DropdownItem
-                  active={operatorSelected(operatorsMap.endswith)}
-                  onClick={() => updateOperator(operatorsMap.endswith)}
-                >
-                  Ends with
-                </DropdownItem>
-                <DropdownItem
-                  active={operatorSelected(operatorsMap.eq)}
-                  onClick={() => updateOperator(operatorsMap.eq)}
-                >
-                  Equal
-                </DropdownItem>
-                <DropdownItem
-                  active={operatorSelected(operatorsMap.ne)}
-                  onClick={() => updateOperator(operatorsMap.ne)}
-                >
-                  Not equal
-                </DropdownItem>
-              </DropdownMenu>
-            </ButtonDropdown>
-          </InputGroupAddon>
-          <InputGroupAddon addonType="prepend">
-            <InputGroupText className="text-muted">
-              {operator === operatorsMap.endswith && (
-                <span style={{ lineHeight: "1" }} className="mr-1">
-                  ....
-                </span>
-              )}
-              <FontAwesomeIcon
-                icon={faIcons[operator]}
-                style={{ fontSize: ".9em" }}
-              />
-              {operator === operatorsMap.startswith && (
-                <span style={{ lineHeight: "1" }} className="ml-1">
-                  ....
-                </span>
-              )}
-            </InputGroupText>
-          </InputGroupAddon>
-          <DebouncedInputField
-            inputReference={inputRef}
-            filteringProperty={filteringProperty}
-            displayName={displayName || filteringProperty}
-            reduxValue={filterValue}
-            onChange={setPropertyFilter}
-            placeholder={displayName || filteringProperty}
-          />
-        </InputGroup>
-      </div>
+                {operator === operatorsMap.startswith && (
+                  <span style={{ lineHeight: "1" }} className="ml-1">
+                    ....
+                  </span>
+                )}
+              </InputGroupText>
+            </InputGroupAddon>
+            <DebouncedInputField
+              inputReference={inputRef}
+              filteringProperty={filteringProperty}
+              displayName={displayName || filteringProperty}
+              reduxValue={filterValue}
+              onChange={setPropertyFilter}
+              placeholder={displayName || filteringProperty}
+            />
+          </InputGroup>
+        </div>
+      </FilterDecorator>
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [filterValue, dropdownOpen]

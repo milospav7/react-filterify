@@ -7,18 +7,16 @@ import {
   updateNavigationPropertyFilter,
   updatePropertyFilter,
 } from "../store/actionCreators";
+import { BaseFilterProps } from "../store/interfaces";
 import { FilterOption } from "../store/types";
+import FilterDecorator from "./FilterDecorator";
 import { useFilterifyFilter } from "./hooks";
 
-interface IProps {
-  containerId: string;
-  filteringProperty: string;
+interface IProps extends BaseFilterProps {
   options: Array<Option | FilterOption>;
-  navigationProperty?: string; // TODO: Support for complex type in order to support more than one level navigation props filtering
   isLoading?: boolean;
   isClearable?: boolean;
   isMulti?: boolean;
-  size?: string;
 }
 
 const DropdownFilter: React.FC<IProps> = ({
@@ -30,6 +28,10 @@ const DropdownFilter: React.FC<IProps> = ({
   size,
   isLoading,
   isClearable,
+  className,
+  withAssociatedLabel,
+  labelClassName,
+  label,
 }) => {
   const { propertyFilters, navigationPropertyFilters } =
     useFilterifyFilter(containerId);
@@ -66,16 +68,23 @@ const DropdownFilter: React.FC<IProps> = ({
 
   const memoizedFilter = useMemo(
     () => (
-      <Select
-        key={`${filteringProperty}-ddf`}
-        size={size}
-        options={options}
-        value={filterValue}
-        isMulti={isMulti}
-        onChange={updateFilter}
-        isClearable={isClearable}
-        isLoading={isLoading}
-      />
+      <FilterDecorator
+        displayLabel={withAssociatedLabel}
+        className={className}
+        labelClassName={labelClassName}
+        label={label}
+      >
+        <Select
+          key={`${filteringProperty}-ddf`}
+          size={size}
+          options={options}
+          value={filterValue}
+          isMulti={isMulti}
+          onChange={updateFilter}
+          isClearable={isClearable}
+          isLoading={isLoading}
+        />
+      </FilterDecorator>
     ),
     [filterValue, isLoading, options]
   );

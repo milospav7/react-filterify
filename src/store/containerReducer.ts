@@ -14,7 +14,6 @@ import {
   isBoolean,
   removeKey,
   concatFilterQuerySubstrings,
-  includeFilterSubstring,
 } from "./helpers";
 import { ContainerType } from "./types";
 

@@ -25,6 +25,8 @@ import { ValueTypedObject } from "../store/types";
 import { useFilterifyFilter } from "./hooks";
 import { updatePropertyFilter } from "../store/actionCreators";
 import { DebouncedInputField } from "./DebouncedInputField";
+import { BaseFilterProps } from "../store/interfaces";
+import FilterDecorator from "./FilterDecorator";
 
 const operatorsMap: ValueTypedObject<string> = {
   eq: "eq",
@@ -44,9 +46,7 @@ const faIcons: ValueTypedObject<any> = {
   le: faLessThanEqual,
 };
 
-interface IProps {
-  containerId: string;
-  filteringProperty: string;
+interface IProps extends BaseFilterProps {
   displayName?: string;
   placeholder?: string;
   useDecimal?: boolean;
@@ -58,11 +58,16 @@ const NumericFilter: React.FC<IProps> = ({
   displayName,
   useDecimal,
   placeholder,
+  className,
+  withAssociatedLabel,
+  labelClassName,
+  label,
 }) => {
   const { propertyFilters } = useFilterifyFilter(containerId);
   const propFilterValue = propertyFilters[filteringProperty]?.value;
   const [dropdownOpen, setOpen] = useState(false);
-  const operator = propertyFilters[filteringProperty]?.operator ?? operatorsMap.eq;
+  const operator =
+    propertyFilters[filteringProperty]?.operator ?? operatorsMap.eq;
 
   const dispatcher = useDispatch();
   const inputRef = useRef<Input>(null);
@@ -90,7 +95,9 @@ const NumericFilter: React.FC<IProps> = ({
     if (op !== operator) {
       const val = inputRef.current?.props.value?.toString() ?? "";
       const parsed = useDecimal ? parseFloat(val) : parseInt(val, 10);
-      dispatcher(updatePropertyFilter(containerId, filteringProperty, parsed, op));
+      dispatcher(
+        updatePropertyFilter(containerId, filteringProperty, parsed, op)
+      );
     }
   };
 
@@ -98,75 +105,82 @@ const NumericFilter: React.FC<IProps> = ({
 
   const memoizedFilter = useMemo(
     () => (
-      <div>
-        <InputGroup size="sm">
-          <InputGroupAddon addonType="prepend">
-            <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
-              <DropdownToggle className="p-0 m-0 rounded-left text-muted z-index-auto">
+      <FilterDecorator
+        displayLabel={withAssociatedLabel}
+        className={className}
+        labelClassName={labelClassName}
+        label={label}
+      >
+        <div>
+          <InputGroup size="sm">
+            <InputGroupAddon addonType="prepend">
+              <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
+                <DropdownToggle className="p-0 m-0 rounded-left text-muted z-index-auto">
+                  <FontAwesomeIcon
+                    icon={faCaretDown}
+                    className="mx-1 text-light"
+                  />
+                </DropdownToggle>
+                <DropdownMenu>
+                  <DropdownItem
+                    active={operatorSelected(operatorsMap.eq)}
+                    onClick={() => updateOperator(operatorsMap.eq)}
+                  >
+                    Equal
+                  </DropdownItem>
+                  <DropdownItem
+                    active={operatorSelected(operatorsMap.ne)}
+                    onClick={() => updateOperator(operatorsMap.ne)}
+                  >
+                    Not equal
+                  </DropdownItem>
+                  <DropdownItem
+                    active={operatorSelected(operatorsMap.gt)}
+                    onClick={() => updateOperator(operatorsMap.gt)}
+                  >
+                    Greater than
+                  </DropdownItem>
+                  <DropdownItem
+                    active={operatorSelected(operatorsMap.ge)}
+                    onClick={() => updateOperator(operatorsMap.ge)}
+                  >
+                    Greater than or equal
+                  </DropdownItem>
+                  <DropdownItem
+                    active={operatorSelected(operatorsMap.lt)}
+                    onClick={() => updateOperator(operatorsMap.lt)}
+                  >
+                    Less than
+                  </DropdownItem>
+                  <DropdownItem
+                    active={operatorSelected(operatorsMap.le)}
+                    onClick={() => updateOperator(operatorsMap.le)}
+                  >
+                    Less than or equal
+                  </DropdownItem>
+                </DropdownMenu>
+              </ButtonDropdown>
+            </InputGroupAddon>
+            <InputGroupAddon addonType="prepend">
+              <InputGroupText>
                 <FontAwesomeIcon
-                  icon={faCaretDown}
-                  className="mx-1 text-light"
+                  icon={faIcons[operator]}
+                  style={{ fontSize: ".9em" }}
                 />
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem
-                  active={operatorSelected(operatorsMap.eq)}
-                  onClick={() => updateOperator(operatorsMap.eq)}
-                >
-                  Equal
-                </DropdownItem>
-                <DropdownItem
-                  active={operatorSelected(operatorsMap.ne)}
-                  onClick={() => updateOperator(operatorsMap.ne)}
-                >
-                  Not equal
-                </DropdownItem>
-                <DropdownItem
-                  active={operatorSelected(operatorsMap.gt)}
-                  onClick={() => updateOperator(operatorsMap.gt)}
-                >
-                  Greater than
-                </DropdownItem>
-                <DropdownItem
-                  active={operatorSelected(operatorsMap.ge)}
-                  onClick={() => updateOperator(operatorsMap.ge)}
-                >
-                  Greater than or equal
-                </DropdownItem>
-                <DropdownItem
-                  active={operatorSelected(operatorsMap.lt)}
-                  onClick={() => updateOperator(operatorsMap.lt)}
-                >
-                  Less than
-                </DropdownItem>
-                <DropdownItem
-                  active={operatorSelected(operatorsMap.le)}
-                  onClick={() => updateOperator(operatorsMap.le)}
-                >
-                  Less than or equal
-                </DropdownItem>
-              </DropdownMenu>
-            </ButtonDropdown>
-          </InputGroupAddon>
-          <InputGroupAddon addonType="prepend">
-            <InputGroupText>
-              <FontAwesomeIcon
-                icon={faIcons[operator]}
-                style={{ fontSize: ".9em" }}
-              />
-            </InputGroupText>
-          </InputGroupAddon>
-          <DebouncedInputField
-            inputReference={inputRef}
-            filteringProperty={filteringProperty}
-            displayName={displayName ?? filteringProperty}
-            reduxValue={filterValue}
-            onChange={setPropertyFilter}
-            type="number"
-            placeholder={placeholder ?? displayName}
-          />
-        </InputGroup>
-      </div>
+              </InputGroupText>
+            </InputGroupAddon>
+            <DebouncedInputField
+              inputReference={inputRef}
+              filteringProperty={filteringProperty}
+              displayName={displayName ?? filteringProperty}
+              reduxValue={filterValue}
+              onChange={setPropertyFilter}
+              type="number"
+              placeholder={placeholder ?? displayName}
+            />
+          </InputGroup>
+        </div>
+      </FilterDecorator>
     ),
     [filterValue, dropdownOpen]
   );

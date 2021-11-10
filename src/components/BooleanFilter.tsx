@@ -7,6 +7,8 @@ import {
   updateNavigationPropertyFilter,
   updatePropertyFilter,
 } from "../store/actionCreators";
+import { BaseFilterProps } from "../store/interfaces";
+import FilterDecorator from "./FilterDecorator";
 import { useFilterifyFilter } from "./hooks";
 
 const options = [
@@ -14,14 +16,10 @@ const options = [
   { value: false, label: "No" },
 ];
 
-interface IProps {
-  containerId: string;
-  filteringProperty: string;
-  navigationProperty?: string;
+interface IProps extends BaseFilterProps {
   isLoading?: boolean;
   isClearable?: boolean;
   isMulti?: boolean;
-  size?: string;
 }
 
 const BooleanFilter: React.FC<IProps> = ({
@@ -32,6 +30,10 @@ const BooleanFilter: React.FC<IProps> = ({
   size,
   isLoading,
   isClearable,
+  className,
+  withAssociatedLabel,
+  labelClassName,
+  label,
 }) => {
   const { propertyFilters, navigationPropertyFilters } =
     useFilterifyFilter(containerId);
@@ -68,16 +70,23 @@ const BooleanFilter: React.FC<IProps> = ({
 
   const memoizedFilter = useMemo(
     () => (
-      <Select
-        key={`${filteringProperty}-blf`}
-        size={size}
-        options={options}
-        value={filterValue}
-        isMulti={isMulti}
-        onChange={updateFilter}
-        isClearable={isClearable}
-        isLoading={isLoading}
-      />
+      <FilterDecorator
+        displayLabel={withAssociatedLabel}
+        className={className}
+        labelClassName={labelClassName}
+        label={label}
+      >
+        <Select
+          key={`${filteringProperty}-blf`}
+          size={size}
+          options={options}
+          value={filterValue}
+          isMulti={isMulti}
+          onChange={updateFilter}
+          isClearable={isClearable}
+          isLoading={isLoading}
+        />
+      </FilterDecorator>
     ),
     [filterValue, isLoading, options]
   );
