@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  resetAllFilters,
   updateNavigationPropertyFilter,
   updatePropertyFilter,
 } from "../store/actionCreators";
@@ -26,28 +27,18 @@ export const useContainerState = (containerId: string) => ({
   ),
 });
 
-export const useFilterCounter = (containerId: string) => {
+export const useActiveFiltersCounter = (containerId: string) => {
   let counter = 0;
 
-  const propertyFilters = useSelector(
-    (state: any) => state.filterifyFilters[containerId].propertyFilters ?? {}
-  );
-  const navigationPropertyFilters = useSelector(
-    (state: any) =>
-      state.filterifyFilters[containerId].navigationPropertyFilters ?? {}
-  );
-  const functionFilters = useSelector(
-    (state: any) => state.filterifyFilters[containerId].functionFilters ?? []
-  );
+  const { propertyFilters, navigationPropertyFilters, functionFilters } =
+    useContainerState(containerId);
 
-  if (containerId) {
-    counter += Object.keys(propertyFilters).length;
+  if (propertyFilters) counter += Object.keys(propertyFilters).length;
+  if (navigationPropertyFilters)
     counter += Object.keys(navigationPropertyFilters).length;
-    counter += functionFilters.length;
+  if (functionFilters) counter += functionFilters.length;
 
-    return counter;
-  }
-  return null;
+  return counter;
 };
 
 export const useContainerSubscription = (
@@ -81,7 +72,7 @@ export const useContainerSubscription = (
   }, [dateTimeFilterUpdated]);
 };
 
-export const useContainerActions = (
+export const useFilterActions = (
   containerId: string,
   filteringProperty: string,
   navigationProperty?: string
@@ -121,7 +112,17 @@ export const useContainerActions = (
   return { updateFilter };
 };
 
-export const useSingleFilterState = (
+export const useContainerActions = (containerId: string) => {
+  const dispatcher = useDispatch();
+
+  const removeAllFilters = useCallback(() => {
+    dispatcher(resetAllFilters(containerId));
+  }, [dispatcher, containerId]);
+
+  return { removeAllFilters };
+};
+
+export const useFilterState = (
   containerId: string,
   filteringProperty: string,
   navigationProperty?: string

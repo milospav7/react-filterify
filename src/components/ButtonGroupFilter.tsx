@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { Button, ButtonGroup } from "reactstrap";
 import { BaseFilterProps } from "../store/interfaces";
 import FilterDecorator from "./FilterDecorator";
-import { useContainerActions, useSingleFilterState } from "./hooks";
+import { useFilterActions, useFilterState } from "./hooks";
 
 interface IProps extends BaseFilterProps {
   options: Array<any>;
@@ -27,12 +27,12 @@ const ButtonGroupFilter: React.FC<IProps> = ({
 }) => {
   const dispatcher = useDispatch();
 
-  const { updateFilter } = useContainerActions(
+  const { updateFilter } = useFilterActions(
     containerId,
     filteringProperty,
     navigationProperty
   );
-  const { filterValue, filterOperator } = useSingleFilterState(
+  const { filterValue, filterOperator } = useFilterState(
     containerId,
     filteringProperty,
     navigationProperty

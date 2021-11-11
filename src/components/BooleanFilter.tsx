@@ -3,7 +3,7 @@ import React, { useCallback, useMemo } from "react";
 import Select from "react-select";
 import { BaseFilterProps } from "../store/interfaces";
 import FilterDecorator from "./FilterDecorator";
-import { useContainerActions, useSingleFilterState } from "./hooks";
+import { useFilterActions, useFilterState } from "./hooks";
 
 const options = [
   { value: true, label: "Yes" },
@@ -30,12 +30,12 @@ const BooleanFilter: React.FC<IProps> = ({
   label,
   style,
 }) => {
-  const { updateFilter } = useContainerActions(
+  const { updateFilter } = useFilterActions(
     containerId,
     filteringProperty,
     navigationProperty
   );
-  const { filterValue } = useSingleFilterState(
+  const { filterValue } = useFilterState(
     containerId,
     filteringProperty,
     navigationProperty

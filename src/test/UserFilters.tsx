@@ -1,7 +1,7 @@
 import React from "react";
 import BooleanFilter from "../components/BooleanFilter";
 import ButtonGroupFilter from "../components/ButtonGroupFilter";
-import ClearButton from "../components/ClearButton";
+import ResetFiltersButton from "../components/ResetFiltersButton";
 import DateTimeFilter from "../components/DateTimeFilter";
 import DropdownFilter from "../components/DropdownFilter";
 import NumericFilter from "../components/NumericFilter";
@@ -107,7 +107,7 @@ const UserFilters: React.FC<IProps> = ({
       options={["Šumadija", "Banat", "Srem"]}
       className="text-left mb-3"
     />
-    <ClearButton containerId="F1" />
+    <ResetFiltersButton containerId="F1" />
   </div>
 );
 

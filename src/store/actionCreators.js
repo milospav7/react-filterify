@@ -10,7 +10,7 @@ import {
 
 /**
  * Updates propertyFilters map inside filter instance
- * @param {*} id redux filter Id - must be initialized inside gridFilters.js reducer
+ * @param {*} id redux filter Id - must be initialized inside configured reducer
  * @param {*} filteringProperty name of the property/field used for filtering. If contains ';' char then it will be processed as multi filter - filtering more than one field with one common filter(value). Example: 'Width;Height'
  * @param {*} filteringValue value used for filtering - both number/string and array of number/string are supported
  * @param {*} operator operator used for field filtering - contains, eq, neq etc..
@@ -35,17 +35,16 @@ export const updatePropertyFilter = (
 
 /**
  * Resets all in filter instance, reverts to initial state
- * @param {*} id redux filter Id - must be initialized inside gridFilters.js reducer
+ * @param {*} id redux filter Id - must be initialized inside configured reducer
  */
-export const resetAllFilters = (id, keepTreeViewFilter = false) => ({
+export const resetAllFilters = (id) => ({
   type: RESET_ALL_FILTERS,
   id,
-  keepTreeViewFilter,
 });
 
 /**
  * Resets all in filter instance, reverts to initial state
- * @param {*} id redux filter Id - must be initialized inside gridFilters.js reducer
+ * @param {*} id redux filter Id - must be initialized inside configured reducer
  * @param {*} filteringProperties collections of filter names that should be reseted
  */
 export const resetPropertyFiltersByNames = (id, filteringProperties) => ({
@@ -56,7 +55,7 @@ export const resetPropertyFiltersByNames = (id, filteringProperties) => ({
 
 /**
  *	Updates navigationPropetyFilters map inside filter instance
- * @param {*} id redux filter Id - must be initialized inside gridFilters.js reducer
+ * @param {*} id redux filter Id - must be initialized inside configured reducer
  * @param {*} navigationProperty name of collection based property that we want to filter with lambda expression
  * @param {*} filteringProperty name of the property/field of navigation entity, used for filtering inside lambda expression
  * @param {*} filteringValue value used for filtering - both number/string and array of number/string are supported
@@ -85,7 +84,7 @@ export const updateNavigationPropertyFilter = (
 
 /**
  * Updates functionFilters array inside filter instance
- * @param {*} id redux filter Id - must be initialized inside gridFilters.js reducer
+ * @param {*} id redux filter Id - must be initialized inside configured reducer
  * @param {*} filteringProperty unique identifier of function filter string. Should be field name
  * @param {*} filterQueryString function filter that needs to be included in query string - non standard functions
  * @param {*} values this can be used as a container for values that are provided inside function query string, as a separete object for putting raw values only. Format/structure is not strict, and should be constrained only by the way of retreiving these values back in caller component - for example when we need to read these values on component mount we can use this object from redux(because we can't read them from raw query string)

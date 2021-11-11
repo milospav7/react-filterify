@@ -25,7 +25,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import RenderIf from "./RenderIf";
-import { useContainerActions, useSingleFilterState } from "./hooks";
+import { useFilterActions, useFilterState } from "./hooks";
 import { BaseFilterProps } from "../store/interfaces";
 import { ValueTypedObject } from "../store/types";
 import FilterDecorator from "./FilterDecorator";
@@ -71,12 +71,12 @@ const DateTimeFilter: React.FC<IProps> = ({
   label,
   style,
 }) => {
-  const { updateFilter } = useContainerActions(
+  const { updateFilter } = useFilterActions(
     containerId,
     filteringProperty,
     navigationProperty
   );
-  const { filterValue, filterOperator } = useSingleFilterState(
+  const { filterValue, filterOperator } = useFilterState(
     containerId,
     filteringProperty,
     navigationProperty

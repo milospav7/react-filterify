@@ -1,4 +1,5 @@
 import { CSSProperties } from "react";
+
 interface BaseFilterProps {
   containerId: string;
   filteringProperty: string;
