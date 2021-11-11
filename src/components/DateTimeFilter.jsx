@@ -19,7 +19,7 @@ import {
   faCalendarAlt,
   faClock,
 } from "@fortawesome/free-solid-svg-icons";
-import { useFilterifyFilter } from "../outageManagement/IntentionalOutage/shared/custom_hooks";
+import { useContainerState } from "../outageManagement/IntentionalOutage/shared/custom_hooks";
 import { updatePropertyFilter } from "./store/sharedActions";
 import { translate } from "../../i18n";
 import {
@@ -59,7 +59,7 @@ const DateTimeFilterWithOperators = ({
   hideDateTimeSwitch = false,
   placeholder = "",
 }) => {
-  const { propertyFilters } = useFilterifyFilter(containerId);
+  const { propertyFilters } = useContainerState(containerId);
   const [dropdownOpen, setOpen] = useState(false);
   const [operator, setOperator] = useState(
     propertyFilters[filteringProperty].operator ?? operatorsMap.eq

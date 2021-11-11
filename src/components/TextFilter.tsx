@@ -23,7 +23,7 @@ import { ValueTypedObject } from "../store/types";
 import {
   useContainerActions,
   useSingleFilterState,
-  useFilterifyFilter,
+  useContainerState,
 } from "./hooks";
 import { DebouncedInputField } from "./DebouncedInputField";
 import { BaseFilterProps } from "../store/interfaces";
@@ -84,7 +84,7 @@ const TextFilter: React.FC<ITextFilterProps> = ({
   style,
 }) => {
   const { propertyFilters, navigationPropertyFilters } =
-    useFilterifyFilter(containerId);
+    useContainerState(containerId);
 
   const getInitialOperator = useCallback(() => {
     let defaultOperator = "contains";

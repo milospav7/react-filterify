@@ -4,7 +4,7 @@
 // import buildQuery from 'odata-query';
 // import { AxiosResponse } from 'axios';
 
-// import { useFilterifyFilter } from '../outageManagement/IntentionalOutage/shared/custom_hooks';
+// import { useContainerState } from '../outageManagement/IntentionalOutage/shared/custom_hooks';
 // import { IpsAsyncSelect } from './formControls';
 // import { updateNavigationPropertyFilter, updatePropertyFilter } from './store/sharedActions';
 // import toast from './toasts/toast';
@@ -47,7 +47,7 @@
 // 	optionComponent = null,
 // 	filterOutNullOrEmptyRecords = true,
 // }) => {
-// 	const { propertyFilters, navigationPropertyFilters } = useFilterifyFilter(containerId);
+// 	const { propertyFilters, navigationPropertyFilters } = useContainerState(containerId);
 // 	const [options, setOptions] = useState({
 // 		list: [],
 // 		nextLink: null,

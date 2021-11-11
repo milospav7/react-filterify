@@ -7,7 +7,7 @@ import {
 } from "../store/actionCreators";
 import { FilteringEventHandlersType, FilterOperatorType } from "../store/types";
 
-export const useFilterifyFilter = (containerId: string) => ({
+export const useContainerState = (containerId: string) => ({
   propertyFilters: useSelector(
     (state: any) => state.filterifyFilters[containerId]?.propertyFilters
   ),
@@ -65,7 +65,7 @@ export const useContainerSubscription = (
     navigationPropertyFilters,
     functionFilters,
     dateTimeUpdated: dateTimeFilterUpdated,
-  } = useFilterifyFilter(containerId);
+  } = useContainerState(containerId);
 
   useEffect(() => {
     if (raiseEventOnMount)
@@ -127,7 +127,7 @@ export const useSingleFilterState = (
   navigationProperty?: string
 ) => {
   const { propertyFilters, navigationPropertyFilters } =
-    useFilterifyFilter(containerId);
+    useContainerState(containerId);
   const filterOperator = propertyFilters[filteringProperty]?.operator;
 
   const filterValue = useMemo(() => {

@@ -1,12 +1,12 @@
 import ReactJson from "react-json-view";
 import "./App.css";
 import "./style/style.css";
-import { useFilterifyFilter } from "./components/hooks";
+import { useContainerState } from "./components/hooks";
 import UserFilters from "./test/UserFilters";
 import { FilterHelperMethods } from "./store/containerReducer";
 
 function App() {
-  const filter = useFilterifyFilter("F1");
+  const filter = useContainerState("F1");
   const queryString = FilterHelperMethods.generateODataFilterString(filter);
   return (
     <div className="App">
