@@ -4,7 +4,7 @@ Milos Pavlovic
 
 ## Purpose
 
-Extensive support for data filtering, with flexible structure for querying both oData APIs and RESTful APIs. Particularly powerful when working with oData services since its primary purpose is to simplify creation of dynamic oData filter query strings as end result.
+Extensive support for data filtering, with flexible structure for querying both oData APIs and RESTful APIs. Particularly powerful when working with oData services since its primary purpose is to simplify creation of dynamic oData filter query string as end result.
 
 On UI side it offers a wide choice of well-designed filter components with state management integrated with Redux. Hooks-based library with ceratin number of generic hooks exposed for filters subscription and state insight.
 
