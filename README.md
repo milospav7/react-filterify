@@ -4,7 +4,7 @@ Milos Pavlovic
 
 ## Purpose
 
-Extensive support for data filtering, with flexible structure for querying both oData APIs and RESTful APIs. Particularly powerful when working with oData services since its primary purpose is to simplify creation of dynamic oData filter query string as end result.
+Extensive support for data filtering, with flexible structure for querying both OData APIs and RESTful APIs. Particularly powerful when working with oData services since its primary purpose is to simplify creation of dynamic oData filter query string as end result.
 
 On UI side it offers a wide choice of well-designed filter components with state management integrated with Redux. Hooks-based library with ceratin number of powerful hooks exposed for filters container subscription, container state insight, computed filter query string based on latest container state etc..
 
@@ -21,7 +21,7 @@ React Filterify includes these APIs:
 - `configureFilterfyReducer()`: usage is required and provides simplified configuration for filter container instances that will be used across the application - container simply represents wrapper, registered by unique id, that will be used to maintain all filters related to itself. Configurator is simply a starting point of library usage,  required step to set reducer per container when creating application redux store - it connects containers to their dedicated memory space in store.
 - `useContainerSubscription()`: provide a way to subscribe to any container change, by exposing event which can be used in order to trigger desired action when any filter, inside filter container, changes - basically the way to connect filters with any application component intended to consume them.
 - `useContainerState()`: on-demand exposing of current container state.
-- `useGeneratedODataFilterQueryString`: interface useful when working with oData API. Dynamic generator of oData filter query string by using the current container state, and recomputing query string output each time container state change.
+- `useGeneratedODataFilterQueryString`: interface useful when working with OData API. Dynamic generator of oData filter query string by using the current container state, and recomputing query string output each time container state change.
 
 React Filterify includes these generic components:
 
@@ -39,5 +39,5 @@ All generic components have well structured API, with a set of common props rela
 - Extend documentation with real examples
 - Unit testing
 - Async dropdown filter to support searchable and dynamic dropdown options, not just static ones as supported with DropdownFilter component
-- Feature related with oData filtering: support for multi-level filter on navigation properties (so far it is supported only first level nav prop filtering, e.g. Books/any(b: b/Name eq 'Clean Code'), and it should be useful to support creation of something like Books/any(b: b/Publishers/any(p: p/Name eq 'Nora Library')) )
+- Feature related with OData filtering: support for multi-level filter on navigation properties (so far it is supported only first level nav prop filtering, e.g. Books/any(b: b/Name eq 'Clean Code'), and it should be useful to support creation of something like Books/any(b: b/Publishers/any(p: p/Name eq 'Nora Library')) )
 - Exposed generator for GraphQl query (using the latest state of container filters in memory)
