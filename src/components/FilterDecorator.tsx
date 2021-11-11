@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useMemo } from "react";
 import { Label } from "reactstrap";
+import RenderIf from "./RenderIf";
 
 interface IProps {
   children: ReactNode;
@@ -15,21 +16,22 @@ const FilterDecorator: React.FC<IProps> = ({
   className = "mb-2",
   label,
   labelClassName = "pb-0 text-dark font-weight-bold d-block text-left",
-  displayLabel,
+  displayLabel = false,
   style,
 }) => {
-  const memoizedFilter = useMemo(() => {
-    if (displayLabel)
-      return (
-        <>
+  const memoizedFilter = useMemo(
+    () => (
+      <>
+        <RenderIf condition={displayLabel}>
           <Label className={labelClassName} size="sm">
             {label}
           </Label>
-          {children}
-        </>
-      );
-    return <>{children}</>;
-  }, [children, displayLabel, label, labelClassName]);
+        </RenderIf>
+        {children}
+      </>
+    ),
+    [children, displayLabel, label, labelClassName]
+  );
 
   return (
     <div style={style} className={className}>
