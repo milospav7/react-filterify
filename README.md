@@ -16,7 +16,7 @@ Built around publisher-subscribe pattern where controller should orchestrate the
 
 React Filterify includes these APIs:
 
-- `configureFilterfyReducer()`: usage is required and provide simplified configuration for filter container instances that will be used accros the application - container simply represents wrapper, register by unique id, that will be used to maintain all filters related to itself.
+- `configureFilterfyReducer()`: usage is required and provide simplified configuration for filter container instances that will be used accros the application - container simply represents wrapper, registered by unique id, that will be used to maintain all filters related to itself.
 - `useFilterSubscription()`: provide a way to susbscribe to any container change, by exposing event which can be used in order to trigger desired action when any filter, inside filter container, changes - basically the way to connect filters with any application component intented to consume them.
 - `useFilterifyFilter()`: on demand exposing of current container state
 
