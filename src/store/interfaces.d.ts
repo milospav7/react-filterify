@@ -9,6 +9,7 @@ interface BaseFilterProps {
   labelClassName?: string;
   label?: string;
   style?: CSSProperties;
+  placeholder?: string;
 }
 
 export { BaseFilterProps };

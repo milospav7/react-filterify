@@ -2,6 +2,7 @@ import React from "react";
 import BooleanFilter from "../components/BooleanFilter";
 import ButtonGroupFilter from "../components/ButtonGroupFilter";
 import ClearButton from "../components/ClearButton";
+import DateTimeFilter from "../components/DateTimeFilter";
 import DropdownFilter from "../components/DropdownFilter";
 import NumericFilter from "../components/NumericFilter";
 import TextFilter from "../components/TextFilter";
@@ -91,11 +92,17 @@ const UserFilters: React.FC<IProps> = ({
       filteringProperty="RegisterdBy"
       displayName="Registered by"
     />
+    <DateTimeFilter
+      containerId={containerId}
+      withAssociatedLabel
+      label="Date of registration"
+      filteringProperty="DateTimeRegistered"
+    />
     <ButtonGroupFilter
+      containerId={containerId}
       withAssociatedLabel
       label="Region"
       isMulti
-      containerId={containerId}
       filteringProperty="Region"
       options={["Šumadija", "Banat", "Srem"]}
       className="text-left mb-3"

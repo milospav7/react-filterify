@@ -75,13 +75,13 @@ const generateCustomExpression = (
 const TextFilter: React.FC<ITextFilterProps> = ({
   containerId,
   filteringProperty,
-  displayName,
   navigationProperty,
   className,
   withAssociatedLabel,
   labelClassName,
   label,
   style,
+  placeholder,
 }) => {
   const { propertyFilters, navigationPropertyFilters } =
     useContainerState(containerId);
@@ -241,10 +241,10 @@ const TextFilter: React.FC<ITextFilterProps> = ({
             <DebouncedInputField
               inputReference={inputRef}
               filteringProperty={filteringProperty}
-              displayName={displayName || filteringProperty}
+              displayName={placeholder ?? label ?? filteringProperty}
               reduxValue={filterValue}
               onChange={setPropertyFilter}
-              placeholder={displayName || filteringProperty}
+              placeholder={placeholder ?? label ?? filteringProperty}
             />
           </InputGroup>
         </>
