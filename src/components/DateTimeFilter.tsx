@@ -25,10 +25,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import RenderIf from "./RenderIf";
-import {
-  useContainerActions,
-  useSingleFilterState,
-} from "./hooks";
+import { useContainerActions, useSingleFilterState } from "./hooks";
 import { BaseFilterProps } from "../store/interfaces";
 import { ValueTypedObject } from "../store/types";
 import FilterDecorator from "./FilterDecorator";
@@ -53,13 +50,12 @@ const faIcons: ValueTypedObject<any> = {
   le: faLessThanEqual,
 };
 
-// const dateFormat = dateFormatter.replace("DD", "dd").replace("YYYY", "yyyy");
-// const dateTimeFormat = dateTimeFormatter
-//   .replace("DD", "dd")
-//   .replace("YYYY", "yyyy");
+const dateFormat = "dd/MM/yyyy".replace("DD", "dd").replace("YYYY", "yyyy");
+const dateTimeFormat = "dd/MM/yyyy HH:mm"
+  .replace("DD", "dd")
+  .replace("YYYY", "yyyy");
 
 interface IProps extends BaseFilterProps {
-  containerId: string;
   hideDateTimeSwitch?: boolean;
 }
 
@@ -87,10 +83,17 @@ const DateTimeFilter: React.FC<IProps> = ({
   );
   const [dropdownOpen, setOpen] = useState(false);
   const [operator, setOperator] = useState(filterOperator ?? operatorsMap.eq);
-
   const [showTime, setShowTime] = useState(false);
   const inputRef = useRef<any>();
-  const toggle = useCallback(() => setOpen(!dropdownOpen), []);
+
+  const toggleOperatorDropdown = useCallback(
+    () => setOpen(!dropdownOpen),
+    [dropdownOpen]
+  );
+  const toggleTimeComponent = useCallback(
+    () => setShowTime(!showTime),
+    [showTime]
+  );
 
   const selectedDatetime = useMemo(() => {
     if (filterValue) return moment(filterValue).toDate();
@@ -99,7 +102,7 @@ const DateTimeFilter: React.FC<IProps> = ({
 
   const updateDatetimeFilter = useCallback(
     (date) => {
-      updateFilter(date, operator);
+      updateFilter(date, { operator });
     },
     [operator, updateFilter]
   );
@@ -108,9 +111,8 @@ const DateTimeFilter: React.FC<IProps> = ({
     (op) => {
       if (op !== operator) {
         const date = inputRef.current?.props.selected;
-        const queryDatetime = date ?? null;
         setOperator(op);
-        updateFilter(queryDatetime, op);
+        updateFilter(date, { operator: op });
       }
     },
     [operator, updateFilter]
@@ -132,7 +134,10 @@ const DateTimeFilter: React.FC<IProps> = ({
       >
         <InputGroup size="sm">
           <InputGroupAddon addonType="prepend">
-            <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
+            <ButtonDropdown
+              isOpen={dropdownOpen}
+              toggle={toggleOperatorDropdown}
+            >
               <DropdownToggle className="p-0 m-0 rounded-left text-muted z-index-auto">
                 <FontAwesomeIcon
                   icon={faCaretDown}
@@ -189,21 +194,21 @@ const DateTimeFilter: React.FC<IProps> = ({
           </InputGroupAddon>
           <DatePicker
             ref={inputRef}
-            key={`${filteringProperty}-f`}
+            key={`${filteringProperty}-dtmfltr`}
             showTimeSelect={showTime}
             className="form-control form-control-sm"
             wrapperClassName="width-auto col m-0 p-0 rounded-right"
-            // dateFormat={showTime ? dateTimeFormat : dateFormat}
+            dateFormat={showTime ? dateTimeFormat : dateFormat}
             selected={selectedDatetime}
             onChange={updateDatetimeFilter}
             isClearable
             placeholderText={placeholder ?? label ?? filteringProperty}
-            locale="en-gb"
+            // locale="en-gb"
           />
           <RenderIf condition={!hideDateTimeSwitch}>
             <InputGroupAddon addonType="append">
               <InputGroupText
-                onClick={() => setShowTime(!showTime)}
+                onClick={toggleTimeComponent}
                 className="cursor-pointer"
               >
                 <FontAwesomeIcon icon={faCalendarAlt} fixedWidth />
@@ -217,7 +222,7 @@ const DateTimeFilter: React.FC<IProps> = ({
       </FilterDecorator>
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [filterValue, dropdownOpen, showTime]
+    [filterValue, dropdownOpen, showTime, operator]
   );
 
   return memoizedFilter;
