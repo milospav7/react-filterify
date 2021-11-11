@@ -29,7 +29,7 @@ import { DebouncedInputField } from "./DebouncedInputField";
 import { BaseFilterProps } from "../store/interfaces";
 import FilterDecorator from "./FilterDecorator";
 
-const operatorsMap: ValueTypedObject<string> = {
+const operatorSymbols: ValueTypedObject<string> = {
   contains: "contains",
   doesnotcontain: "doesnotcontain",
   startswith: "startswith",
@@ -38,7 +38,7 @@ const operatorsMap: ValueTypedObject<string> = {
   ne: "ne",
 };
 
-const faIcons: ValueTypedObject<any> = {
+const faIconByOperator: ValueTypedObject<any> = {
   contains: faCommentDots,
   doesnotcontain: faCommentSlash,
   notlike: faCommentSlash,
@@ -90,7 +90,7 @@ const TextFilter: React.FC<ITextFilterProps> = ({
     let defaultOperator = "contains";
 
     if (navigationProperty) {
-      const supportedOperators = Object.keys(operatorsMap);
+      const supportedOperators = Object.keys(operatorSymbols);
       const generatedExpression =
         navigationPropertyFilters[filteringProperty]?.generatedExpression ??
         null;
@@ -106,7 +106,7 @@ const TextFilter: React.FC<ITextFilterProps> = ({
         null;
       if (propFOpr) defaultOperator = propFOpr;
     }
-    return operatorsMap[defaultOperator];
+    return operatorSymbols[defaultOperator];
   }, [
     filteringProperty,
     navigationProperty,
@@ -182,38 +182,38 @@ const TextFilter: React.FC<ITextFilterProps> = ({
                 </DropdownToggle>
                 <DropdownMenu>
                   <DropdownItem
-                    active={operatorSelected(operatorsMap.contains)}
-                    onClick={() => updateOperator(operatorsMap.contains)}
+                    active={operatorSelected(operatorSymbols.contains)}
+                    onClick={() => updateOperator(operatorSymbols.contains)}
                   >
                     Contains
                   </DropdownItem>
                   <DropdownItem
-                    active={operatorSelected(operatorsMap.doesnotcontain)}
-                    onClick={() => updateOperator(operatorsMap.doesnotcontain)}
+                    active={operatorSelected(operatorSymbols.doesnotcontain)}
+                    onClick={() => updateOperator(operatorSymbols.doesnotcontain)}
                   >
                     Does not contain
                   </DropdownItem>
                   <DropdownItem
-                    active={operatorSelected(operatorsMap.startswith)}
-                    onClick={() => updateOperator(operatorsMap.startswith)}
+                    active={operatorSelected(operatorSymbols.startswith)}
+                    onClick={() => updateOperator(operatorSymbols.startswith)}
                   >
                     Starts with
                   </DropdownItem>
                   <DropdownItem
-                    active={operatorSelected(operatorsMap.endswith)}
-                    onClick={() => updateOperator(operatorsMap.endswith)}
+                    active={operatorSelected(operatorSymbols.endswith)}
+                    onClick={() => updateOperator(operatorSymbols.endswith)}
                   >
                     Ends with
                   </DropdownItem>
                   <DropdownItem
-                    active={operatorSelected(operatorsMap.eq)}
-                    onClick={() => updateOperator(operatorsMap.eq)}
+                    active={operatorSelected(operatorSymbols.eq)}
+                    onClick={() => updateOperator(operatorSymbols.eq)}
                   >
                     Equal
                   </DropdownItem>
                   <DropdownItem
-                    active={operatorSelected(operatorsMap.ne)}
-                    onClick={() => updateOperator(operatorsMap.ne)}
+                    active={operatorSelected(operatorSymbols.ne)}
+                    onClick={() => updateOperator(operatorSymbols.ne)}
                   >
                     Not equal
                   </DropdownItem>
@@ -222,16 +222,16 @@ const TextFilter: React.FC<ITextFilterProps> = ({
             </InputGroupAddon>
             <InputGroupAddon addonType="prepend">
               <InputGroupText className="text-muted">
-                {operator === operatorsMap.endswith && (
+                {operator === operatorSymbols.endswith && (
                   <span style={{ lineHeight: "1" }} className="mr-1">
                     ....
                   </span>
                 )}
                 <FontAwesomeIcon
-                  icon={faIcons[operator]}
+                  icon={faIconByOperator[operator]}
                   style={{ fontSize: ".9em" }}
                 />
-                {operator === operatorsMap.startswith && (
+                {operator === operatorSymbols.startswith && (
                   <span style={{ lineHeight: "1" }} className="ml-1">
                     ....
                   </span>

@@ -32,7 +32,7 @@ import FilterDecorator from "./FilterDecorator";
 
 // registerLocale("en-gb", enGb);
 
-const operatorsMap: ValueTypedObject<string> = {
+const operatorSymbols: ValueTypedObject<string> = {
   eq: "eq",
   ne: "ne",
   gt: "gt",
@@ -41,7 +41,7 @@ const operatorsMap: ValueTypedObject<string> = {
   le: "le",
 };
 
-const faIcons: ValueTypedObject<any> = {
+const faIconByOperator: ValueTypedObject<any> = {
   eq: faEquals,
   ne: faNotEqual,
   gt: faGreaterThan,
@@ -82,7 +82,9 @@ const DateTimeFilter: React.FC<IProps> = ({
     navigationProperty
   );
   const [dropdownOpen, setOpen] = useState(false);
-  const [operator, setOperator] = useState(filterOperator ?? operatorsMap.eq);
+  const [operator, setOperator] = useState(
+    filterOperator ?? operatorSymbols.eq
+  );
   const [showTime, setShowTime] = useState(false);
   const inputRef = useRef<any>();
 
@@ -146,38 +148,38 @@ const DateTimeFilter: React.FC<IProps> = ({
               </DropdownToggle>
               <DropdownMenu>
                 <DropdownItem
-                  active={operatorSelected(operatorsMap.eq)}
-                  onClick={() => updateOperator(operatorsMap.eq)}
+                  active={operatorSelected(operatorSymbols.eq)}
+                  onClick={() => updateOperator(operatorSymbols.eq)}
                 >
                   Equal
                 </DropdownItem>
                 <DropdownItem
-                  active={operatorSelected(operatorsMap.ne)}
-                  onClick={() => updateOperator(operatorsMap.ne)}
+                  active={operatorSelected(operatorSymbols.ne)}
+                  onClick={() => updateOperator(operatorSymbols.ne)}
                 >
                   Not equal
                 </DropdownItem>
                 <DropdownItem
-                  active={operatorSelected(operatorsMap.gt)}
-                  onClick={() => updateOperator(operatorsMap.gt)}
+                  active={operatorSelected(operatorSymbols.gt)}
+                  onClick={() => updateOperator(operatorSymbols.gt)}
                 >
                   Greater than
                 </DropdownItem>
                 <DropdownItem
-                  active={operatorSelected(operatorsMap.ge)}
-                  onClick={() => updateOperator(operatorsMap.ge)}
+                  active={operatorSelected(operatorSymbols.ge)}
+                  onClick={() => updateOperator(operatorSymbols.ge)}
                 >
                   Greater than or equal
                 </DropdownItem>
                 <DropdownItem
-                  active={operatorSelected(operatorsMap.lt)}
-                  onClick={() => updateOperator(operatorsMap.lt)}
+                  active={operatorSelected(operatorSymbols.lt)}
+                  onClick={() => updateOperator(operatorSymbols.lt)}
                 >
                   Less than
                 </DropdownItem>
                 <DropdownItem
-                  active={operatorSelected(operatorsMap.le)}
-                  onClick={() => updateOperator(operatorsMap.le)}
+                  active={operatorSelected(operatorSymbols.le)}
+                  onClick={() => updateOperator(operatorSymbols.le)}
                 >
                   Less than or equal
                 </DropdownItem>
@@ -187,7 +189,7 @@ const DateTimeFilter: React.FC<IProps> = ({
           <InputGroupAddon addonType="prepend">
             <InputGroupText>
               <FontAwesomeIcon
-                icon={faIcons[operator]}
+                icon={faIconByOperator[operator]}
                 style={{ fontSize: ".9em" }}
               />
             </InputGroupText>
