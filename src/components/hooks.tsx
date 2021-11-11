@@ -50,7 +50,7 @@ export const useFilterCounter = (containerId: string) => {
   return null;
 };
 
-export const useFilterSubscription = (
+export const useContainerSubscription = (
   containerId: string,
   eventHandlers: FilteringEventHandlersType,
   raiseEventOnMount = false
