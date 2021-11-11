@@ -6,7 +6,7 @@ Milos Pavlovic
 
 Extensive support for data filtering, with flexible structure for querying both oData APIs and RESTful APIs. Particularly powerful when working with oData services since its primary purpose is to simplify creation of dynamic oData filter query string as end result.
 
-On UI side it offers a wide choice of well-designed filter components with state management integrated with Redux. Hooks-based library with ceratin number of generic hooks exposed for filters subscription and state insight.
+On UI side it offers a wide choice of well-designed filter components with state management integrated with Redux. Hooks-based library with ceratin number of powerful hooks exposed for filters container subscription, container state insight, computed filter query string based on latest container state etc..
 
 Abstracts away complexity required for creating filters bounded on entity's properties on different levels - support for property filters, navigation property filters (filtering on related entity/es property) and function filters (any custom expression applicable as filter on ceratin entity property).
 
