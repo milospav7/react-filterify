@@ -1,15 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useMemo } from "react";
-import { useDispatch } from "react-redux";
 import Select from "react-select";
-import { Option } from "react-select/src/filters";
-import {
-  updateNavigationPropertyFilter,
-  updatePropertyFilter,
-} from "../store/actionCreators";
 import { BaseFilterProps } from "../store/interfaces";
 import FilterDecorator from "./FilterDecorator";
-import { useFilterifyFilter } from "./hooks";
+import { useContainerActions, useContainerState } from "./hooks";
 
 const options = [
   { value: true, label: "Yes" },
@@ -36,38 +30,18 @@ const BooleanFilter: React.FC<IProps> = ({
   label,
   style,
 }) => {
-  const { propertyFilters, navigationPropertyFilters } =
-    useFilterifyFilter(containerId);
-  const dispatcher = useDispatch();
-
-  const updateFilter = useCallback(
-    (option: Option) => {
-      if (navigationProperty) {
-        dispatcher(
-          updateNavigationPropertyFilter(
-            containerId,
-            navigationProperty,
-            filteringProperty,
-            option,
-            null
-          )
-        );
-      } else
-        dispatcher(
-          updatePropertyFilter(containerId, filteringProperty, option)
-        );
-    },
-    [dispatcher]
+  const { updateFilter } = useContainerActions(
+    containerId,
+    filteringProperty,
+    navigationProperty
+  );
+  const { filterValue } = useContainerState(
+    containerId,
+    filteringProperty,
+    navigationProperty
   );
 
-  const filterValue = useMemo(() => {
-    if (navigationProperty)
-      return navigationPropertyFilters[filteringProperty]?.value ?? null;
-    return propertyFilters[filteringProperty]?.value ?? null;
-  }, [
-    navigationPropertyFilters[filteringProperty]?.value,
-    propertyFilters[filteringProperty]?.value,
-  ]);
+  const updateTargetFilter = useCallback((value) => updateFilter(value), []);
 
   const memoizedFilter = useMemo(
     () => (
@@ -84,7 +58,7 @@ const BooleanFilter: React.FC<IProps> = ({
           options={options}
           value={filterValue}
           isMulti={isMulti}
-          onChange={updateFilter}
+          onChange={updateTargetFilter}
           isClearable={isClearable}
           isLoading={isLoading}
         />
