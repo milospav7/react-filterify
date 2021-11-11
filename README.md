@@ -34,7 +34,7 @@ React Filterify includes these generic components:
 All generic components have well structured API, with a set of common props related with configuration of property which filter should be bound with, and with set of props related with styling components. All this results in an imperceptible difference, from the code level, when using any generic component.
 
 ## Todo
-- Usage of global style schema defined in configured filterify reducer
+- Usage of global style schema(per container) defined in configured filterify reducer
 - Extend documentation with real examples
 - Unit testing
 - Async dropdown filter to support searchable and dynamic dropdown options, not just static ones as supported with DropdownFilter component
