@@ -9,7 +9,7 @@ import { useContainerActions, useContainerState } from "./hooks";
 interface IProps extends BaseFilterProps {
   options: Array<any>;
   isMulti?: boolean;
-  logic?: string;
+  logic?: "or" | "and";
 }
 
 const ButtonGroupFilter: React.FC<IProps> = ({
