@@ -32,3 +32,11 @@ React Filterify includes these generic components:
 - `BooleanFilter`: filter in form of dropdown(Yes/No options)
 
 All generic components have well structured API, with a set of common props related with configuration of property which filter should be bound with, and with set of props related with styling components. All this results in an imperceptible difference, from the code level, when using any generic component.
+
+## Todo
+- Usage of global style schema defined in configured filterify reducer
+- Extend documentation with real examples
+- Unit testing
+- Async dropdown filter to support searchable and dynamic dropdown options, not just static ones as supported with DropdownFilter component
+- Feature related with oData filtering: support for multi-level filter on navigation properties (so far it is supported only first level nav prop filtering, e.g. Books/any(b: b/Name eq 'Clean Code'), and it should be useful to support creation of something like Books/any(b: b/Publishers/any(p: p/Name eq 'Nora Library')) )
+- Exposed generator for GraphQl filter query string (using the latest state of container filters in memory)
