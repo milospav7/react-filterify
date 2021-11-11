@@ -5,15 +5,12 @@ Milos Pavlovic
 ## Purpose
 
 Extensive support for data filtering, with flexible structure for querying both oData APIs and RESTful APIs. Particularly powerful when working with oData services since it's primary purpose is to simplify creation of dynamic oData filter query strings as end result.
-On UI side it offers a wide choice of well-designed filter components with state management integrated with Redux, meaning it is an hooks-based library.
+
+On UI side it offers a wide choice of well-designed filter components with state management integrated with Redux. Hooks-based library with ceratin number of generic hooks exposed for filters subscription and state insight.
+
+Abstracts away complexity required for creating filters bounded on entity's properties on different levels - support for property filters, navigation property filters (filtering on related entity/es property) and function filters (any custom expression applicable as filter on ceratin entity property).
 
 Built around publisher-subscribe pattern where controller should orchestrate the flow between filters and filters consumer, by providing information about where-to-push-filters to filter components, and by providing where-to-listen-for-change information to filters consumer, in an easy to use hooks based approach.
-
-The **Redux Toolkit** package is intended to be the standard way to write Redux logic. It was originally created to help address three common concerns about Redux:
-
-- "Configuring a Redux store is too complicated"
-- "I have to add a lot of packages to get Redux to do anything useful"
-- "Redux requires too much boilerplate code"
 
 ## What's Included
 
