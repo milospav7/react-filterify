@@ -2,19 +2,20 @@
 import React, { useCallback, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { Button, ButtonGroup } from "reactstrap";
-import { updatePropertyFilter } from "../store/actionCreators";
 import { BaseFilterProps } from "../store/interfaces";
 import FilterDecorator from "./FilterDecorator";
-import { useFilterifyFilter } from "./hooks";
+import { useContainerActions, useContainerState } from "./hooks";
 
 interface IProps extends BaseFilterProps {
   options: Array<any>;
   isMulti?: boolean;
+  logic?: string;
 }
 
 const ButtonGroupFilter: React.FC<IProps> = ({
   containerId,
   filteringProperty,
+  navigationProperty,
   options,
   isMulti = false,
   className,
@@ -22,86 +23,64 @@ const ButtonGroupFilter: React.FC<IProps> = ({
   labelClassName,
   label,
   style,
+  logic = "or",
 }) => {
-  const { propertyFilters } = useFilterifyFilter(containerId);
-  const currentFilterValue = propertyFilters[filteringProperty]?.value;
-  const filterOperaetor = propertyFilters[filteringProperty]?.operator;
   const dispatcher = useDispatch();
 
-  const updateInMultiValueMode = useCallback(
-    (value, operator, logic) => {
-      if (currentFilterValue) {
-        let newValue = currentFilterValue.some((v: any) => v === value)
-          ? currentFilterValue.filter((v: any) => v !== value)
-          : [...currentFilterValue, value];
-
-        dispatcher(
-          updatePropertyFilter(
-            containerId,
-            filteringProperty,
-            newValue,
-            operator,
-            logic
-          )
-        );
-      } else
-        dispatcher(
-          updatePropertyFilter(
-            containerId,
-            filteringProperty,
-            [value],
-            operator,
-            logic
-          )
-        );
-    },
-    [containerId, dispatcher, filteringProperty, currentFilterValue]
+  const { updateFilter } = useContainerActions(
+    containerId,
+    filteringProperty,
+    navigationProperty
+  );
+  const { filterValue, filterOperator } = useContainerState(
+    containerId,
+    filteringProperty,
+    navigationProperty
   );
 
-  const updateInSingleValueMode = useCallback(
-    (value, operator, logic) => {
-      if (currentFilterValue === value)
-        dispatcher(updatePropertyFilter(containerId, filteringProperty, null));
+  const updateInMultitMode = useCallback(
+    (value) => {
+      let modifiedFilter;
+      const previousFilter = filterValue ?? [];
+      const allOptionsDeselected =
+        previousFilter.length === 1 && previousFilter[0] === value;
+
+      if (allOptionsDeselected) modifiedFilter = null;
       else
-        dispatcher(
-          updatePropertyFilter(
-            containerId,
-            filteringProperty,
-            value,
-            operator,
-            logic
-          )
-        );
+        modifiedFilter = previousFilter.some((v: any) => v === value)
+          ? previousFilter.filter((v: any) => v !== value)
+          : [...previousFilter, value];
+
+      updateFilter(modifiedFilter, { operator: "eq", logic });
     },
-    [
-      containerId,
-      currentFilterValue,
-      dispatcher,
-      filteringProperty,
-      filterOperaetor,
-    ]
+    [containerId, dispatcher, filteringProperty, filterValue]
+  );
+
+  const updateInSingleMode = useCallback(
+    (value) => {
+      const modifiedFilter = filterValue === value ? null : value;
+      updateFilter(modifiedFilter, { operator: "eq", logic });
+    },
+    [containerId, filterValue, dispatcher, filteringProperty, filterOperator]
   );
 
   const setPropertyFilter = useCallback(
-    (value, operator = "eq", logic = "or") => {
+    (value) => {
       if (isMulti) {
-        updateInMultiValueMode(value, operator, logic);
+        updateInMultitMode(value);
       } else {
-        updateInSingleValueMode(value, operator, logic);
+        updateInSingleMode(value);
       }
     },
-    [isMulti, updateInMultiValueMode, updateInSingleValueMode]
+    [isMulti, updateInMultitMode, updateInSingleMode]
   );
 
   const isOptionSelected = useCallback(
-    (option, optOperator = "eq") => {
-      if (isMulti)
-        return !!currentFilterValue?.some(
-          (v: any) => v === option && optOperator === filterOperaetor
-        );
-      return currentFilterValue === option && optOperator === filterOperaetor;
+    (option) => {
+      if (isMulti) return filterValue?.some((v: any) => v === option);
+      return filterValue === option;
     },
-    [currentFilterValue, isMulti, filterOperaetor]
+    [filterValue, isMulti]
   );
 
   const memoizedFilter = useMemo(

@@ -5,7 +5,7 @@ import {
   updateNavigationPropertyFilter,
   updatePropertyFilter,
 } from "../store/actionCreators";
-import { FilteringEventHandlersType } from "../store/types";
+import { FilteringEventHandlersType, FilterOperatorType } from "../store/types";
 
 export const useFilterifyFilter = (containerId: string) => ({
   propertyFilters: useSelector(
@@ -81,7 +81,7 @@ export const useFilterSubscription = (
   }, [dateTimeFilterUpdated]);
 };
 
-export const useContainerFilterActions = (
+export const useContainerActions = (
   containerId: string,
   filteringProperty: string,
   navigationProperty?: string
@@ -89,7 +89,11 @@ export const useContainerFilterActions = (
   const dispatcher = useDispatch();
 
   const updateFilter = useCallback(
-    (filterValue: any, operator?: string, customExpression?: string) => {
+    (
+      filterValue: any,
+      symbols?: FilterOperatorType,
+      customExpression?: string
+    ) => {
       if (navigationProperty) {
         dispatcher(
           updateNavigationPropertyFilter(
@@ -106,7 +110,8 @@ export const useContainerFilterActions = (
             containerId,
             filteringProperty,
             filterValue,
-            operator
+            symbols?.operator,
+            symbols?.logic
           )
         );
     },
@@ -116,7 +121,7 @@ export const useContainerFilterActions = (
   return { updateFilter };
 };
 
-export const useContainerFilterState = (
+export const useContainerState = (
   containerId: string,
   filteringProperty: string,
   navigationProperty?: string

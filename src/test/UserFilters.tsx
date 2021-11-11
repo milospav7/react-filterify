@@ -94,6 +94,7 @@ const UserFilters: React.FC<IProps> = ({
     <ButtonGroupFilter
       withAssociatedLabel
       label="Region"
+      isMulti
       containerId={containerId}
       filteringProperty="Region"
       options={["Šumadija", "Banat", "Srem"]}

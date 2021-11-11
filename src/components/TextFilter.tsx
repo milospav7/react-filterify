@@ -21,8 +21,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { ValueTypedObject } from "../store/types";
 import {
-  useContainerFilterActions,
-  useContainerFilterState,
+  useContainerActions,
+  useContainerState,
   useFilterifyFilter,
 } from "./hooks";
 import { DebouncedInputField } from "./DebouncedInputField";
@@ -119,12 +119,12 @@ const TextFilter: React.FC<ITextFilterProps> = ({
   const inputRef = useRef<Input>(null);
   const toggle = () => setOpen(!dropdownOpen);
 
-  const { updateFilter } = useContainerFilterActions(
+  const { updateFilter } = useContainerActions(
     containerId,
     filteringProperty,
     navigationProperty
   );
-  const { filterValue } = useContainerFilterState(
+  const { filterValue } = useContainerState(
     containerId,
     filteringProperty,
     navigationProperty
@@ -136,7 +136,7 @@ const TextFilter: React.FC<ITextFilterProps> = ({
         ? generateCustomExpression(filteringProperty, opr, value)
         : "";
 
-      updateFilter(value, opr, generatedExpression);
+      updateFilter(value, { operator: opr }, generatedExpression);
     },
     [filteringProperty, navigationProperty, updateFilter]
   );

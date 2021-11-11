@@ -22,7 +22,7 @@ import {
   faNotEqual,
 } from "@fortawesome/free-solid-svg-icons";
 import { ValueTypedObject } from "../store/types";
-import { useContainerFilterActions, useContainerFilterState } from "./hooks";
+import { useContainerActions, useContainerState } from "./hooks";
 import { updatePropertyFilter } from "../store/actionCreators";
 import { DebouncedInputField } from "./DebouncedInputField";
 import { BaseFilterProps } from "../store/interfaces";
@@ -70,12 +70,12 @@ const NumericFilter: React.FC<IProps> = ({
   const dispatcher = useDispatch();
   const inputRef = useRef<Input>(null);
 
-  const { updateFilter } = useContainerFilterActions(
+  const { updateFilter } = useContainerActions(
     containerId,
     filteringProperty,
     navigationProperty
   );
-  const { filterValue, filterOperator } = useContainerFilterState(
+  const { filterValue, filterOperator } = useContainerState(
     containerId,
     filteringProperty,
     navigationProperty
@@ -85,8 +85,8 @@ const NumericFilter: React.FC<IProps> = ({
   const updateTargetFilter = (value: string | null) => {
     if (value) {
       const parsed = useDecimal ? parseFloat(value) : parseInt(value, 10);
-      updateFilter(parsed, operator);
-    } else updateFilter(value, operator);
+      updateFilter(parsed, { operator });
+    } else updateFilter(value, { operator });
   };
 
   const updateOperator = (op: string) => {

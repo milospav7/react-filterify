@@ -38,6 +38,8 @@ type FilteringEventHandlersType = {
   onChange: (_filters: any) => void;
 };
 
+type FilterOperatorType = { operator: string; logic?: string };
+
 export {
   AnyObject,
   FilterStyleSchemaType,
@@ -46,4 +48,5 @@ export {
   ContainerType,
   FilterOption,
   FilteringEventHandlersType,
+  FilterOperatorType,
 };
