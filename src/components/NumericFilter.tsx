@@ -22,7 +22,7 @@ import {
   faNotEqual,
 } from "@fortawesome/free-solid-svg-icons";
 import { ValueTypedObject } from "../store/types";
-import { useContainerActions, useContainerState } from "./hooks";
+import { useContainerActions, useSingleFilterState } from "./hooks";
 import { updatePropertyFilter } from "../store/actionCreators";
 import { DebouncedInputField } from "./DebouncedInputField";
 import { BaseFilterProps } from "../store/interfaces";
@@ -75,7 +75,7 @@ const NumericFilter: React.FC<IProps> = ({
     filteringProperty,
     navigationProperty
   );
-  const { filterValue, filterOperator } = useContainerState(
+  const { filterValue, filterOperator } = useSingleFilterState(
     containerId,
     filteringProperty,
     navigationProperty

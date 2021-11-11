@@ -121,7 +121,7 @@ export const useContainerActions = (
   return { updateFilter };
 };
 
-export const useContainerState = (
+export const useSingleFilterState = (
   containerId: string,
   filteringProperty: string,
   navigationProperty?: string

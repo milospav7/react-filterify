@@ -3,7 +3,7 @@ import React, { useCallback, useMemo } from "react";
 import Select from "react-select";
 import { BaseFilterProps } from "../store/interfaces";
 import FilterDecorator from "./FilterDecorator";
-import { useContainerActions, useContainerState } from "./hooks";
+import { useContainerActions, useSingleFilterState } from "./hooks";
 
 const options = [
   { value: true, label: "Yes" },
@@ -35,7 +35,7 @@ const BooleanFilter: React.FC<IProps> = ({
     filteringProperty,
     navigationProperty
   );
-  const { filterValue } = useContainerState(
+  const { filterValue } = useSingleFilterState(
     containerId,
     filteringProperty,
     navigationProperty

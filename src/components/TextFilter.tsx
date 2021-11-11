@@ -22,7 +22,7 @@ import {
 import { ValueTypedObject } from "../store/types";
 import {
   useContainerActions,
-  useContainerState,
+  useSingleFilterState,
   useFilterifyFilter,
 } from "./hooks";
 import { DebouncedInputField } from "./DebouncedInputField";
@@ -124,7 +124,7 @@ const TextFilter: React.FC<ITextFilterProps> = ({
     filteringProperty,
     navigationProperty
   );
-  const { filterValue } = useContainerState(
+  const { filterValue } = useSingleFilterState(
     containerId,
     filteringProperty,
     navigationProperty
