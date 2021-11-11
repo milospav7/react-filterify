@@ -28,5 +28,8 @@ React Filterify includes these generic components:
 - `DropdownFilter`: filter in form of dropdown, supporting both multiselect and singleselect modes
 - `TextFilter`: filter in form of input field, with proper debounce, supporting multiple operators inherent in text manipulation
 - `NumericFilter`: filter in form of input field, with proper debounce, supporting multiple operators inherent in numbers manipulation
+- `DatetimeFilter`: filter in form of datetime selector field
 - `ButtonGroupFilter`: filter in form of button group, supporting both multiselect and singleselect modes
 - `BooleanFilter`: filter in form of dropdown(Yes/No options)
+
+All generic components have well structured API, with a set of common props related with configuration of property which filter should be bound with, and with set of props related with styling components. All this results in an imperceptible difference, from the code level, when using any generic component.
