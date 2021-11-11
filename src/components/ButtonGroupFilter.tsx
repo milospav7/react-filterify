@@ -1,15 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { Button, ButtonGroup } from "reactstrap";
 import { updatePropertyFilter } from "../store/actionCreators";
+import { BaseFilterProps } from "../store/interfaces";
+import FilterDecorator from "./FilterDecorator";
 import { useFilterifyFilter } from "./hooks";
 
-interface IProps {
-  containerId: string;
-  filteringProperty: string;
+interface IProps extends BaseFilterProps {
   options: Array<any>;
   isMulti?: boolean;
-  wrapperClassName?: string;
 }
 
 const ButtonGroupFilter: React.FC<IProps> = ({
@@ -17,7 +17,11 @@ const ButtonGroupFilter: React.FC<IProps> = ({
   filteringProperty,
   options,
   isMulti = false,
-  wrapperClassName,
+  className,
+  withAssociatedLabel,
+  labelClassName,
+  label,
+  style,
 }) => {
   const { propertyFilters } = useFilterifyFilter(containerId);
   const currentFilterValue = propertyFilters[filteringProperty]?.value;
@@ -56,7 +60,7 @@ const ButtonGroupFilter: React.FC<IProps> = ({
 
   const updateInSingleValueMode = useCallback(
     (value, operator, logic) => {
-      if (currentFilterValue !== undefined && operator === filterOperaetor)
+      if (currentFilterValue === value)
         dispatcher(updatePropertyFilter(containerId, filteringProperty, null));
       else
         dispatcher(
@@ -102,7 +106,13 @@ const ButtonGroupFilter: React.FC<IProps> = ({
 
   const memoizedFilter = useMemo(
     () => (
-      <div className={wrapperClassName}>
+      <FilterDecorator
+        displayLabel={withAssociatedLabel}
+        className={className}
+        labelClassName={labelClassName}
+        label={label}
+        style={style}
+      >
         <ButtonGroup key={`bgf-${filteringProperty}`} size="sm">
           {options.map((opt, ind) => (
             <Button
@@ -118,15 +128,9 @@ const ButtonGroupFilter: React.FC<IProps> = ({
             </Button>
           ))}
         </ButtonGroup>
-      </div>
+      </FilterDecorator>
     ),
-    [
-      wrapperClassName,
-      filteringProperty,
-      options,
-      isOptionSelected,
-      setPropertyFilter,
-    ]
+    [className, filteringProperty, options, isOptionSelected, setPropertyFilter]
   );
 
   return memoizedFilter;

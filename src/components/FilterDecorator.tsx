@@ -1,4 +1,4 @@
-import { ReactNode, useMemo } from "react";
+import { CSSProperties, ReactNode, useMemo } from "react";
 import { Label } from "reactstrap";
 
 interface IProps {
@@ -7,6 +7,7 @@ interface IProps {
   label?: string;
   labelClassName?: string;
   displayLabel?: boolean;
+  style?: CSSProperties;
 }
 
 const FilterDecorator: React.FC<IProps> = ({
@@ -15,21 +16,26 @@ const FilterDecorator: React.FC<IProps> = ({
   label,
   labelClassName = "pb-0 text-dark font-weight-bold d-block text-left",
   displayLabel,
+  style,
 }) => {
   const memoizedFilter = useMemo(() => {
     if (displayLabel)
       return (
-        <div className={className}>
+        <>
           <Label className={labelClassName} size="sm">
             {label}
           </Label>
           {children}
-        </div>
+        </>
       );
-    return <div className={className}>{children}</div>;
-  }, [children, className, displayLabel, label, labelClassName]);
+    return <>{children}</>;
+  }, [children, displayLabel, label, labelClassName]);
 
-  return memoizedFilter;
+  return (
+    <div style={style} className={className}>
+      {memoizedFilter}
+    </div>
+  );
 };
 
 export default FilterDecorator;

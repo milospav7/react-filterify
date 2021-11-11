@@ -27,6 +27,7 @@ const DropdownFilter: React.FC<IProps> = ({
   withAssociatedLabel,
   labelClassName,
   label,
+  style,
 }) => {
   const { updateFilter } = useContainerFilterActions(
     containerId,
@@ -48,6 +49,7 @@ const DropdownFilter: React.FC<IProps> = ({
         className={className}
         labelClassName={labelClassName}
         label={label}
+        style={style}
       >
         <Select
           key={`${filteringProperty}-ddf`}

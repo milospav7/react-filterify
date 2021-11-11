@@ -22,10 +22,7 @@ import {
   faNotEqual,
 } from "@fortawesome/free-solid-svg-icons";
 import { ValueTypedObject } from "../store/types";
-import {
-  useContainerFilterActions,
-  useContainerFilterState,
-} from "./hooks";
+import { useContainerFilterActions, useContainerFilterState } from "./hooks";
 import { updatePropertyFilter } from "../store/actionCreators";
 import { DebouncedInputField } from "./DebouncedInputField";
 import { BaseFilterProps } from "../store/interfaces";
@@ -66,6 +63,7 @@ const NumericFilter: React.FC<IProps> = ({
   withAssociatedLabel,
   labelClassName,
   label,
+  style,
 }) => {
   const [dropdownOpen, setOpen] = useState(false);
   const toggle = () => setOpen(!dropdownOpen);
@@ -110,8 +108,9 @@ const NumericFilter: React.FC<IProps> = ({
         className={className}
         labelClassName={labelClassName}
         label={label}
+        style={style}
       >
-        <div>
+        <>
           <InputGroup size="sm">
             <InputGroupAddon addonType="prepend">
               <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
@@ -179,7 +178,7 @@ const NumericFilter: React.FC<IProps> = ({
               placeholder={placeholder ?? displayName}
             />
           </InputGroup>
-        </div>
+        </>
       </FilterDecorator>
     ),
     [filterValue, dropdownOpen]

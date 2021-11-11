@@ -34,6 +34,7 @@ const BooleanFilter: React.FC<IProps> = ({
   withAssociatedLabel,
   labelClassName,
   label,
+  style,
 }) => {
   const { propertyFilters, navigationPropertyFilters } =
     useFilterifyFilter(containerId);
@@ -75,6 +76,7 @@ const BooleanFilter: React.FC<IProps> = ({
         className={className}
         labelClassName={labelClassName}
         label={label}
+        style={style}
       >
         <Select
           key={`${filteringProperty}-blf`}

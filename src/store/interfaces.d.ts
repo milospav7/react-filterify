@@ -1,3 +1,4 @@
+import { CSSProperties } from "react";
 interface BaseFilterProps {
   containerId: string;
   filteringProperty: string;
@@ -7,6 +8,7 @@ interface BaseFilterProps {
   withAssociatedLabel?: boolean;
   labelClassName?: string;
   label?: string;
+  style?: CSSProperties;
 }
 
 export { BaseFilterProps };

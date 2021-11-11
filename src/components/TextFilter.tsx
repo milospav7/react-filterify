@@ -81,6 +81,7 @@ const TextFilter: React.FC<ITextFilterProps> = ({
   withAssociatedLabel,
   labelClassName,
   label,
+  style,
 }) => {
   const { propertyFilters, navigationPropertyFilters } =
     useFilterifyFilter(containerId);
@@ -167,8 +168,9 @@ const TextFilter: React.FC<ITextFilterProps> = ({
         className={className}
         labelClassName={labelClassName}
         label={label}
+        style={style}
       >
-        <div>
+        <>
           <InputGroup size="sm">
             <InputGroupAddon addonType="prepend">
               <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
@@ -245,7 +247,7 @@ const TextFilter: React.FC<ITextFilterProps> = ({
               placeholder={displayName || filteringProperty}
             />
           </InputGroup>
-        </div>
+        </>
       </FilterDecorator>
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
