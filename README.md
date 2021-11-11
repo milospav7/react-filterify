@@ -4,7 +4,7 @@ Milos Pavlovic
 
 ## Purpose
 
-Extensive support for data filtering, with flexible structure for querying both oData APIs and RESTful APIs. Particularly powerful when working with oData services since it's primary purpose is to simplify creation of dynamic oData filter query strings as end result.
+Extensive support for data filtering, with flexible structure for querying both oData APIs and RESTful APIs. Particularly powerful when working with oData services since its primary purpose is to simplify creation of dynamic oData filter query strings as end result.
 
 On UI side it offers a wide choice of well-designed filter components with state management integrated with Redux. Hooks-based library with ceratin number of generic hooks exposed for filters subscription and state insight.
 
@@ -12,15 +12,15 @@ Abstracts away complexity required for creating filters bounded on entity's prop
 
 Built around publisher-subscribe pattern where controller should orchestrate the flow between filters and filters consumer, by providing information about where-to-push-filters to filter components, and by providing where-to-listen-for-change information to filters consumer, in an easy to use hooks based approach.
 
-`**` When fully developed (I hope really soon) it will be shipped as npm package. What I now do is mostly refactoring since I initially developed this solution in late 2020 and recently decided to isolate it on my guthub in order to refactor, improve and I hope build package from itself so I can share it with anyone and together make it even better. I developed initial version in late 2020, as a part of really complex project, after problems with data filtering escalated to the level where creation of new, and maintaining of existing filters, become a real nightmare, all that as a consequence of huge complexity and number of required filters applied on different tables.
+`**` When fully developed (I hope really soon) it will be shipped as npm package. What I now do is mostly refactoring since I initially developed this solution in late 2020 and recently decided to isolate it on my guthub in order to refactor, improve and I hope to build a packag from itself so I can share it with anyone and together make it even better. I developed initial version in late 2020, as a part of really complex project, after problems with data filtering escalated to the level where creation of new, and maintaining of existing filters, become a real nightmare, all that as a consequence of huge complexity and number of required filters applied on different tables.
 
 ## What's Included
 
 React Filterify includes these APIs:
 
-- `configureFilterfyReducer()`: usage is required and provide simplified configuration for filter container instances that will be used accros the application - container simply represents wrapper, registered by unique id, that will be used to maintain all filters related to itself.
-- `useContainerSubscription()`: provide a way to susbscribe to any container change, by exposing event which can be used in order to trigger desired action when any filter, inside filter container, changes - basically the way to connect filters with any application component intented to consume them.
-- `useContainerState()`: on demand exposing of current container state
+- `configureFilterfyReducer()`: usage is required and provides simplified configuration for filter container instances that will be used across the application - container simply represents wrapper, registered by unique id, that will be used to maintain all filters related to itself.
+- `useContainerSubscription()`: provide a way to subscribe to any container change, by exposing event which can be used in order to trigger desired action when any filter, inside filter container, changes - basically the way to connect filters with any application component intended to consume them.
+- `useContainerState()`: on-demand exposing of current container state
 
 React Filterify includes these generic components:
 
