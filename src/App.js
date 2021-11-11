@@ -3,13 +3,13 @@ import "./App.css";
 import "./style/style.css";
 import {
   useContainerState,
-  useGeneratedODataFilterQueryString,
+  useODataFilterQuery,
 } from "./components/hooks";
 import UserFilters from "./test/UserFilters";
 
 function App() {
   const filter = useContainerState("F1");
-  const queryString = useGeneratedODataFilterQueryString("F1");
+  const queryString = useODataFilterQuery("F1");
 
   return (
     <div className="App">

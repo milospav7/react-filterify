@@ -144,7 +144,7 @@ export const useFilterState = (
   return { filterValue, filterOperator };
 };
 
-export const useGeneratedODataFilterQueryString = (containerId: string) => {
+export const useODataFilterQuery = (containerId: string) => {
   const {
     propertyFilters,
     navigationPropertyFilters,
