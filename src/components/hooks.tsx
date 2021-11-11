@@ -6,6 +6,7 @@ import {
   updateNavigationPropertyFilter,
   updatePropertyFilter,
 } from "../store/actionCreators";
+import { FilterHelperMethods } from "../store/containerReducer";
 import { FilteringEventHandlersType, FilterOperatorType } from "../store/types";
 
 export const useContainerState = (containerId: string) => ({
@@ -141,4 +142,25 @@ export const useFilterState = (
   ]);
 
   return { filterValue, filterOperator };
+};
+
+export const useGeneratedODataFilterQueryString = (containerId: string) => {
+  const {
+    propertyFilters,
+    navigationPropertyFilters,
+    functionFilters,
+    dateTimeUpdated,
+  } = useContainerState(containerId);
+
+  const filterQueryString = useMemo(
+    () =>
+      FilterHelperMethods.generateODataFilterString({
+        propertyFilters,
+        navigationPropertyFilters,
+        functionFilters,
+      }),
+    [dateTimeUpdated]
+  );
+
+  return filterQueryString;
 };
