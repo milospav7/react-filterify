@@ -20,11 +20,7 @@ import {
   faNotEqual,
 } from "@fortawesome/free-solid-svg-icons";
 import { ValueTypedObject } from "../store/types";
-import {
-  useFilterActions,
-  useFilterState,
-  useContainerState,
-} from "./hooks";
+import { useFilterActions, useFilterState, useContainerState } from "./hooks";
 import { DebouncedInputField } from "./DebouncedInputField";
 import { BaseFilterProps } from "../store/interfaces";
 import FilterDecorator from "./FilterDecorator";
@@ -91,33 +87,30 @@ const TextFilter: React.FC<ITextFilterProps> = ({
 
     if (navigationProperty) {
       const supportedOperators = Object.keys(operatorSymbols);
-      const generatedExpression =
-        navigationPropertyFilters[filteringProperty]?.generatedExpression ??
-        null;
+      const existingExpression =
+        navigationPropertyFilters[filteringProperty]?.generatedExpression;
 
-      if (generatedExpression)
-        supportedOperators.forEach((k) => {
-          if (generatedExpression.indexOf(k) >= 0) defaultOperator = k;
-        });
+      if (existingExpression) {
+        const existingOperator = supportedOperators.find(
+          (operator) => existingExpression.indexOf(operator) >= 0
+        );
+        if (existingOperator) defaultOperator = existingOperator;
+      }
     } else {
-      const propFOpr =
-        (propertyFilters[filteringProperty] &&
-          propertyFilters[filteringProperty].operator) ||
-        null;
+      const propFOpr = propertyFilters[filteringProperty]?.operator;
       if (propFOpr) defaultOperator = propFOpr;
     }
     return operatorSymbols[defaultOperator];
-  }, [
-    filteringProperty,
-    navigationProperty,
-    navigationPropertyFilters,
-    propertyFilters,
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [dropdownOpen, setOpen] = useState(false);
   const [operator, setOperator] = useState(getInitialOperator());
   const inputRef = useRef<Input>(null);
-  const toggle = () => setOpen(!dropdownOpen);
+  const toggleOperatorsDropdown = useCallback(
+    () => setOpen(!dropdownOpen),
+    [dropdownOpen]
+  );
 
   const { updateFilter } = useFilterActions(
     containerId,
@@ -131,29 +124,27 @@ const TextFilter: React.FC<ITextFilterProps> = ({
   );
 
   const updateTargetFilter = useCallback(
-    (value: any, opr: string) => {
-      let generatedExpression = navigationProperty
-        ? generateCustomExpression(filteringProperty, opr, value)
+    (value: any) => {
+      const generatedExpression = navigationProperty
+        ? generateCustomExpression(filteringProperty, operator, value)
         : "";
 
-      updateFilter(value, { operator: opr }, generatedExpression);
+      updateFilter(value, { operator }, generatedExpression);
     },
-    [filteringProperty, navigationProperty, updateFilter]
+    [filteringProperty, navigationProperty, operator, updateFilter]
   );
-
-  const setPropertyFilter = (value: string | null) => {
-    updateTargetFilter(value, operator);
-  };
 
   const updateOperator = useCallback(
     (op: string) => {
       if (op !== operator) {
-        const val = inputRef?.current?.props.value;
-        updateTargetFilter(val, op);
+        const generatedExpression = navigationProperty
+          ? generateCustomExpression(filteringProperty, op, filterValue)
+          : "";
+        updateFilter(filterValue, { operator: op }, generatedExpression);
         setOperator(op);
       }
     },
-    [operator, updateTargetFilter]
+    [filterValue, filteringProperty, navigationProperty, operator, updateFilter]
   );
 
   const operatorSelected = useCallback(
@@ -173,7 +164,10 @@ const TextFilter: React.FC<ITextFilterProps> = ({
         <>
           <InputGroup size="sm">
             <InputGroupAddon addonType="prepend">
-              <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
+              <ButtonDropdown
+                isOpen={dropdownOpen}
+                toggle={toggleOperatorsDropdown}
+              >
                 <DropdownToggle className="p-0 m-0 rounded-left text-muted z-index-auto">
                   <FontAwesomeIcon
                     icon={faCaretDown}
@@ -189,7 +183,9 @@ const TextFilter: React.FC<ITextFilterProps> = ({
                   </DropdownItem>
                   <DropdownItem
                     active={operatorSelected(operatorSymbols.doesnotcontain)}
-                    onClick={() => updateOperator(operatorSymbols.doesnotcontain)}
+                    onClick={() =>
+                      updateOperator(operatorSymbols.doesnotcontain)
+                    }
                   >
                     Does not contain
                   </DropdownItem>
@@ -239,11 +235,10 @@ const TextFilter: React.FC<ITextFilterProps> = ({
               </InputGroupText>
             </InputGroupAddon>
             <DebouncedInputField
-              inputReference={inputRef}
+              inputRef={inputRef}
               filteringProperty={filteringProperty}
-              displayName={placeholder ?? label ?? filteringProperty}
-              reduxValue={filterValue}
-              onChange={setPropertyFilter}
+              filterValue={filterValue}
+              onChange={updateTargetFilter}
               placeholder={placeholder ?? label ?? filteringProperty}
             />
           </InputGroup>

@@ -169,10 +169,9 @@ const NumericFilter: React.FC<IProps> = ({
               </InputGroupText>
             </InputGroupAddon>
             <DebouncedInputField
-              inputReference={inputRef}
+              inputRef={inputRef}
               filteringProperty={filteringProperty}
-              displayName={displayName ?? filteringProperty}
-              reduxValue={filterValue}
+              filterValue={filterValue}
               onChange={updateTargetFilter}
               type="number"
               placeholder={placeholder ?? displayName}

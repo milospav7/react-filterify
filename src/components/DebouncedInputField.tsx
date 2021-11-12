@@ -1,13 +1,14 @@
-import { Ref, useEffect, useState } from "react";
+import { ChangeEvent, Ref, useEffect, useState } from "react";
 import { Input } from "reactstrap";
 import { InputType } from "reactstrap/es/Input";
 
+const DEBOUNCE_INTERVAL = 350; // In ms
+
 interface IDebouncedFieldProps {
+  inputRef: Ref<Input>;
+  filterValue?: string;
   filteringProperty: string;
-  displayName?: string;
-  inputReference: Ref<Input>;
   onChange: (value: string | null) => void;
-  reduxValue?: string;
   type?: InputType;
   placeholder?: string;
 }
@@ -16,39 +17,40 @@ let timeout: NodeJS.Timeout | null = null;
 
 export const DebouncedInputField: React.FC<IDebouncedFieldProps> = ({
   filteringProperty,
-  displayName,
-  inputReference,
+  inputRef,
   onChange,
-  reduxValue,
+  filterValue,
   type,
   placeholder,
 }) => {
-  const [value, setValue] = useState(reduxValue);
+  const [debouncedValue, setDebouncedValue] = useState(filterValue);
 
-  const saveWithDebounce = (val: string) => {
-    setValue(val);
+  const saveWithDebounce = (ev: ChangeEvent<HTMLInputElement>) => {
+    const inputValue = ev.target.value ?? "";
+    setDebouncedValue(inputValue);
     if (timeout) clearTimeout(timeout);
 
     timeout = setTimeout(() => {
-      onChange(val);
-    }, 600);
+      onChange(inputValue);
+    }, DEBOUNCE_INTERVAL);
   };
 
   // In case when reseting filters
   useEffect(() => {
-    if (value !== reduxValue) setValue(reduxValue);
-  }, [reduxValue]);
+    if (debouncedValue !== filterValue) setDebouncedValue(filterValue ?? "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterValue]);
 
   return (
     <Input
       key={`${filteringProperty}-dbf`}
+      ref={inputRef}
       bsSize="sm"
-      placeholder={placeholder || displayName}
-      ref={inputReference}
+      placeholder={placeholder}
       name={filteringProperty}
       type={type ?? "text"}
-      value={value}
-      onChange={(ev: any) => saveWithDebounce(ev.target.value)}
+      value={debouncedValue}
+      onChange={saveWithDebounce}
     />
   );
 };
