@@ -48,7 +48,7 @@ export const useContainerSubscription = (
   raiseEventOnMount = false
 ) => {
   const { onChange } = eventHandlers;
-
+  const filterString = useODataFilterQuery(containerId);
   const firstRenderRef = useRef(true);
   const { current: isFirstRender } = firstRenderRef;
 
@@ -61,13 +61,19 @@ export const useContainerSubscription = (
 
   useEffect(() => {
     if (raiseEventOnMount)
-      onChange({ propertyFilters, navigationPropertyFilters, functionFilters });
+      onChange(
+        { propertyFilters, navigationPropertyFilters, functionFilters },
+        { oDataFilterString: filterString }
+      );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (!isFirstRender)
-      onChange({ propertyFilters, navigationPropertyFilters, functionFilters });
+      onChange(
+        { propertyFilters, navigationPropertyFilters, functionFilters },
+        { oDataFilterString: filterString }
+      );
     firstRenderRef.current = false;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dateTimeFilterUpdated]);

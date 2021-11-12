@@ -34,8 +34,15 @@ type ContainerType = {
   dateTimeUpdated?: null | string;
 };
 
+type FilterProcessedOutputsType = {
+  oDataFilterString: string;
+};
+
 type FilteringEventHandlersType = {
-  onChange: (_filters: any) => void;
+  onChange: (
+    _containerState: any,
+    processedOutputs: FilterProcessedOutputsType
+  ) => void;
 };
 
 type FilterOperatorType = { operator: string; logic?: string };
