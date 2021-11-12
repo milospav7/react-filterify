@@ -19,7 +19,7 @@ Built around publish-subscribe pattern where controller should orchestrate the f
 React Filterify includes these APIs:
 
 - `configureFilterfyReducer()`: usage is required and provides simplified configuration for filter container instances that will be used across the application - container simply represents wrapper, registered by unique id, that will be used to maintain all filters related to itself. Configurator is simply a starting point of library usage,  required step to set reducer per container when creating application redux store - it connects containers to their dedicated memory space in store.
-- `useContainerSubscription()`: provide a way to subscribe to any container change, by exposing event which can be used in order to trigger desired action when any filter, inside filter container, changes - basically the way to connect filters with any application component intended to consume them.
+- `useContainerSubscription()`: provide a way to subscribe to container and listen for changes, by exposing event which can be used in order to trigger desired action when any filter, inside filter container, changes - basically the way to connect filters with any application component intended to consume them.
 - `useContainerState()`: on-demand exposing of container current state.
 - `useODataFilterQuery`: interface useful when working with OData API. Generates OData filter query string by using the container current state, and recomputing query string output each time container state changes.
 
