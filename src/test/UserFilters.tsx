@@ -107,7 +107,7 @@ const UserFilters: React.FC<IProps> = ({
       options={["Šumadija", "Banat", "Srem"]}
       className="text-left mb-3"
     />
-    <ResetFiltersButton containerId="F1" />
+    <ResetFiltersButton containerId={containerId} />
   </div>
 );
 

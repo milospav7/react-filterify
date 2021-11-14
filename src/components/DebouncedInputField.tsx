@@ -44,12 +44,13 @@ export const DebouncedInputField: React.FC<IDebouncedFieldProps> = ({
   return (
     <Input
       key={`${filteringProperty}-dbf`}
+      id={`${filteringProperty}-id-dbf`}
       ref={inputRef}
       bsSize="sm"
       placeholder={placeholder}
       name={filteringProperty}
       type={type ?? "text"}
-      value={debouncedValue}
+      value={debouncedValue ?? ""}
       onChange={saveWithDebounce}
     />
   );

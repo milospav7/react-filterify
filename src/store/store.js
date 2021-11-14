@@ -14,7 +14,10 @@ const filterifyFilters = configureFilterfyReducer([
       placeholderColor: "green",
     },
   },
-  "F2",
+  {
+    id: "F2_Test",
+    saveToLocalStorage: false,
+  },
 ]);
 
 const reducers = combineReducers({
