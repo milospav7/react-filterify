@@ -45,6 +45,7 @@ export const DebouncedInputField: React.FC<IDebouncedFieldProps> = ({
     <Input
       key={`${filteringProperty}-dbf`}
       id={`${filteringProperty}-id-dbf`}
+      role="textbox"
       ref={inputRef}
       bsSize="sm"
       placeholder={placeholder}
