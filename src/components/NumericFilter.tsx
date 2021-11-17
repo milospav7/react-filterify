@@ -47,7 +47,6 @@ const faIconByOperator: ValueTypedObject<any> = {
 };
 
 interface IProps extends BaseFilterProps {
-  displayName?: string;
   placeholder?: string;
   useDecimal?: boolean;
 }
@@ -56,7 +55,6 @@ const NumericFilter: React.FC<IProps> = ({
   containerId,
   filteringProperty,
   navigationProperty,
-  displayName,
   useDecimal,
   placeholder,
   className,
@@ -174,7 +172,7 @@ const NumericFilter: React.FC<IProps> = ({
               filterValue={filterValue}
               onChange={updateTargetFilter}
               type="number"
-              placeholder={placeholder ?? displayName}
+              placeholder={placeholder ?? label}
             />
           </InputGroup>
         </>

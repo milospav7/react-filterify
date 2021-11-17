@@ -23,7 +23,7 @@ export const DebouncedInputField: React.FC<IDebouncedFieldProps> = ({
   type,
   placeholder,
 }) => {
-  const [debouncedValue, setDebouncedValue] = useState(filterValue);
+  const [debouncedValue, setDebouncedValue] = useState(filterValue ?? "");
 
   const saveWithDebounce = (ev: ChangeEvent<HTMLInputElement>) => {
     const inputValue = ev.target.value ?? "";
@@ -51,7 +51,7 @@ export const DebouncedInputField: React.FC<IDebouncedFieldProps> = ({
       placeholder={placeholder}
       name={filteringProperty}
       type={type ?? "text"}
-      value={debouncedValue ?? ""}
+      value={debouncedValue}
       onChange={saveWithDebounce}
     />
   );

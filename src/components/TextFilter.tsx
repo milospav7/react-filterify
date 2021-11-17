@@ -44,11 +44,6 @@ const faIconByOperator: ValueTypedObject<any> = {
   endswith: faAsterisk,
 };
 
-interface ITextFilterProps extends BaseFilterProps {
-  containerId: string;
-  displayName?: string;
-}
-
 const generateCustomExpression = (
   filteringProperty: string,
   opr: string,
@@ -68,7 +63,7 @@ const generateCustomExpression = (
   return generatedExpression;
 };
 
-const TextFilter: React.FC<ITextFilterProps> = ({
+const TextFilter: React.FC<BaseFilterProps> = ({
   containerId,
   filteringProperty,
   navigationProperty,
@@ -239,7 +234,7 @@ const TextFilter: React.FC<ITextFilterProps> = ({
               filteringProperty={filteringProperty}
               filterValue={filterValue}
               onChange={updateTargetFilter}
-              placeholder={placeholder ?? label ?? filteringProperty}
+              placeholder={placeholder ?? label}
             />
           </InputGroup>
         </>

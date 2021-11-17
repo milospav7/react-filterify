@@ -23,7 +23,6 @@ const UserFilters: React.FC<IProps> = ({
       withAssociatedLabel
       label="User name"
       filteringProperty="UserName"
-      displayName="User name"
       containerId={containerId}
     />
     <TextFilter
@@ -71,9 +70,10 @@ const UserFilters: React.FC<IProps> = ({
       key="ply"
       withAssociatedLabel
       label="Year when joined"
-      displayName="Year when joined"
       filteringProperty="YearJoined"
       containerId={containerId}
+      placeholder="Datetime when joined.."
+
     />
     <BooleanFilter
       key="iscnt"
@@ -90,7 +90,6 @@ const UserFilters: React.FC<IProps> = ({
       label="Registered by"
       containerId={containerId}
       filteringProperty="RegisterdBy"
-      displayName="Registered by"
     />
     <DateTimeFilter
       containerId={containerId}
