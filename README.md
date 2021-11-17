@@ -4,7 +4,7 @@ Milos Pavlovic
 
 ## Purpose
 
-Extensive support for data filtering, with flexible structure for querying RESTful API. Particularly powerful when working with RESTful API which implements OData protocol, since its primary purpose is to simplify creation of dynamic OData filter query string as end result.
+Extensive support for data filtering, with flexible structure for querying RESTful API. Particularly powerful when working with RESTful API implementing OData protocol, since its primary purpose is to simplify creation of dynamic OData filter query string as end result.
 
 On UI side it offers a wide choice of well-designed filter components with state management integrated with Redux. Hooks-based library with ceratin number of powerful hooks exposed for filters container subscription, container state insight, computed filter query string based on latest container state etc..
 
@@ -12,7 +12,7 @@ Abstracts away complexity required for creating filters bounded on entity's prop
 
 Built around publish-subscribe pattern where controller should orchestrate the flow between filters and filters consumer, by providing information about where-to-push-filters to filter components, and by providing where-to-listen-for-change information to filters consumer, in an easy to use hooks based approach.
 
-`***` When fully developed (I hope really soon) it will be shipped as npm package. What I now do is mostly refactoring since I initially developed this solution in late 2020 and recently decided to isolate it on my github repo in order to refactor, improve and I hope to build a package from itself so I can share it with anyone and together make it even better. I developed initial version in late 2020, as a part of really complex project, after problems with data filtering escalated to the level where creation of new, and maintaining of existing filters, become a real nightmare, all that as a consequence of huge complexity and number of required filters applied on different tables.
+`***` When fully developed (I hope really soon) it will be shipped as npm package. What I now do is mostly refactoring since I initially developed this solution in late 2020(as part of an project) and recently decided to isolate it on my github repo in order to refactor, improve and I hope to build a package from itself so I can share it with anyone and together make it even better.
 
 ## What's Included
 
