@@ -37,7 +37,6 @@ All generic components have well structured API, with a set of common props rela
 ## Todo
 - Usage of global style schema(per container) defined in configured filterify reducer
 - Extend documentation with real examples
-- Tsting
 - Async dropdown filter to support searchable and dynamic dropdown options, not just static ones as supported with DropdownFilter component
 - Feature related with OData filtering: support for multi-level filter on navigation properties (so far it is supported only first level nav prop filtering, e.g. Books/any(b: b/Name eq 'Clean Code'), and it should be useful to support creation of something like Books/any(b: b/Publishers/any(p: p/Name eq 'Nora Library')) )
 - Exposed generator for GraphQl query (using the latest state of container filters in memory)
