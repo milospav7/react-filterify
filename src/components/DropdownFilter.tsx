@@ -28,6 +28,7 @@ const DropdownFilter: React.FC<IProps> = ({
   labelClassName,
   label,
   style,
+  placeholder,
 }) => {
   const { updateFilter } = useFilterActions(
     containerId,
@@ -60,6 +61,8 @@ const DropdownFilter: React.FC<IProps> = ({
           onChange={updateTargetFilter}
           isClearable={isClearable}
           isLoading={isLoading}
+          placeholder={placeholder}
+          name={filteringProperty}
         />
       </FilterDecorator>
     ),

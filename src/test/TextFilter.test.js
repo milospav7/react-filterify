@@ -31,3 +31,5 @@ test("Text filter without label", () => {
   expect(screen.getByPlaceholderText(/search for user/i)).toBeInTheDocument();
   expect(screen.getByPlaceholderText(/search for user/i)).toHaveValue("");
 });
+
+// To throw error without container id
