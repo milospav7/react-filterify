@@ -36,6 +36,8 @@ All generic components have well structured API, with a set of common props rela
 
 ## Todo
 - Usage of global style schema(per container) defined in configured filterify reducer
+- Optional prop to hide additional filter operators (useful when external service does not support built-in operators, e.g. basic filtering in REST APIs when only 'equal' is supported)
+- Optional exclude of ceratin built-in operator/s
 - Extend documentation with real examples
 - Async dropdown filter to support searchable and dynamic dropdown options, not just static ones as supported with DropdownFilter component
 - Feature related with OData filtering: support for multi-level filter on navigation properties (so far it is supported only first level nav prop filtering, e.g. Books/any(b: b/Name eq 'Clean Code'), and it should be useful to support creation of something like Books/any(b: b/Publishers/any(p: p/Name eq 'Nora Library')) )
