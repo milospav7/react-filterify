@@ -1,6 +1,7 @@
 import { screen } from "@testing-library/react";
 import { render } from "../test-utils";
 import DropdownFilter from "../components/DropdownFilter";
+import { CONTAINER_IDS } from "../store/store";
 
 test("Dropdown filter with label", () => {
   render(
@@ -8,7 +9,7 @@ test("Dropdown filter with label", () => {
       withAssociatedLabel
       label="User status"
       size="sm"
-      containerId="F2_Test"
+      containerId={CONTAINER_IDS.C2_Test}
       filteringProperty="UserStatus"
       options={["Active", "Inactive", "Banned"].map((v) => ({
         label: v,
@@ -29,7 +30,7 @@ test("Dropdown filter without label", () => {
   render(
     <DropdownFilter
       size="sm"
-      containerId="F2_Test"
+      containerId={CONTAINER_IDS.C2_Test}
       filteringProperty="UserStatus"
       options={["Active", "Inactive", "Banned"].map((v) => ({
         label: v,

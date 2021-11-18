@@ -1,11 +1,12 @@
 import { screen } from "@testing-library/react";
 import ButtonGroupFilter from "../components/ButtonGroupFilter";
+import { CONTAINER_IDS } from "../store/store";
 import { render } from "../test-utils";
 
 test("Button group filter with label", () => {
   render(
     <ButtonGroupFilter
-      containerId="F2_Test"
+      containerId={CONTAINER_IDS.C2_Test}
       withAssociatedLabel
       label="Region"
       isMulti
@@ -23,7 +24,7 @@ test("Button group filter with label", () => {
 test("Button group filter without label", () => {
   render(
     <ButtonGroupFilter
-      containerId="F2_Test"
+      containerId={CONTAINER_IDS.C2_Test}
       isMulti
       filteringProperty="Region"
       options={["Šumadija", "Banat", "Srem"]}

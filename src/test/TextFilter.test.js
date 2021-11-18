@@ -1,5 +1,6 @@
 import { screen } from "@testing-library/react";
 import TextFilter from "../components/TextFilter";
+import { CONTAINER_IDS } from "../store/store";
 import { render } from "../test-utils";
 
 test("Text filter with label", () => {
@@ -9,7 +10,7 @@ test("Text filter with label", () => {
       label="User name"
       filteringProperty="UserName"
       displayName="User name"
-      containerId="F2_Test"
+      containerId={CONTAINER_IDS.C2_Test}
       placeholder="Search for user.."
     />
   );
@@ -22,7 +23,7 @@ test("Text filter without label", () => {
   render(
     <TextFilter
       filteringProperty="UserName"
-      containerId="F2_Test"
+      containerId={CONTAINER_IDS.C2_Test}
       placeholder="Search for user.."
     />
   );

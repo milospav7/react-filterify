@@ -1,11 +1,12 @@
 import { screen } from "@testing-library/react";
 import NumericFilter from "../components/NumericFilter";
+import { CONTAINER_IDS } from "../store/store";
 import { render } from "../test-utils";
 
 test("Numeric filter with label", () => {
   render(
     <NumericFilter
-      containerId="F2_Test"
+      containerId={CONTAINER_IDS.C2_Test}
       withAssociatedLabel
       label="Year when joined"
       filteringProperty="YearJoined"
@@ -22,7 +23,7 @@ test("Numeric filter with label", () => {
 test("Numeric filter without label", () => {
   render(
     <NumericFilter
-      containerId="F2_Test"
+      containerId={CONTAINER_IDS.C2_Test}
       filteringProperty="YearJoined"
       placeholder="Datetime when joined.."
     />

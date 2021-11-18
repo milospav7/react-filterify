@@ -2,10 +2,15 @@ import { createStore, combineReducers } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { configureFilterfyReducer } from "./orchestratorReducer";
 
+export const CONTAINER_IDS = {
+  C1: "C1",
+  C2_Test: "C2_Test",
+};
+
 const composedEnhancers = composeWithDevTools();
 const filterifyFilters = configureFilterfyReducer([
   {
-    id: "F1",
+    id: CONTAINER_IDS.C1,
     saveToLocalStorage: true,
     styleSchema: {
       highlightWhenInUse: true,
@@ -15,7 +20,7 @@ const filterifyFilters = configureFilterfyReducer([
     },
   },
   {
-    id: "F2_Test",
+    id: CONTAINER_IDS.C2_Test,
     saveToLocalStorage: false,
   },
 ]);

@@ -1,22 +1,20 @@
 import ReactJson from "react-json-view";
 import "./App.css";
 import "./style/style.css";
-import {
-  useContainerState,
-  useODataFilterQuery,
-} from "./components/hooks";
+import { useContainerState, useODataFilterQuery } from "./components/hooks";
 import UserFilters from "./test/UserFilters";
+import { CONTAINER_IDS } from "./store/store";
 
 function App() {
-  const filter = useContainerState("F1");
-  const queryString = useODataFilterQuery("F1");
+  const filter = useContainerState(CONTAINER_IDS.C1);
+  const queryString = useODataFilterQuery(CONTAINER_IDS.C1);
 
   return (
     <div className="App">
       <div className="d-flex flex-row p-5">
         <div className="col-4">
           <h5 className="text-muted">USER FILTERS</h5>
-          <UserFilters containerId="F1" />
+          <UserFilters containerId={CONTAINER_IDS.C1} />
         </div>
         <div className="p-3">
           <h5 className="text-muted mb-4">FILTERS IN-MEMORY STATE</h5>
