@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 import TextFilter from "../../../components/TextFilter";
 import { CONTAINER_IDS } from "../../../store/store";
 import { render, rtrCreate } from "../../../test-utils";
@@ -33,10 +33,22 @@ test("Text filter without label", () => {
   expect(screen.getByPlaceholderText(/search for user/i)).toHaveValue("");
 });
 
+test("Operators menu will be rendered when toggle button clicked", () => {
+  render(
+    <TextFilter
+      filteringProperty="UserName"
+      containerId={CONTAINER_IDS.C2_Test}
+      placeholder="Search for user.."
+    />
+  );
+  fireEvent.click(screen.getByTestId(`${CONTAINER_IDS.C2_Test}-oprs-menu-btn`));
+  expect(screen.queryByText("Contains")).toBeInTheDocument();
+});
+
 // To throw error without container id
 
 /** SNAPSHOT TESTING */
-it("Render TextFilter as expected", () => {
+test("Render TextFilter as expected", () => {
   const filter = rtrCreate(
     <TextFilter
       filteringProperty="UserName"

@@ -112,7 +112,10 @@ const NumericFilter: React.FC<IProps> = ({
           <InputGroup size="sm">
             <InputGroupAddon addonType="prepend">
               <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
-                <DropdownToggle className="p-0 m-0 rounded-left text-muted z-index-auto">
+                <DropdownToggle
+                  className="p-0 m-0 rounded-left text-muted z-index-auto"
+                  data-testid={`${containerId}-oprs-menu-btn`}
+                >
                   <FontAwesomeIcon
                     icon={faCaretDown}
                     className="mx-1 text-light"

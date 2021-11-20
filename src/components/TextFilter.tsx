@@ -163,7 +163,10 @@ const TextFilter: React.FC<BaseFilterProps> = ({
                 isOpen={dropdownOpen}
                 toggle={toggleOperatorsDropdown}
               >
-                <DropdownToggle className="p-0 m-0 rounded-left text-muted z-index-auto">
+                <DropdownToggle
+                  data-testid={`${containerId}-oprs-menu-btn`}
+                  className="p-0 m-0 rounded-left text-muted z-index-auto"
+                >
                   <FontAwesomeIcon
                     icon={faCaretDown}
                     className="mx-1 text-light"

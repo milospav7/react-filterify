@@ -19,6 +19,7 @@ exports[`Render NumericFilter as expected 1`] = `
           aria-haspopup={true}
           aria-label={null}
           className="p-0 m-0 rounded-left text-muted z-index-auto btn btn-secondary"
+          data-testid="C2_Test-oprs-menu-btn"
           onClick={[Function]}
           type="button"
         >

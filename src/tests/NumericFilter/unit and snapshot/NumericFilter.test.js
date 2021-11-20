@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 import NumericFilter from "../../../components/NumericFilter";
 import { CONTAINER_IDS } from "../../../store/store";
 import { render, rtrCreate } from "../../../test-utils";
@@ -38,6 +38,18 @@ test("Numeric filter without label", () => {
   expect(screen.getByPlaceholderText(/datetime when joined/i)).toHaveValue(
     null
   );
+});
+
+test("Operators menu will be rendered when toggle button clicked", () => {
+  render(
+    <NumericFilter
+      containerId={CONTAINER_IDS.C2_Test}
+      filteringProperty="YearJoined"
+      placeholder="Datetime when joined.."
+    />
+  );
+  fireEvent.click(screen.getByTestId(`${CONTAINER_IDS.C2_Test}-oprs-menu-btn`));
+  expect(screen.queryByText("Equal")).toBeInTheDocument();
 });
 
 // To throw error without container id
