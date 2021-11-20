@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Render ButtonGroupFilter as expected 1`] = `
+exports[`Render DropdownFilter as expected 1`] = `
 <div
   className="mb-2"
 >
