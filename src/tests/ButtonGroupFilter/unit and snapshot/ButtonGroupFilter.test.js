@@ -1,8 +1,9 @@
 import { screen } from "@testing-library/react";
 import ButtonGroupFilter from "../../../components/ButtonGroupFilter";
 import { CONTAINER_IDS } from "../../../store/store";
-import { render } from "../../../test-utils";
+import { render, rtrCreate } from "../../../test-utils";
 
+/** UNIT TESTING */
 test("Button group filter with label", () => {
   render(
     <ButtonGroupFilter
@@ -38,3 +39,18 @@ test("Button group filter without label", () => {
 });
 
 // To throw error without container id
+
+/** SNAPSHOT TESTING */
+it("Render ButtonGroupFilter as expected", () => {
+  const filter = rtrCreate(
+    <ButtonGroupFilter
+      containerId={CONTAINER_IDS.C2_Test}
+      isMulti
+      filteringProperty="Region"
+      options={["Šumadija", "Banat", "Srem"]}
+      className="text-left mb-3"
+    />
+  ).toJSON();
+
+  expect(filter).toMatchSnapshot();
+});

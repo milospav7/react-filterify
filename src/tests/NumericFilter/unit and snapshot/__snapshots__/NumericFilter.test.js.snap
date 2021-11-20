@@ -1,0 +1,147 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render NumericFilter as expected 1`] = `
+<div
+  className="mb-2"
+>
+  <div
+    className="input-group input-group-sm"
+  >
+    <div
+      className="input-group-prepend"
+    >
+      <div
+        className="btn-group"
+        onKeyDown={[Function]}
+      >
+        <button
+          aria-expanded={false}
+          aria-haspopup={true}
+          aria-label={null}
+          className="p-0 m-0 rounded-left text-muted z-index-auto btn btn-secondary"
+          onClick={[Function]}
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            className="svg-inline--fa fa-caret-down fa-w-10 mx-1 text-light"
+            data-icon="caret-down"
+            data-prefix="fas"
+            focusable="false"
+            role="img"
+            style={Object {}}
+            viewBox="0 0 320 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+              fill="currentColor"
+              style={Object {}}
+            />
+          </svg>
+        </button>
+        <div
+          aria-hidden={true}
+          className="dropdown-menu"
+          role="menu"
+          tabIndex="-1"
+        >
+          <button
+            className="dropdown-item active"
+            onClick={[Function]}
+            role="menuitem"
+            tabIndex="0"
+            type="button"
+          >
+            Equal
+          </button>
+          <button
+            className="dropdown-item"
+            onClick={[Function]}
+            role="menuitem"
+            tabIndex="0"
+            type="button"
+          >
+            Not equal
+          </button>
+          <button
+            className="dropdown-item"
+            onClick={[Function]}
+            role="menuitem"
+            tabIndex="0"
+            type="button"
+          >
+            Greater than
+          </button>
+          <button
+            className="dropdown-item"
+            onClick={[Function]}
+            role="menuitem"
+            tabIndex="0"
+            type="button"
+          >
+            Greater than or equal
+          </button>
+          <button
+            className="dropdown-item"
+            onClick={[Function]}
+            role="menuitem"
+            tabIndex="0"
+            type="button"
+          >
+            Less than
+          </button>
+          <button
+            className="dropdown-item"
+            onClick={[Function]}
+            role="menuitem"
+            tabIndex="0"
+            type="button"
+          >
+            Less than or equal
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      className="input-group-prepend"
+    >
+      <span
+        className="input-group-text"
+      >
+        <svg
+          aria-hidden="true"
+          className="svg-inline--fa fa-equals fa-w-14 "
+          data-icon="equals"
+          data-prefix="fas"
+          focusable="false"
+          role="img"
+          style={
+            Object {
+              "fontSize": ".9em",
+            }
+          }
+          viewBox="0 0 448 512"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M416 304H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32zm0-192H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"
+            fill="currentColor"
+            style={Object {}}
+          />
+        </svg>
+      </span>
+    </div>
+    <input
+      className="form-control-sm form-control"
+      id="YearJoined-id-dbf"
+      name="YearJoined"
+      onChange={[Function]}
+      placeholder="Datetime when joined.."
+      role="textbox"
+      type="number"
+      value=""
+    />
+  </div>
+</div>
+`;

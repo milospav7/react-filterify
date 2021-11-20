@@ -1,8 +1,9 @@
 import { screen } from "@testing-library/react";
 import TextFilter from "../../../components/TextFilter";
 import { CONTAINER_IDS } from "../../../store/store";
-import { render } from "../../../test-utils";
+import { render, rtrCreate } from "../../../test-utils";
 
+/** UNIT TESTING */
 test("Text filter with label", () => {
   render(
     <TextFilter
@@ -33,3 +34,16 @@ test("Text filter without label", () => {
 });
 
 // To throw error without container id
+
+/** SNAPSHOT TESTING */
+it("Render TextFilter as expected", () => {
+  const filter = rtrCreate(
+    <TextFilter
+      filteringProperty="UserName"
+      containerId={CONTAINER_IDS.C2_Test}
+      placeholder="Search for user.."
+    />
+  ).toJSON();
+
+  expect(filter).toMatchSnapshot();
+});

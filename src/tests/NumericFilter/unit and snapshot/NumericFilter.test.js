@@ -1,8 +1,9 @@
 import { screen } from "@testing-library/react";
 import NumericFilter from "../../../components/NumericFilter";
 import { CONTAINER_IDS } from "../../../store/store";
-import { render } from "../../../test-utils";
+import { render, rtrCreate } from "../../../test-utils";
 
+/** UNIT TESTING */
 test("Numeric filter with label", () => {
   render(
     <NumericFilter
@@ -16,7 +17,9 @@ test("Numeric filter with label", () => {
   expect(
     screen.getByPlaceholderText(/datetime when joined/i)
   ).toBeInTheDocument();
-  expect(screen.getByPlaceholderText(/datetime when joined/i)).toHaveValue(null);
+  expect(screen.getByPlaceholderText(/datetime when joined/i)).toHaveValue(
+    null
+  );
   expect(screen.getByText(/year when joined/i)).toBeInTheDocument();
 });
 
@@ -32,7 +35,22 @@ test("Numeric filter without label", () => {
   expect(
     screen.getByPlaceholderText(/datetime when joined/i)
   ).toBeInTheDocument();
-  expect(screen.getByPlaceholderText(/datetime when joined/i)).toHaveValue(null);
+  expect(screen.getByPlaceholderText(/datetime when joined/i)).toHaveValue(
+    null
+  );
 });
 
 // To throw error without container id
+
+/** SNAPSHOT TESTING */
+it("Render NumericFilter as expected", () => {
+  const filter = rtrCreate(
+    <NumericFilter
+      containerId={CONTAINER_IDS.C2_Test}
+      filteringProperty="YearJoined"
+      placeholder="Datetime when joined.."
+    />
+  ).toJSON();
+
+  expect(filter).toMatchSnapshot();
+});
