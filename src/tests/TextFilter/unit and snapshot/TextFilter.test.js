@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/react";
-import TextFilter from "../components/TextFilter";
-import { CONTAINER_IDS } from "../store/store";
-import { render } from "../test-utils";
+import TextFilter from "../../../components/TextFilter";
+import { CONTAINER_IDS } from "../../../store/store";
+import { render } from "../../../test-utils";
 
 test("Text filter with label", () => {
   render(

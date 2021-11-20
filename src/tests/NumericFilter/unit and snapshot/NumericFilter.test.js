@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/react";
-import NumericFilter from "../components/NumericFilter";
-import { CONTAINER_IDS } from "../store/store";
-import { render } from "../test-utils";
+import NumericFilter from "../../../components/NumericFilter";
+import { CONTAINER_IDS } from "../../../store/store";
+import { render } from "../../../test-utils";
 
 test("Numeric filter with label", () => {
   render(

@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/react";
-import { render } from "../test-utils";
-import DropdownFilter from "../components/DropdownFilter";
-import { CONTAINER_IDS } from "../store/store";
+import DropdownFilter from "../../../components/DropdownFilter";
+import { CONTAINER_IDS } from "../../../store/store";
+import { render } from "../../../test-utils";
 
 test("Dropdown filter with label", () => {
   render(

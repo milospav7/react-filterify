@@ -2,7 +2,7 @@ import ReactJson from "react-json-view";
 import "./App.css";
 import "./style/style.css";
 import { useContainerState, useODataFilterQuery } from "./components/hooks";
-import UserFilters from "./test/UserFilters";
+import UserFilters from "./tests/UserFilters";
 import { CONTAINER_IDS } from "./store/store";
 
 function App() {

@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/react";
-import ButtonGroupFilter from "../components/ButtonGroupFilter";
-import { CONTAINER_IDS } from "../store/store";
-import { render } from "../test-utils";
+import ButtonGroupFilter from "../../../components/ButtonGroupFilter";
+import { CONTAINER_IDS } from "../../../store/store";
+import { render } from "../../../test-utils";
 
 test("Button group filter with label", () => {
   render(
