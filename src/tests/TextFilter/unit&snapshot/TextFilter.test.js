@@ -33,7 +33,7 @@ test("Text filter without label", () => {
   expect(screen.getByPlaceholderText(/search for user/i)).toHaveValue("");
 });
 
-test("Operators menu will be rendered when toggle button clicked", () => {
+test("Operators menu will be displayed when toggle button clicked", () => {
   render(
     <TextFilter
       filteringProperty="UserName"

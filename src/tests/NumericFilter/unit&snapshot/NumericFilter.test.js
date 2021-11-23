@@ -40,7 +40,7 @@ test("Numeric filter without label", () => {
   );
 });
 
-test("Operators menu will be rendered when toggle button clicked", () => {
+test("Operators menu will be displayed when toggle button clicked", () => {
   render(
     <NumericFilter
       containerId={CONTAINER_IDS.C2_Test}
