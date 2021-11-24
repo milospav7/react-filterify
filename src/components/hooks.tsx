@@ -20,9 +20,6 @@ export const useContainerState = (containerId: string) => ({
   functionFilters: useSelector(
     (state: any) => state.filterifyFilters[containerId]?.functionFilters
   ),
-  styleSchema: useSelector(
-    (state: any) => state.filterifyFilters[containerId]?.styleSchema
-  ),
   dateTimeUpdated: useSelector(
     (state: any) => state.filterifyFilters[containerId]?.dateTimeUpdated
   ),
@@ -41,6 +38,12 @@ export const useActiveFiltersCounter = (containerId: string) => {
 
   return counter;
 };
+
+export const useContainerStyleSchema = (containerId: string) => ({
+  styleSchema: useSelector(
+    (state: any) => state.filterifyFilters[containerId]?.styleSchema
+  ),
+});
 
 export const useContainerSubscription = (
   containerId: string,
