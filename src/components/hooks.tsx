@@ -25,7 +25,7 @@ export const useContainerState = (containerId: string) => ({
   ),
 });
 
-export const useActiveFiltersCounter = (containerId: string) => {
+export const useContainerActiveFiltersCounter = (containerId: string) => {
   let counter = 0;
 
   const { propertyFilters, navigationPropertyFilters, functionFilters } =

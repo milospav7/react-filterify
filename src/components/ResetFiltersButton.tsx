@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { Button } from "reactstrap";
-import { useActiveFiltersCounter, useContainerActions } from "./hooks";
+import { useContainerActiveFiltersCounter, useContainerActions } from "./hooks";
 
 interface IResetFiltersButtonProps {
   containerId: string;
@@ -13,7 +13,7 @@ const ResetFiltersButton: React.FC<IResetFiltersButtonProps> = ({
   className = "cursor-pointer btn btn-danger",
   label = "Clear filters",
 }) => {
-  const filtersCounter = useActiveFiltersCounter(containerId);
+  const filtersCounter = useContainerActiveFiltersCounter(containerId);
   const { removeAllFilters } = useContainerActions(containerId);
 
   const memoizedFilter = useMemo(
