@@ -5,7 +5,7 @@ import { Option } from "react-select/src/filters";
 import { BaseFilterProps } from "../store/interfaces";
 import { FilterOption } from "../store/types";
 import FilterDecorator from "./FilterDecorator";
-import { useFilterActions, useFilterState } from "./hooks";
+import { useContainerStyleSchema, useFilterActions, useFilterState } from "./hooks";
 
 interface IProps extends BaseFilterProps {
   options: Array<Option | FilterOption>;
@@ -40,6 +40,7 @@ const DropdownFilter: React.FC<IProps> = ({
     filteringProperty,
     navigationProperty
   );
+  const styleSchema = useContainerStyleSchema(containerId);
 
   const updateTargetFilter = useCallback((value) => updateFilter(value), []);
 

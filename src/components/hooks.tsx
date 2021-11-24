@@ -39,11 +39,8 @@ export const useActiveFiltersCounter = (containerId: string) => {
   return counter;
 };
 
-export const useContainerStyleSchema = (containerId: string) => ({
-  styleSchema: useSelector(
-    (state: any) => state.filterifyFilters[containerId]?.styleSchema
-  ),
-});
+export const useContainerStyleSchema = (containerId: string) =>
+  useSelector((state: any) => state.filterifyFilters[containerId].styleSchema);
 
 export const useContainerSubscription = (
   containerId: string,

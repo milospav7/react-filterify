@@ -20,7 +20,12 @@ import {
   faNotEqual,
 } from "@fortawesome/free-solid-svg-icons";
 import { ValueTypedObject } from "../store/types";
-import { useFilterActions, useFilterState, useContainerState } from "./hooks";
+import {
+  useFilterActions,
+  useFilterState,
+  useContainerState,
+  useContainerStyleSchema,
+} from "./hooks";
 import { DebouncedInputField } from "./DebouncedInputField";
 import { BaseFilterProps } from "../store/interfaces";
 import FilterDecorator from "./FilterDecorator";
@@ -117,6 +122,7 @@ const TextFilter: React.FC<BaseFilterProps> = ({
     filteringProperty,
     navigationProperty
   );
+  const styleSchema = useContainerStyleSchema(containerId);
 
   const updateTargetFilter = useCallback(
     (value: any) => {
