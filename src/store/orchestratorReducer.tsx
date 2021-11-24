@@ -51,9 +51,9 @@ const filterifyFilters = (state = FILTER_CONTAINERS, action: any) => {
 export const configureFilterfyReducer = (
   preconfigurations: FilterConfigurationType[]
 ) => {
-  if (!preconfigurations || preconfigurations.length === 0)
+  if (preconfigurations.length === 0)
     throw new Error(
-      "Filteirfy reducer configurator function 'configureFilterfyReducer' must recive at least one filter configuration."
+      "Filteirfy reducer configurator function 'configureFilterfyReducer' must receive at least one filter configuration."
     );
 
   preconfigurations.forEach((config: FilterConfigurationType) => {

@@ -218,8 +218,7 @@ export const containerReducer = (
   }
 };
 
-// All helper methods process only data from filter instances, created with this filter reducer
-export class FilterHelperMethods {
+export class ContainerHelperMethods {
   /**
    * Method will use propertyFilters, navigationPropertyFilters and functionFilters(objects and array from filter instance) to generate kendo filter object that GenericDataGrid can use when calling getMethod, in order to filter data
    * @param {Object} filters propertyFilters map - part of filter instance state
@@ -239,9 +238,9 @@ export class FilterHelperMethods {
     const filterQueryStrings: any = {
       propertyFiltersQueryString: "",
       functionFiltersQueryString:
-        FilterHelperMethods.getFunctionFiltersQueryString(functionFilters),
+        ContainerHelperMethods.getFunctionFiltersQueryString(functionFilters),
       navigationPropertyFilterQueryString:
-        FilterHelperMethods.getNavigationPropFiltersQueryString(
+        ContainerHelperMethods.getNavigationPropFiltersQueryString(
           navigationPropertyFilters
         ),
     };
@@ -456,7 +455,7 @@ export class FilterHelperMethods {
       propertyFiltersQueryString,
       navigationPropertyFilterQueryString,
       functionFiltersQueryString,
-    } = FilterHelperMethods.getFilterStrings(
+    } = ContainerHelperMethods.getFilterStrings(
       filters.propertyFilters,
       filters.functionFilters,
       filters.navigationPropertyFilters
