@@ -9,6 +9,8 @@ import {
 import { FilterHelperMethods } from "../store/containerReducer";
 import { FilteringEventHandlersType, FilterOperatorType } from "../store/types";
 
+//#region Container specific hooks
+
 export const useContainerState = (containerId: string) => ({
   propertyFilters: useSelector(
     (state: any) => state.filterifyFilters[containerId]?.propertyFilters
@@ -79,6 +81,40 @@ export const useContainerSubscription = (
   }, [dateTimeFilterUpdated]);
 };
 
+export const useContainerActions = (containerId: string) => {
+  const dispatcher = useDispatch();
+
+  const removeAllFilters = useCallback(() => {
+    dispatcher(resetAllFilters(containerId));
+  }, [dispatcher, containerId]);
+
+  return { removeAllFilters };
+};
+
+export const useODataFilterQuery = (containerId: string) => {
+  const {
+    propertyFilters,
+    navigationPropertyFilters,
+    functionFilters,
+    dateTimeUpdated,
+  } = useContainerState(containerId);
+
+  const filterQueryString = useMemo(
+    () =>
+      FilterHelperMethods.generateODataFilterString({
+        propertyFilters,
+        navigationPropertyFilters,
+        functionFilters,
+      }),
+    [dateTimeUpdated]
+  );
+
+  return filterQueryString;
+};
+//#endregion
+
+//#region Single filter specific hooks
+
 export const useFilterActions = (
   containerId: string,
   filteringProperty: string,
@@ -119,16 +155,6 @@ export const useFilterActions = (
   return { updateFilter };
 };
 
-export const useContainerActions = (containerId: string) => {
-  const dispatcher = useDispatch();
-
-  const removeAllFilters = useCallback(() => {
-    dispatcher(resetAllFilters(containerId));
-  }, [dispatcher, containerId]);
-
-  return { removeAllFilters };
-};
-
 export const useFilterState = (
   containerId: string,
   filteringProperty: string,
@@ -149,24 +175,4 @@ export const useFilterState = (
 
   return { filterValue, filterOperator };
 };
-
-export const useODataFilterQuery = (containerId: string) => {
-  const {
-    propertyFilters,
-    navigationPropertyFilters,
-    functionFilters,
-    dateTimeUpdated,
-  } = useContainerState(containerId);
-
-  const filterQueryString = useMemo(
-    () =>
-      FilterHelperMethods.generateODataFilterString({
-        propertyFilters,
-        navigationPropertyFilters,
-        functionFilters,
-      }),
-    [dateTimeUpdated]
-  );
-
-  return filterQueryString;
-};
+//#endregion
