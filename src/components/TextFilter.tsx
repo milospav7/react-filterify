@@ -49,6 +49,7 @@ const faIconByOperator: ValueTypedObject<any> = {
   endswith: faAsterisk,
 };
 
+//** TODO: should be moved in filter generator part and handled by centralized mechanism. Filter component should ony dispatch type of filter, it's value and selected operator, no need to determine any custom expression from ui components  */
 const generateCustomExpression = (
   filteringProperty: string,
   opr: string,
@@ -104,11 +105,11 @@ const TextFilter: React.FC<BaseFilterProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const [dropdownOpen, setOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [operator, setOperator] = useState(getInitialOperator());
   const inputRef = useRef<Input>(null);
-  const toggleOperatorsDropdown = useCallback(
-    () => setOpen(!dropdownOpen),
+  const toggleDropdown = useCallback(
+    () => setDropdownOpen(!dropdownOpen),
     [dropdownOpen]
   );
 
@@ -122,7 +123,7 @@ const TextFilter: React.FC<BaseFilterProps> = ({
     filteringProperty,
     navigationProperty
   );
-  const styleSchema = useContainerStyleSchema(containerId);
+  const { styles } = useContainerStyleSchema(containerId);
 
   const updateTargetFilter = useCallback(
     (value: any) => {
@@ -161,14 +162,12 @@ const TextFilter: React.FC<BaseFilterProps> = ({
         labelClassName={labelClassName}
         label={label}
         style={style}
+        labelStyle={styles.label}
       >
         <>
           <InputGroup size="sm">
             <InputGroupAddon addonType="prepend">
-              <ButtonDropdown
-                isOpen={dropdownOpen}
-                toggle={toggleOperatorsDropdown}
-              >
+              <ButtonDropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
                 <DropdownToggle
                   data-testid={`${containerId}-oprs-menu-btn`}
                   className="p-0 m-0 rounded-left text-muted z-index-auto"
@@ -244,6 +243,7 @@ const TextFilter: React.FC<BaseFilterProps> = ({
               filterValue={filterValue}
               onChange={updateTargetFilter}
               placeholder={placeholder ?? label}
+              style={styles.input}
             />
           </InputGroup>
         </>
