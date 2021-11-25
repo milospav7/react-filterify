@@ -4,7 +4,11 @@ import { useDispatch } from "react-redux";
 import { Button, ButtonGroup } from "reactstrap";
 import { BaseFilterProps } from "../store/interfaces";
 import FilterDecorator from "./FilterDecorator";
-import { useFilterActions, useFilterState } from "./hooks";
+import {
+  useContainerStyleSchema,
+  useFilterActions,
+  useFilterState,
+} from "./hooks";
 
 interface IProps extends BaseFilterProps {
   options: Array<any>;
@@ -37,6 +41,7 @@ const ButtonGroupFilter: React.FC<IProps> = ({
     filteringProperty,
     navigationProperty
   );
+  const { styles } = useContainerStyleSchema(containerId);
 
   const updateInMultitMode = useCallback(
     (value) => {
@@ -64,7 +69,7 @@ const ButtonGroupFilter: React.FC<IProps> = ({
     [containerId, filterValue, dispatcher, filteringProperty, filterOperator]
   );
 
-  const setPropertyFilter = useCallback(
+  const updateTargetFilter = useCallback(
     (value) => {
       if (isMulti) {
         updateInMultitMode(value);
@@ -91,6 +96,7 @@ const ButtonGroupFilter: React.FC<IProps> = ({
         labelClassName={labelClassName}
         label={label}
         style={style}
+        labelStyle={styles.label}
       >
         <ButtonGroup key={`bgf-${filteringProperty}`} size="sm">
           {options.map((opt, ind) => (
@@ -99,7 +105,7 @@ const ButtonGroupFilter: React.FC<IProps> = ({
               className="no-higlight-focus"
               color="light"
               onClick={() => {
-                setPropertyFilter(opt);
+                updateTargetFilter(opt);
               }}
               active={isOptionSelected(opt)}
             >
@@ -109,7 +115,13 @@ const ButtonGroupFilter: React.FC<IProps> = ({
         </ButtonGroup>
       </FilterDecorator>
     ),
-    [className, filteringProperty, options, isOptionSelected, setPropertyFilter]
+    [
+      className,
+      filteringProperty,
+      options,
+      isOptionSelected,
+      updateTargetFilter,
+    ]
   );
 
   return memoizedFilter;
