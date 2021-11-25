@@ -21,7 +21,7 @@ import {
   faLessThanEqual,
   faNotEqual,
 } from "@fortawesome/free-solid-svg-icons";
-import { TStyles, ValueTypedObject } from "../store/types";
+import { ValueTypedObject } from "../store/types";
 import {
   useContainerStyleSchema,
   useFilterActions,
@@ -67,8 +67,8 @@ const NumericFilter: React.FC<IProps> = ({
   label,
   style,
 }) => {
-  const [dropdownOpen, setOpen] = useState(false);
-  const toggleDropdown = () => setOpen(!dropdownOpen);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
   const dispatcher = useDispatch();
   const inputRef = useRef<Input>(null);
 

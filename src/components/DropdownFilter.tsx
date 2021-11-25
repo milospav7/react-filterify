@@ -47,7 +47,7 @@ const DropdownFilter: React.FC<IProps> = ({
   const { styles } = useContainerStyleSchema(containerId);
 
   const updateTargetFilter = useCallback((value) => updateFilter(value), []);
-console.log(styles.label)
+
   const memoizedFilter = useMemo(
     () => (
       <FilterDecorator
