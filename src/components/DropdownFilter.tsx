@@ -5,7 +5,11 @@ import { Option } from "react-select/src/filters";
 import { BaseFilterProps } from "../store/interfaces";
 import { FilterOption } from "../store/types";
 import FilterDecorator from "./FilterDecorator";
-import { useContainerStyleSchema, useFilterActions, useFilterState } from "./hooks";
+import {
+  useContainerStyleSchema,
+  useFilterActions,
+  useFilterState,
+} from "./hooks";
 
 interface IProps extends BaseFilterProps {
   options: Array<Option | FilterOption>;
@@ -40,10 +44,10 @@ const DropdownFilter: React.FC<IProps> = ({
     filteringProperty,
     navigationProperty
   );
-  const styleSchema = useContainerStyleSchema(containerId);
+  const { styles } = useContainerStyleSchema(containerId);
 
   const updateTargetFilter = useCallback((value) => updateFilter(value), []);
-
+console.log(styles.label)
   const memoizedFilter = useMemo(
     () => (
       <FilterDecorator
@@ -52,6 +56,7 @@ const DropdownFilter: React.FC<IProps> = ({
         labelClassName={labelClassName}
         label={label}
         style={style}
+        labelStyle={styles.label}
       >
         <Select
           key={`${filteringProperty}-ddf`}
@@ -64,6 +69,9 @@ const DropdownFilter: React.FC<IProps> = ({
           isLoading={isLoading}
           placeholder={placeholder}
           name={filteringProperty}
+          styles={{
+            valueContainer: (base: any) => ({ ...base, ...styles.input }),
+          }}
         />
       </FilterDecorator>
     ),

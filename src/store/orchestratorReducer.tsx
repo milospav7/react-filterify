@@ -57,17 +57,15 @@ export const configureFilterfyReducer = (
     );
 
   preconfigurations.forEach((config: FilterConfigurationType) => {
-    const defaultState: ContainerType = {
-      ...containerInitialState,
+    let initialState = config.saveToLocalStorage
+      ? tryGetInitStateFromStorage(config.id, containerInitialState)
+      : containerInitialState;
+
+    FILTER_CONTAINERS[config.id] = {
+      ...initialState,
       saveToLocalStorage: config.saveToLocalStorage,
       styleSchema: config.styleSchema,
     };
-
-    let initialState = config.saveToLocalStorage
-      ? tryGetInitStateFromStorage(config.id, defaultState)
-      : defaultState;
-
-    FILTER_CONTAINERS[config.id] = initialState;
   });
 
   return filterifyFilters;

@@ -14,8 +14,8 @@ const filterifyFilters = configureFilterfyReducer([
     saveToLocalStorage: true,
     styleSchema: {
       highlightWhenInUse: true,
-      labelColor: "red",
-      labelFontSize: "13px",
+      labelColor: "black",
+      labelFontSize: ".8em",
     },
   },
   {
