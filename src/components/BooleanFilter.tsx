@@ -3,7 +3,11 @@ import React, { useCallback, useMemo } from "react";
 import Select from "react-select";
 import { BaseFilterProps } from "../store/interfaces";
 import FilterDecorator from "./FilterDecorator";
-import { useFilterActions, useFilterState } from "./hooks";
+import {
+  useContainerStyleSchema,
+  useFilterActions,
+  useFilterState,
+} from "./hooks";
 
 const options = [
   { value: true, label: "Yes" },
@@ -40,6 +44,7 @@ const BooleanFilter: React.FC<IProps> = ({
     filteringProperty,
     navigationProperty
   );
+  const { styles } = useContainerStyleSchema(containerId);
 
   const updateTargetFilter = useCallback((value) => updateFilter(value), []);
 
@@ -51,6 +56,7 @@ const BooleanFilter: React.FC<IProps> = ({
         labelClassName={labelClassName}
         label={label}
         style={style}
+        labelStyle={styles.label}
       >
         <Select
           key={`${filteringProperty}-blf`}
@@ -61,6 +67,9 @@ const BooleanFilter: React.FC<IProps> = ({
           onChange={updateTargetFilter}
           isClearable={isClearable}
           isLoading={isLoading}
+          styles={{
+            valueContainer: (base: any) => ({ ...base, ...styles.input }),
+          }}
         />
       </FilterDecorator>
     ),
