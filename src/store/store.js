@@ -16,7 +16,6 @@ const filterifyFilters = configureFilterfyReducer([
       highlightWhenInUse: true,
       labelColor: "red",
       labelFontSize: "13px",
-      placeholderColor: "green",
     },
   },
   {

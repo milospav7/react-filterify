@@ -1,8 +1,9 @@
+import { CSSProperties } from "react";
+
 type FilterStyleSchemaType = {
-  labelFontSize: string | number;
-  placeholderFontSize: string | number;
+  labelFontSize: string;
+  placeholderFontSize: string;
   labelColor: string;
-  placeholderColor: string;
   highlightWhenInUse: boolean;
 };
 
@@ -47,6 +48,16 @@ type FilteringEventHandlersType = {
 
 type FilterOperatorType = { operator: string; logic?: string };
 
+type TStyles = ValueTypedObject<CSSProperties>;
+
+type TContainerStyle = {
+  styles: {
+    label: TStyles;
+    input: TStyles;
+  };
+  highlightWhenInUse: boolean | undefined;
+};
+
 export {
   AnyObject,
   FilterStyleSchemaType,
@@ -56,4 +67,6 @@ export {
   FilterOption,
   FilteringEventHandlersType,
   FilterOperatorType,
+  TStyles,
+  TContainerStyle,
 };

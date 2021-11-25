@@ -21,7 +21,7 @@ import {
   faLessThanEqual,
   faNotEqual,
 } from "@fortawesome/free-solid-svg-icons";
-import { ValueTypedObject } from "../store/types";
+import { TStyles, ValueTypedObject } from "../store/types";
 import {
   useContainerStyleSchema,
   useFilterActions,
@@ -68,7 +68,7 @@ const NumericFilter: React.FC<IProps> = ({
   style,
 }) => {
   const [dropdownOpen, setOpen] = useState(false);
-  const toggle = () => setOpen(!dropdownOpen);
+  const toggleDropdown = () => setOpen(!dropdownOpen);
   const dispatcher = useDispatch();
   const inputRef = useRef<Input>(null);
 
@@ -82,8 +82,8 @@ const NumericFilter: React.FC<IProps> = ({
     filteringProperty,
     navigationProperty
   );
-  const styleSchema = useContainerStyleSchema(containerId);
   const operator = filterOperator ?? operatorSymbols.eq;
+  const { styles } = useContainerStyleSchema(containerId);
 
   const updateTargetFilter = (value: string | null) => {
     if (value) {
@@ -112,11 +112,12 @@ const NumericFilter: React.FC<IProps> = ({
         labelClassName={labelClassName}
         label={label}
         style={style}
+        labelStyle={styles.label}
       >
         <>
           <InputGroup size="sm">
             <InputGroupAddon addonType="prepend">
-              <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
+              <ButtonDropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
                 <DropdownToggle
                   className="p-0 m-0 rounded-left text-muted z-index-auto"
                   data-testid={`${containerId}-oprs-menu-btn`}
@@ -181,6 +182,7 @@ const NumericFilter: React.FC<IProps> = ({
               onChange={updateTargetFilter}
               type="number"
               placeholder={placeholder ?? label}
+              style={styles.input}
             />
           </InputGroup>
         </>

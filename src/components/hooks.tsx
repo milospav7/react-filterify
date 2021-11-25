@@ -6,8 +6,12 @@ import {
   updateNavigationPropertyFilter,
   updatePropertyFilter,
 } from "../store/actionCreators";
-import { FilterHelperMethods } from "../store/containerReducer";
-import { FilteringEventHandlersType, FilterOperatorType } from "../store/types";
+import { ContainerHelperMethods } from "../store/containerReducer";
+import {
+  FilteringEventHandlersType,
+  FilterOperatorType,
+  TContainerStyle,
+} from "../store/types";
 
 //#region Container specific hooks
 
@@ -41,8 +45,27 @@ export const useContainerActiveFiltersCounter = (containerId: string) => {
   return counter;
 };
 
-export const useContainerStyleSchema = (containerId: string) =>
-  useSelector((state: any) => state.filterifyFilters[containerId].styleSchema);
+export const useContainerStyleSchema = (containerId: string) => {
+  const { labelFontSize, placeholderFontSize, labelColor, highlightWhenInUse } =
+    useSelector(
+      (state: any) => state.filterifyFilters[containerId].styleSchema ?? {}
+    );
+
+  const containerStyle: TContainerStyle = {
+    styles: {
+      label: {
+        fontSize: labelFontSize,
+        color: labelColor,
+      },
+      input: {
+        fontSize: placeholderFontSize,
+      },
+    },
+    highlightWhenInUse,
+  };
+
+  return containerStyle;
+};
 
 export const useContainerSubscription = (
   containerId: string,
@@ -101,7 +124,7 @@ export const useODataFilterQuery = (containerId: string) => {
 
   const filterQueryString = useMemo(
     () =>
-      FilterHelperMethods.generateODataFilterString({
+      ContainerHelperMethods.generateODataFilterString({
         propertyFilters,
         navigationPropertyFilters,
         functionFilters,

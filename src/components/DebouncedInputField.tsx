@@ -1,4 +1,4 @@
-import { ChangeEvent, Ref, useEffect, useState } from "react";
+import { ChangeEvent, CSSProperties, Ref, useEffect, useState } from "react";
 import { Input } from "reactstrap";
 import { InputType } from "reactstrap/es/Input";
 
@@ -11,6 +11,7 @@ interface IDebouncedFieldProps {
   onChange: (value: string | null) => void;
   type?: InputType;
   placeholder?: string;
+  style?: CSSProperties;
 }
 
 let timeout: NodeJS.Timeout | null = null;
@@ -22,6 +23,7 @@ export const DebouncedInputField: React.FC<IDebouncedFieldProps> = ({
   filterValue,
   type,
   placeholder,
+  style,
 }) => {
   const [debouncedValue, setDebouncedValue] = useState(filterValue ?? "");
 
@@ -53,6 +55,7 @@ export const DebouncedInputField: React.FC<IDebouncedFieldProps> = ({
       type={type ?? "text"}
       value={debouncedValue}
       onChange={saveWithDebounce}
+      style={style}
     />
   );
 };
