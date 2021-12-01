@@ -35,7 +35,6 @@ React Filterify includes these generic components:
 All generic components have well structured API, with a set of common props related with configuration of property which filter should be bound with, and with set of props related with styling components. All this results in an imperceptible difference, from the code level, when using any generic component.
 
 ## Todo
-- Usage of global style schema(per container) defined in configured filterify reducer
 - Optional prop to hide additional filter operators (useful when external service does not support built-in operators, e.g. basic filtering in REST APIs when only 'equal' is supported)
 - Optional exclude of ceratin built-in operator/s
 - Extend documentation with real examples
