@@ -25,12 +25,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import RenderIf from "./RenderIf";
-import { useFilterActions, useFilterState } from "./hooks";
+import {
+  useContainerStyleSchema,
+  useFilterActions,
+  useFilterState,
+} from "./hooks";
 import { BaseFilterProps } from "../store/interfaces";
 import { ValueTypedObject } from "../store/types";
 import FilterDecorator from "./FilterDecorator";
-
-// registerLocale("en-gb", enGb);
 
 const operatorSymbols: ValueTypedObject<string> = {
   eq: "eq",
@@ -81,6 +83,8 @@ const DateTimeFilter: React.FC<IProps> = ({
     filteringProperty,
     navigationProperty
   );
+  const { styles } = useContainerStyleSchema(containerId);
+
   const [dropdownOpen, setOpen] = useState(false);
   const [operator, setOperator] = useState(
     filterOperator ?? operatorSymbols.eq
@@ -133,6 +137,7 @@ const DateTimeFilter: React.FC<IProps> = ({
         labelClassName={labelClassName}
         label={label}
         style={style}
+        labelStyle={styles.label}
       >
         <InputGroup size="sm">
           <InputGroupAddon addonType="prepend">
@@ -205,7 +210,6 @@ const DateTimeFilter: React.FC<IProps> = ({
             onChange={updateDatetimeFilter}
             isClearable
             placeholderText={placeholder ?? label ?? filteringProperty}
-            // locale="en-gb"
           />
           <RenderIf condition={!hideDateTimeSwitch}>
             <InputGroupAddon addonType="append">
