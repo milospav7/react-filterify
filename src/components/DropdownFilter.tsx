@@ -4,7 +4,7 @@ import Select from "react-select";
 import { Option } from "react-select/src/filters";
 import { BaseFilterProps } from "../store/interfaces";
 import { FilterOption } from "../store/types";
-import { getDropdownStyles } from "./style.utils";
+import { getDropdownStyles } from "./DropdownFilter.utils";
 import FilterDecorator from "./FilterDecorator";
 import {
   useContainerStyleSchema,
