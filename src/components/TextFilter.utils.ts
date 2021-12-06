@@ -1,10 +1,3 @@
-import {
-  faAsterisk,
-  faCommentDots,
-  faCommentSlash,
-  faEquals,
-  faNotEqual,
-} from "@fortawesome/free-solid-svg-icons";
 import { ValueTypedObject } from "../store/types";
 
 const operatorSymbols: ValueTypedObject<string> = {
@@ -14,16 +7,6 @@ const operatorSymbols: ValueTypedObject<string> = {
   endswith: "endswith",
   eq: "eq",
   ne: "ne",
-};
-
-const faIconByOperator: ValueTypedObject<any> = {
-  contains: faCommentDots,
-  doesnotcontain: faCommentSlash,
-  notlike: faCommentSlash,
-  eq: faEquals,
-  ne: faNotEqual,
-  startswith: faAsterisk,
-  endswith: faAsterisk,
 };
 
 //** TODO: should be moved in filter generator part and handled by centralized mechanism. Filter component should ony dispatch type of filter, it's value and selected operator, no need to determine any custom expression from ui components  */
@@ -46,4 +29,4 @@ const generateCustomExpression = (
   return generatedExpression;
 };
 
-export { operatorSymbols, faIconByOperator, generateCustomExpression };
+export { operatorSymbols, generateCustomExpression };

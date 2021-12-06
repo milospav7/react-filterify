@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useMemo, useRef } from "react";
+import React, { useState, useMemo, useRef, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import {
   InputGroup,
@@ -12,16 +11,7 @@ import {
   Input,
 } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCaretDown,
-  faEquals,
-  faGreaterThan,
-  faGreaterThanEqual,
-  faLessThan,
-  faLessThanEqual,
-  faNotEqual,
-} from "@fortawesome/free-solid-svg-icons";
-import { ValueTypedObject } from "../store/types";
+import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import {
   useContainerStyleSchema,
   useFilterActions,
@@ -31,28 +21,14 @@ import { updatePropertyFilter } from "../store/actionCreators";
 import { DebouncedInputField } from "./DebouncedInputField";
 import { BaseFilterProps } from "../store/interfaces";
 import FilterDecorator from "./FilterDecorator";
-
-const operatorSymbols: ValueTypedObject<string> = {
-  eq: "eq",
-  ne: "ne",
-  gt: "gt",
-  ge: "ge",
-  lt: "lt",
-  le: "le",
-};
-
-const faIconByOperator: ValueTypedObject<any> = {
-  eq: faEquals,
-  ne: faNotEqual,
-  gt: faGreaterThan,
-  ge: faGreaterThanEqual,
-  lt: faLessThan,
-  le: faLessThanEqual,
-};
+import RenderIf from "./RenderIf";
+import { numericOperatorSymbols } from "./NumericFilter.utils";
+import { faIconByOperator } from "./common.utils";
 
 interface IProps extends BaseFilterProps {
   placeholder?: string;
   useDecimal?: boolean;
+  multipleOperators?: boolean;
 }
 
 const NumericFilter: React.FC<IProps> = ({
@@ -66,9 +42,13 @@ const NumericFilter: React.FC<IProps> = ({
   labelClassName,
   label,
   style,
+  multipleOperators,
 }) => {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+  const [operatorsListOpen, setOperatorsListOpen] = useState(false);
+  const toggleDropdown = useCallback(
+    () => setOperatorsListOpen(!operatorsListOpen),
+    [operatorsListOpen]
+  );
   const dispatcher = useDispatch();
   const inputRef = useRef<Input>(null);
 
@@ -82,27 +62,105 @@ const NumericFilter: React.FC<IProps> = ({
     filteringProperty,
     navigationProperty
   );
-  const operator = filterOperator ?? operatorSymbols.eq;
+  const operator = filterOperator ?? numericOperatorSymbols.eq;
   const { styles } = useContainerStyleSchema(containerId);
 
-  const updateTargetFilter = (value: string | null) => {
-    if (value) {
-      const parsed = useDecimal ? parseFloat(value) : parseInt(value, 10);
-      updateFilter(parsed, { operator });
-    } else updateFilter(value, { operator });
-  };
+  const updateTargetFilter = useCallback(
+    (value: string | null) => {
+      if (value) {
+        const parsed = useDecimal ? parseFloat(value) : parseInt(value, 10);
+        updateFilter(parsed, { operator });
+      } else updateFilter(value, { operator });
+    },
+    [operator, updateFilter, useDecimal]
+  );
 
-  const updateOperator = (op: string) => {
-    if (op !== operator) {
-      const val = inputRef.current?.props.value?.toString() ?? "";
-      const parsed = useDecimal ? parseFloat(val) : parseInt(val, 10);
-      dispatcher(
-        updatePropertyFilter(containerId, filteringProperty, parsed, op)
-      );
-    }
-  };
+  const updateOperator = useCallback(
+    (op: string) => {
+      if (op !== operator) {
+        const val = inputRef.current?.props.value?.toString() ?? "";
+        const parsed = useDecimal ? parseFloat(val) : parseInt(val, 10);
+        dispatcher(
+          updatePropertyFilter(containerId, filteringProperty, parsed, op)
+        );
+      }
+    },
+    [containerId, dispatcher, filteringProperty, operator, useDecimal]
+  );
 
-  const operatorSelected = (op: string) => operator === op;
+  const operatorSelected = useCallback((op: string) => operator === op, []);
+
+  const filterOperators = useMemo(
+    () => (
+      <RenderIf condition={!!multipleOperators}>
+        <InputGroupAddon addonType="prepend">
+          <ButtonDropdown isOpen={operatorsListOpen} toggle={toggleDropdown}>
+            <DropdownToggle
+              className="p-0 m-0 rounded-left text-muted z-index-auto"
+              data-testid={`${containerId}-oprs-menu-btn`}
+            >
+              <FontAwesomeIcon icon={faCaretDown} className="mx-1 text-light" />
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem
+                active={operatorSelected(numericOperatorSymbols.eq)}
+                onClick={() => updateOperator(numericOperatorSymbols.eq)}
+              >
+                Equal
+              </DropdownItem>
+              <DropdownItem
+                active={operatorSelected(numericOperatorSymbols.ne)}
+                onClick={() => updateOperator(numericOperatorSymbols.ne)}
+              >
+                Not equal
+              </DropdownItem>
+              <DropdownItem
+                active={operatorSelected(numericOperatorSymbols.gt)}
+                onClick={() => updateOperator(numericOperatorSymbols.gt)}
+              >
+                Greater than
+              </DropdownItem>
+              <DropdownItem
+                active={operatorSelected(numericOperatorSymbols.ge)}
+                onClick={() => updateOperator(numericOperatorSymbols.ge)}
+              >
+                Greater than or equal
+              </DropdownItem>
+              <DropdownItem
+                active={operatorSelected(numericOperatorSymbols.lt)}
+                onClick={() => updateOperator(numericOperatorSymbols.lt)}
+              >
+                Less than
+              </DropdownItem>
+              <DropdownItem
+                active={operatorSelected(numericOperatorSymbols.le)}
+                onClick={() => updateOperator(numericOperatorSymbols.le)}
+              >
+                Less than or equal
+              </DropdownItem>
+            </DropdownMenu>
+          </ButtonDropdown>
+        </InputGroupAddon>
+        <InputGroupAddon addonType="prepend">
+          <InputGroupText>
+            <FontAwesomeIcon
+              icon={faIconByOperator[operator]}
+              style={{ fontSize: ".9em" }}
+            />
+          </InputGroupText>
+        </InputGroupAddon>
+      </RenderIf>
+    ),
+    [
+      containerId,
+      operatorsListOpen,
+      multipleOperators,
+      operator,
+      operatorSelected,
+      toggleDropdown,
+      updateOperator,
+    ]
+  );
 
   const memoizedFilter = useMemo(
     () => (
@@ -116,65 +174,7 @@ const NumericFilter: React.FC<IProps> = ({
       >
         <>
           <InputGroup size="sm">
-            <InputGroupAddon addonType="prepend">
-              <ButtonDropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
-                <DropdownToggle
-                  className="p-0 m-0 rounded-left text-muted z-index-auto"
-                  data-testid={`${containerId}-oprs-menu-btn`}
-                >
-                  <FontAwesomeIcon
-                    icon={faCaretDown}
-                    className="mx-1 text-light"
-                  />
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem
-                    active={operatorSelected(operatorSymbols.eq)}
-                    onClick={() => updateOperator(operatorSymbols.eq)}
-                  >
-                    Equal
-                  </DropdownItem>
-                  <DropdownItem
-                    active={operatorSelected(operatorSymbols.ne)}
-                    onClick={() => updateOperator(operatorSymbols.ne)}
-                  >
-                    Not equal
-                  </DropdownItem>
-                  <DropdownItem
-                    active={operatorSelected(operatorSymbols.gt)}
-                    onClick={() => updateOperator(operatorSymbols.gt)}
-                  >
-                    Greater than
-                  </DropdownItem>
-                  <DropdownItem
-                    active={operatorSelected(operatorSymbols.ge)}
-                    onClick={() => updateOperator(operatorSymbols.ge)}
-                  >
-                    Greater than or equal
-                  </DropdownItem>
-                  <DropdownItem
-                    active={operatorSelected(operatorSymbols.lt)}
-                    onClick={() => updateOperator(operatorSymbols.lt)}
-                  >
-                    Less than
-                  </DropdownItem>
-                  <DropdownItem
-                    active={operatorSelected(operatorSymbols.le)}
-                    onClick={() => updateOperator(operatorSymbols.le)}
-                  >
-                    Less than or equal
-                  </DropdownItem>
-                </DropdownMenu>
-              </ButtonDropdown>
-            </InputGroupAddon>
-            <InputGroupAddon addonType="prepend">
-              <InputGroupText>
-                <FontAwesomeIcon
-                  icon={faIconByOperator[operator]}
-                  style={{ fontSize: ".9em" }}
-                />
-              </InputGroupText>
-            </InputGroupAddon>
+            {filterOperators}
             <DebouncedInputField
               inputRef={inputRef}
               filteringProperty={filteringProperty}
@@ -188,7 +188,20 @@ const NumericFilter: React.FC<IProps> = ({
         </>
       </FilterDecorator>
     ),
-    [filterValue, dropdownOpen]
+    [
+      withAssociatedLabel,
+      className,
+      labelClassName,
+      label,
+      style,
+      styles.label,
+      styles.input,
+      filterOperators,
+      filteringProperty,
+      filterValue,
+      updateTargetFilter,
+      placeholder,
+    ]
   );
 
   return memoizedFilter;

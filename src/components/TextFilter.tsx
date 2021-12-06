@@ -22,11 +22,11 @@ import { DebouncedInputField } from "./DebouncedInputField";
 import { BaseFilterProps } from "../store/interfaces";
 import FilterDecorator from "./FilterDecorator";
 import {
-  faIconByOperator,
   generateCustomExpression,
   operatorSymbols,
 } from "./TextFilter.utils";
 import RenderIf from "./RenderIf";
+import { faIconByOperator } from "./common.utils";
 
 interface IProps extends BaseFilterProps {
   multipleOperators?: boolean;
@@ -69,13 +69,12 @@ const TextFilter: React.FC<IProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const [operatorsDropdownOpen, setOperatorsoperatorsDropdownOpen] =
-    useState(false);
+  const [operatorsListOpen, setOperatorsListOpen] = useState(false);
   const [operator, setOperator] = useState(getInitialOperator());
   const inputRef = useRef<Input>(null);
   const toggleDropdown = useCallback(
-    () => setOperatorsoperatorsDropdownOpen(!operatorsDropdownOpen),
-    [operatorsDropdownOpen]
+    () => setOperatorsListOpen(!operatorsListOpen),
+    [operatorsListOpen]
   );
 
   const { updateFilter } = useFilterActions(
@@ -123,10 +122,7 @@ const TextFilter: React.FC<IProps> = ({
     () => (
       <RenderIf condition={!!multipleOperators}>
         <InputGroupAddon addonType="prepend">
-          <ButtonDropdown
-            isOpen={operatorsDropdownOpen}
-            toggle={toggleDropdown}
-          >
+          <ButtonDropdown isOpen={operatorsListOpen} toggle={toggleDropdown}>
             <DropdownToggle
               data-testid={`${containerId}-oprs-menu-btn`}
               className="p-0 m-0 rounded-left text-muted z-index-auto"
@@ -195,7 +191,7 @@ const TextFilter: React.FC<IProps> = ({
     ),
     [
       multipleOperators,
-      operatorsDropdownOpen,
+      operatorsListOpen,
       toggleDropdown,
       containerId,
       operatorSelected,
