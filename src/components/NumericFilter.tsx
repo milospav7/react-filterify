@@ -88,7 +88,7 @@ const NumericFilter: React.FC<IProps> = ({
     [containerId, dispatcher, filteringProperty, operator, useDecimal]
   );
 
-  const operatorSelected = useCallback((op: string) => operator === op, []);
+  const operatorSelected = useCallback((op: string) => operator === op, [operator]);
 
   const filterOperators = useMemo(
     () => (

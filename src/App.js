@@ -12,7 +12,7 @@ function App() {
   return (
     <div className="App">
       <div className="d-flex flex-row p-5">
-        <div className="col-4">
+        <div className="col-3">
           <h5 className="text-muted">USER FILTERS</h5>
           <UserFilters containerId={CONTAINER_IDS.C1} />
         </div>

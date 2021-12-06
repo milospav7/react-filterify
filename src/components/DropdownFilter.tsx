@@ -4,6 +4,7 @@ import Select from "react-select";
 import { Option } from "react-select/src/filters";
 import { BaseFilterProps } from "../store/interfaces";
 import { FilterOption } from "../store/types";
+import { getDropdownStyles } from "./style.utils";
 import FilterDecorator from "./FilterDecorator";
 import {
   useContainerStyleSchema,
@@ -60,7 +61,6 @@ const DropdownFilter: React.FC<IProps> = ({
       >
         <Select
           key={`${filteringProperty}-ddf`}
-          size={size}
           options={options}
           value={filterValue}
           isMulti={isMulti}
@@ -70,12 +70,13 @@ const DropdownFilter: React.FC<IProps> = ({
           placeholder={placeholder}
           name={filteringProperty}
           styles={{
+            ...getDropdownStyles({ size }),
             valueContainer: (base: any) => ({ ...base, ...styles.input }),
           }}
         />
       </FilterDecorator>
     ),
-    [filterValue, isLoading, options]
+    [filterValue, isLoading, options, size]
   );
 
   return memoizedFilter;
