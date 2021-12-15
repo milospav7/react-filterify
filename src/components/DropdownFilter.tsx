@@ -25,7 +25,7 @@ const DropdownFilter: React.FC<IProps> = ({
   filteringProperty,
   navigationProperty,
   isMulti = false,
-  size,
+  size = 'sm',
   isLoading,
   isClearable,
   className,

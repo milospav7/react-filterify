@@ -1,3 +1,10 @@
+import { ValueTypedObject } from "../store/types";
+
+type DropdownStyleType = {
+  size: "sm" | "lg";
+  colorCodesMap?: ValueTypedObject<string>;
+};
+
 const getLgSelectStyle = (colorCodes: any) => ({
   option: (provided: any) => ({
     ...provided,
@@ -83,10 +90,9 @@ const getSmSelectStyle = (colorCodes: any) => ({
   },
 });
 
-const getDropdownStyles = ({ size, colorCodesMap }: any) => {
+const getDropdownStyles = ({ size, colorCodesMap }: DropdownStyleType) => {
   if (size === "sm") return getSmSelectStyle(colorCodesMap);
   if (size === "lg") return getLgSelectStyle(colorCodesMap);
-  return undefined;
 };
 
 export { getDropdownStyles };
