@@ -12,8 +12,6 @@ Abstracts away complexity required for creating filters bounded on entity's prop
 
 Built around publish-subscribe pattern where controller should orchestrate the flow between filters and filters consumer, by providing information about where-to-push-filters to filter components, and by providing where-to-listen-for-change information to filters consumer, in an easy to use hooks based approach.
 
-When fully developed it will be shipped as npm package.
-
 ## What's Included
 
 React Filterify includes these APIs:
