@@ -28,6 +28,7 @@ const ButtonGroupFilter: React.FC<IProps> = ({
   label,
   style,
   logic = "or",
+  size = "sm",
 }) => {
   const dispatcher = useDispatch();
 
@@ -98,7 +99,7 @@ const ButtonGroupFilter: React.FC<IProps> = ({
         style={style}
         labelStyle={styles.label}
       >
-        <ButtonGroup key={`bgf-${filteringProperty}`} size="sm">
+        <ButtonGroup key={`bgf-${filteringProperty}`} size={size}>
           {options.map((opt, ind) => (
             <Button
               key={`${ind}-${filteringProperty}`}
