@@ -1,9 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useMemo } from "react";
+import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useCallback, useMemo, useState } from "react";
 import Select from "react-select";
 import { Option } from "react-select/src/filters";
+import {
+  ButtonDropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+} from "reactstrap";
 import { BaseFilterProps } from "../store/interfaces";
 import { FilterOption } from "../store/types";
+import { faIconByOperator } from "./common.utils";
 import { getDropdownStyles } from "./DropdownFilter.utils";
 import FilterDecorator from "./FilterDecorator";
 import {
@@ -25,7 +37,7 @@ const DropdownFilter: React.FC<IProps> = ({
   filteringProperty,
   navigationProperty,
   isMulti = false,
-  size = 'sm',
+  size = "sm",
   isLoading,
   isClearable,
   className,
@@ -40,14 +52,30 @@ const DropdownFilter: React.FC<IProps> = ({
     filteringProperty,
     navigationProperty
   );
-  const { filterValue } = useFilterState(
+  const { filterValue, filterOperator } = useFilterState(
     containerId,
     filteringProperty,
     navigationProperty
   );
   const { styles } = useContainerStyleSchema(containerId);
 
-  const updateTargetFilter = useCallback((value) => updateFilter(value), []);
+  const [dropdownOpen, setOpen] = useState(false);
+  const toggle = () => setOpen(!dropdownOpen);
+  const [operator, setOperator] = useState(filterOperator ?? "eq");
+
+  const updateTargetFilter = useCallback(
+    (value) => updateFilter(value, { operator: operator }),
+    [operator]
+  );
+
+  const updateOperator = (op: string) => {
+    if (op !== operator) {
+      if (filterValue) updateFilter(filterValue, { operator: op });
+      setOperator(op);
+    }
+  };
+
+  const operatorSelected = (op: string) => operator === op;
 
   const memoizedFilter = useMemo(
     () => (
@@ -59,24 +87,60 @@ const DropdownFilter: React.FC<IProps> = ({
         style={style}
         labelStyle={styles.label}
       >
-        <Select
-          key={`${filteringProperty}-ddf`}
-          options={options}
-          value={filterValue}
-          isMulti={isMulti}
-          onChange={updateTargetFilter}
-          isClearable={isClearable}
-          isLoading={isLoading}
-          placeholder={placeholder}
-          name={filteringProperty}
-          styles={{
-            ...getDropdownStyles({ size }),
-            valueContainer: (base: any) => ({ ...base, ...styles.input }),
-          }}
-        />
+        <InputGroup size={size} className="d-flex flex-row align-items-stretch">
+          <InputGroupAddon addonType="prepend">
+            <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
+              <DropdownToggle className="p-0 m-0 rounded-start text-muted z-index-auto">
+                <FontAwesomeIcon
+                  icon={faCaretDown}
+                  className="mx-1 text-light"
+                />
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem
+                  active={operatorSelected("eq")}
+                  onClick={() => updateOperator("eq")}
+                >
+                  In
+                </DropdownItem>
+                <DropdownItem
+                  active={operatorSelected("ne")}
+                  onClick={() => updateOperator("ne")}
+                >
+                  Not In
+                </DropdownItem>
+              </DropdownMenu>
+            </ButtonDropdown>
+          </InputGroupAddon>
+          <InputGroupAddon addonType="prepend">
+            <InputGroupText className="text-muted">
+              <FontAwesomeIcon
+                icon={faIconByOperator[operator]}
+                style={{ fontSize: ".9em" }}
+              />
+            </InputGroupText>
+          </InputGroupAddon>
+
+          <Select
+            key={`${filteringProperty}-ddf`}
+            options={options}
+            value={filterValue}
+            isMulti={isMulti}
+            onChange={updateTargetFilter}
+            isClearable={isClearable}
+            isLoading={isLoading}
+            placeholder={placeholder}
+            name={filteringProperty}
+            className="flex-fill"
+            styles={{
+              ...getDropdownStyles({ size }),
+              valueContainer: (base: any) => ({ ...base, ...styles.input }),
+            }}
+          />
+        </InputGroup>
       </FilterDecorator>
     ),
-    [filterValue, isLoading, options, size]
+    [filterValue, isLoading, options, size, dropdownOpen, operator]
   );
 
   return memoizedFilter;
