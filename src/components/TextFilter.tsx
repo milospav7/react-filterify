@@ -91,6 +91,7 @@ const TextFilter: React.FC<IProps> = ({
 
   const updateTargetFilter = useCallback(
     (value: any) => {
+      // TODO: remove and move expression generation responsibility to reducer
       const generatedExpression = navigationProperty
         ? generateCustomExpression(filteringProperty, operator, value)
         : "";

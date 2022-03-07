@@ -66,7 +66,6 @@ export const containerReducer = (
         filteringProperty,
         filteringValue,
         generatedExpression,
-        navigationPropertyIsNested,
       } = action;
       const shouldRemoveFilter = valueShouldBeRemoved(filteringValue);
 
@@ -87,7 +86,6 @@ export const containerReducer = (
             value: filteringValue,
             navigationProperty,
             generatedExpression,
-            navigationPropertyIsNested,
           },
         },
       };
@@ -359,7 +357,6 @@ export class ContainerHelperMethods {
               generatedExpressions: filter.generatedExpression
                 ? [...gf.generatedExpressions, filter.generatedExpression]
                 : gf.generatedExpressions,
-              navigationPropertyIsNested: filter.navigationPropertyIsNested,
             };
           }
           return gf;
@@ -373,30 +370,15 @@ export class ContainerHelperMethods {
           generatedExpressions: filter.generatedExpression
             ? [filter.generatedExpression]
             : [],
-          navigationPropertyIsNested: filter.navigationPropertyIsNested,
         });
       }
     });
 
     if (groupedFilters.length > 0) {
       groupedFilters.forEach((f: any, ind: number) => {
-        const multipleLevelNavigationProperty =
-          f.navigationProperty.indexOf("/") >= 0 &&
-          f.navigationPropertyIsNested;
-
-        const splittedName = f.navigationProperty.split("/");
-        const navPropName = multipleLevelNavigationProperty
-          ? splittedName.slice(0, splittedName.length - 1).join("/")
-          : f.navigationProperty;
-        const subNavPropName = multipleLevelNavigationProperty
-          ? splittedName[splittedName.length - 1]
-          : null;
-
         // Here we can see one limitation of this helper method => we are forced to use 's' as input parameter in lambda expression when populating filters
         // We can add mechanism to support any other letter but since the scope of this method is not big(only few of us devs are using this), then we should not add additional complexity just for that purpose
-        if (multipleLevelNavigationProperty)
-          query += `${navPropName}/any(x: x/${subNavPropName}/any(s: {expressionPart}))`;
-        else query += `${navPropName}/any(s: {expressionPart})`;
+        query += `${f.navigationProperty}/any(s: {expressionPart})`;
         let expressionPart = "";
 
         if (f.generatedExpressions && f.generatedExpressions.length > 0) {
