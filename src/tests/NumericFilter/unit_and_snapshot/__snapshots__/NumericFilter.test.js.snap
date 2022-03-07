@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render NumericFilter as expected 1`] = `
+<div
+  className="mb-2"
+>
+  <div
+    className="input-group input-group-sm"
+  >
+    <input
+      className="form-control-sm form-control"
+      id="YearJoined-id-dbf"
+      name="YearJoined"
+      onChange={[Function]}
+      placeholder="Datetime when joined.."
+      role="textbox"
+      style={
+        Object {
+          "fontSize": undefined,
+        }
+      }
+      type="number"
+      value=""
+    />
+  </div>
+</div>
+`;
