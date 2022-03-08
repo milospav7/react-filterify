@@ -195,7 +195,7 @@ const DateTimeFilter: React.FC<IProps> = ({
             <InputGroupText>
               <FontAwesomeIcon
                 icon={faIconByOperator[operator]}
-                style={{ fontSize: ".9em" }}
+                className="filter-operator-icon"
               />
             </InputGroupText>
           </InputGroupAddon>

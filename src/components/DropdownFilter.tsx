@@ -116,7 +116,7 @@ const DropdownFilter: React.FC<IProps> = ({
             <InputGroupText className="text-muted">
               <FontAwesomeIcon
                 icon={faIconByOperator[operator]}
-                style={{ fontSize: ".9em" }}
+                className="filter-operator-icon"
               />
             </InputGroupText>
           </InputGroupAddon>

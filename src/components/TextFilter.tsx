@@ -21,10 +21,7 @@ import {
 import { DebouncedInputField } from "./DebouncedInputField";
 import { BaseFilterProps } from "../store/interfaces";
 import FilterDecorator from "./FilterDecorator";
-import {
-  generateCustomExpression,
-  operatorSymbols,
-} from "./TextFilter.utils";
+import { generateCustomExpression, operatorSymbols } from "./TextFilter.utils";
 import RenderIf from "./RenderIf";
 import { faIconByOperator } from "./common.utils";
 
@@ -179,7 +176,7 @@ const TextFilter: React.FC<IProps> = ({
             )}
             <FontAwesomeIcon
               icon={faIconByOperator[operator]}
-              style={{ fontSize: ".9em" }}
+              className="filter-operator-icon"
             />
             {operator === operatorSymbols.startswith && (
               <span style={{ lineHeight: "1" }} className="ml-1">

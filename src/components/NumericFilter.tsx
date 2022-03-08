@@ -88,7 +88,10 @@ const NumericFilter: React.FC<IProps> = ({
     [containerId, dispatcher, filteringProperty, operator, useDecimal]
   );
 
-  const operatorSelected = useCallback((op: string) => operator === op, [operator]);
+  const operatorSelected = useCallback(
+    (op: string) => operator === op,
+    [operator]
+  );
 
   const filterOperators = useMemo(
     () => (
@@ -145,7 +148,7 @@ const NumericFilter: React.FC<IProps> = ({
           <InputGroupText>
             <FontAwesomeIcon
               icon={faIconByOperator[operator]}
-              style={{ fontSize: ".9em" }}
+              className="filter-operator-icon"
             />
           </InputGroupText>
         </InputGroupAddon>
