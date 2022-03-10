@@ -72,7 +72,7 @@ const UserFilters: React.FC<IProps> = ({
       label="Year when joined"
       filteringProperty="YearJoined"
       containerId={containerId}
-      placeholder="Datetime when joined.."
+      placeholder="Year when joined.."
 
     />
     <BooleanFilter
