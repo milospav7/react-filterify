@@ -8,9 +8,9 @@ import {
 } from "./store/actionCreators";
 import { ContainerHelperMethods } from "./store/containerReducer";
 import {
-  FilteringEventHandlersType,
-  FilterOperatorType,
-  TContainerStyle,
+  FilterEvents,
+  FilterOperator,
+  ContainerStyle,
 } from "./store/types";
 
 //#region Container specific hooks
@@ -51,7 +51,7 @@ export const useContainerStyleSchema = (containerId: string) => {
       (state: any) => state.filterifyFilters[containerId].styleSchema ?? {}
     );
 
-  const containerStyle: TContainerStyle = {
+  const containerStyle: ContainerStyle = {
     styles: {
       label: {
         fontSize: labelFontSize,
@@ -69,7 +69,7 @@ export const useContainerStyleSchema = (containerId: string) => {
 
 export const useContainerSubscription = (
   containerId: string,
-  eventHandlers: FilteringEventHandlersType,
+  eventHandlers: FilterEvents,
   raiseEventOnMount = false
 ) => {
   const { onChange } = eventHandlers;
@@ -148,7 +148,7 @@ export const useFilterActions = (
   const updateFilter = useCallback(
     (
       filterValue: any,
-      symbols?: FilterOperatorType,
+      symbols?: FilterOperator,
       customExpression?: string
     ) => {
       if (navigationProperty) {

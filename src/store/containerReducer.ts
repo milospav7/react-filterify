@@ -15,9 +15,9 @@ import {
   removeKey,
   concatFilterQuerySubstrings,
 } from "./helpers";
-import { ContainerType } from "./types";
+import { Container } from "./types";
 
-export const containerInitialState: ContainerType = {
+export const containerInitialState: Container = {
   propertyFilters: {},
   navigationPropertyFilters: {},
   functionFilters: [],

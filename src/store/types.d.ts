@@ -1,16 +1,16 @@
 import { CSSProperties } from "react";
 
-type FilterStyleSchemaType = {
+type FilterStyleSchema = {
   labelFontSize: string;
   placeholderFontSize: string;
   labelColor: string;
   highlightWhenInUse: boolean;
 };
 
-type FilterConfigurationType = {
+type FilterConfiguration = {
   id: string;
   saveToLocalStorage: boolean;
-  styleSchema?: FilterStyleSchemaType;
+  styleSchema?: FilterStyleSchema;
 };
 
 type AnyObject = {
@@ -26,31 +26,31 @@ type ValueTypedObject<T> = {
   [key: string]: T;
 };
 
-type ContainerType = {
+type Container = {
   propertyFilters: AnyObject;
   navigationPropertyFilters: AnyObject;
   functionFilters: AnyObject[];
   saveToLocalStorage?: boolean;
-  styleSchema?: null | FilterStyleSchemaType;
+  styleSchema?: null | FilterStyleSchema;
   dateTimeUpdated?: null | string;
 };
 
-type FilterProcessedOutputsType = {
+type FilterComputedOutputs = {
   oDataFilterString: string;
 };
 
-type FilteringEventHandlersType = {
+type FilterEvents = {
   onChange: (
     _containerState: any,
-    processedOutputs: FilterProcessedOutputsType
+    processedOutputs: FilterComputedOutputs
   ) => void;
 };
 
-type FilterOperatorType = { operator: string; logic?: string };
+type FilterOperator = { operator: string; logic?: string };
 
 type TStyles = ValueTypedObject<CSSProperties>;
 
-type TContainerStyle = {
+type ContainerStyle = {
   styles: {
     label: TStyles;
     input: TStyles;
@@ -60,13 +60,13 @@ type TContainerStyle = {
 
 export {
   AnyObject,
-  FilterStyleSchemaType,
-  FilterConfigurationType,
+  FilterStyleSchema,
+  FilterConfiguration,
   ValueTypedObject,
-  ContainerType,
+  Container,
   FilterOption,
-  FilteringEventHandlersType,
-  FilterOperatorType,
+  FilterEvents,
+  FilterOperator,
   TStyles,
-  TContainerStyle,
+  ContainerStyle,
 };

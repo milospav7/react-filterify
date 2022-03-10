@@ -1,18 +1,18 @@
 import { containerInitialState, containerReducer } from "./containerReducer";
 import {
-  ContainerType,
-  FilterConfigurationType,
+  Container,
+  FilterConfiguration,
   ValueTypedObject,
 } from "./types";
 
-let FILTER_CONTAINERS: ValueTypedObject<ContainerType> = {};
+let FILTER_CONTAINERS: ValueTypedObject<Container> = {};
 
 const getStorageKey = (containerId: string) =>
   `${containerId}_filterify_container`; // HERE WE CAN MODIFY SELECTOR KEY
 
 const tryGetInitStateFromStorage = (
   containerId: string,
-  defaultState: ContainerType
+  defaultState: Container
 ) => {
   try {
     const fromLocalStorage = localStorage.getItem(getStorageKey(containerId));
@@ -49,14 +49,14 @@ const filterifyFilters = (state = FILTER_CONTAINERS, action: any) => {
 };
 
 export const configureFilterfyReducer = (
-  preconfigurations: FilterConfigurationType[]
+  preconfigurations: FilterConfiguration[]
 ) => {
   if (preconfigurations.length === 0)
     throw new Error(
       "Filteirfy reducer configurator function 'configureFilterfyReducer' must receive at least one filter configuration."
     );
 
-  preconfigurations.forEach((config: FilterConfigurationType) => {
+  preconfigurations.forEach((config: FilterConfiguration) => {
     let initialState = config.saveToLocalStorage
       ? tryGetInitStateFromStorage(config.id, containerInitialState)
       : containerInitialState;
