@@ -1,7 +1,7 @@
 import ReactJson from "react-json-view";
 import "./App.css";
 import "./style/style.css";
-import { useContainerState, useODataFilterQuery } from "./components/hooks";
+import { useContainerState, useODataFilterQuery } from "./hooks";
 import UserFilters from "./tests/UserFilters";
 import { CONTAINER_IDS } from "./store/store";
 

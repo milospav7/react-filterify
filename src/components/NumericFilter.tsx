@@ -15,7 +15,7 @@ import {
   useContainerStyleSchema,
   useFilterActions,
   useFilterState,
-} from "./hooks";
+} from "../hooks";
 import { updatePropertyFilter } from "../store/actionCreators";
 import { DebouncedInputField } from "./DebouncedInputField";
 import { BaseFilterProps } from "../store/interfaces";

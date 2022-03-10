@@ -16,7 +16,7 @@ import {
   useFilterState,
   useContainerState,
   useContainerStyleSchema,
-} from "./hooks";
+} from "../hooks";
 import { DebouncedInputField } from "./DebouncedInputField";
 import { BaseFilterProps } from "../store/interfaces";
 import FilterDecorator from "./FilterDecorator";

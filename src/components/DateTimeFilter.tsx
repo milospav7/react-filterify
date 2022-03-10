@@ -28,7 +28,7 @@ import {
   useContainerStyleSchema,
   useFilterActions,
   useFilterState,
-} from "./hooks";
+} from "../hooks";
 import { BaseFilterProps } from "../store/interfaces";
 import { ValueTypedObject } from "../store/types";
 import FilterDecorator from "./FilterDecorator";
