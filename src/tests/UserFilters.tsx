@@ -15,7 +15,7 @@ interface IProps {
 
 const UserFilters: React.FC<IProps> = ({
   containerId,
-  wrapperClassName = "",
+  wrapperClassName,
 }) => (
   <div className={wrapperClassName}>
     <TextFilter

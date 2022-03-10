@@ -33,6 +33,7 @@ React Filterify includes these generic components:
 All generic components have well structured API, with a set of common props related with configuration of property which filter should be bound with, and with set of props related with styling components. All this results in an imperceptible difference, from the code level, when using any generic component.
 
 ## Todo
+- Make built-in support only for first level navigation property filter, while other(more complex) filters should be handled with custom filter schema prop(eg: customSchema="Users/any(u: u/Books/any(b: b/Name eq {{value}}))")
 - Use redux-toolkit to avoid boilerplate code
 - Introduce 'type' parameter in filter description (number, boolean, string, datetime, etc..)
 - Optional prop to hide additional filter operators (useful when external service does not support built-in operators, e.g. basic filtering in REST APIs when only 'equal' is supported)
