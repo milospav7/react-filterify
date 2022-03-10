@@ -10,7 +10,6 @@ import {
   DropdownMenu,
   DropdownToggle,
   InputGroup,
-  InputGroupAddon,
   InputGroupText,
 } from "reactstrap";
 import { BaseFilterProps } from "../store/interfaces";
@@ -88,39 +87,31 @@ const DropdownFilter: React.FC<IProps> = ({
         labelStyle={styles.label}
       >
         <InputGroup size={size} className="d-flex flex-row align-items-stretch">
-          <InputGroupAddon addonType="prepend">
-            <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
-              <DropdownToggle className="p-0 m-0 rounded-start text-muted z-index-auto">
-                <FontAwesomeIcon
-                  icon={faCaretDown}
-                  className="mx-1 text-light"
-                />
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem
-                  active={operatorSelected("eq")}
-                  onClick={() => updateOperator("eq")}
-                >
-                  In
-                </DropdownItem>
-                <DropdownItem
-                  active={operatorSelected("ne")}
-                  onClick={() => updateOperator("ne")}
-                >
-                  Not In
-                </DropdownItem>
-              </DropdownMenu>
-            </ButtonDropdown>
-          </InputGroupAddon>
-          <InputGroupAddon addonType="prepend">
-            <InputGroupText className="text-muted">
-              <FontAwesomeIcon
-                icon={faIconByOperator[operator]}
-                className="filter-operator-icon"
-              />
-            </InputGroupText>
-          </InputGroupAddon>
-
+          <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
+            <DropdownToggle className="p-0 m-0 rounded-start text-muted z-index-auto">
+              <FontAwesomeIcon icon={faCaretDown} className="mx-1 text-light" />
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem
+                active={operatorSelected("eq")}
+                onClick={() => updateOperator("eq")}
+              >
+                In
+              </DropdownItem>
+              <DropdownItem
+                active={operatorSelected("ne")}
+                onClick={() => updateOperator("ne")}
+              >
+                Not In
+              </DropdownItem>
+            </DropdownMenu>
+          </ButtonDropdown>
+          <InputGroupText className="text-muted">
+            <FontAwesomeIcon
+              icon={faIconByOperator[operator]}
+              className="filter-operator-icon"
+            />
+          </InputGroupText>
           <Select
             key={`${filteringProperty}-ddf`}
             options={options}

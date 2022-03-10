@@ -2,7 +2,6 @@ import React, { useState, useMemo, useCallback } from "react";
 import { useRef } from "react";
 import {
   InputGroup,
-  InputGroupAddon,
   Input,
   DropdownToggle,
   DropdownMenu,
@@ -119,72 +118,68 @@ const TextFilter: React.FC<IProps> = ({
   const filterOperators = useMemo(
     () => (
       <RenderIf condition={!!multipleOperators}>
-        <InputGroupAddon addonType="prepend">
-          <ButtonDropdown isOpen={operatorsListOpen} toggle={toggleDropdown}>
-            <DropdownToggle
-              data-testid={`${containerId}-oprs-menu-btn`}
-              className="p-0 m-0 rounded-left text-muted z-index-auto"
+        <ButtonDropdown isOpen={operatorsListOpen} toggle={toggleDropdown}>
+          <DropdownToggle
+            data-testid={`${containerId}-oprs-menu-btn`}
+            className="p-0 m-0 rounded-left text-muted z-index-auto"
+          >
+            <FontAwesomeIcon icon={faCaretDown} className="mx-1 text-light" />
+          </DropdownToggle>
+          <DropdownMenu>
+            <DropdownItem
+              active={operatorSelected(operatorSymbols.contains)}
+              onClick={() => updateOperator(operatorSymbols.contains)}
             >
-              <FontAwesomeIcon icon={faCaretDown} className="mx-1 text-light" />
-            </DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem
-                active={operatorSelected(operatorSymbols.contains)}
-                onClick={() => updateOperator(operatorSymbols.contains)}
-              >
-                Contains
-              </DropdownItem>
-              <DropdownItem
-                active={operatorSelected(operatorSymbols.doesnotcontain)}
-                onClick={() => updateOperator(operatorSymbols.doesnotcontain)}
-              >
-                Does not contain
-              </DropdownItem>
-              <DropdownItem
-                active={operatorSelected(operatorSymbols.startswith)}
-                onClick={() => updateOperator(operatorSymbols.startswith)}
-              >
-                Starts with
-              </DropdownItem>
-              <DropdownItem
-                active={operatorSelected(operatorSymbols.endswith)}
-                onClick={() => updateOperator(operatorSymbols.endswith)}
-              >
-                Ends with
-              </DropdownItem>
-              <DropdownItem
-                active={operatorSelected(operatorSymbols.eq)}
-                onClick={() => updateOperator(operatorSymbols.eq)}
-              >
-                Equal
-              </DropdownItem>
-              <DropdownItem
-                active={operatorSelected(operatorSymbols.ne)}
-                onClick={() => updateOperator(operatorSymbols.ne)}
-              >
-                Not equal
-              </DropdownItem>
-            </DropdownMenu>
-          </ButtonDropdown>
-        </InputGroupAddon>
-        <InputGroupAddon addonType="prepend">
-          <InputGroupText className="text-muted">
-            {operator === operatorSymbols.endswith && (
-              <span style={{ lineHeight: "1" }} className="mr-1">
-                ....
-              </span>
-            )}
-            <FontAwesomeIcon
-              icon={faIconByOperator[operator]}
-              className="filter-operator-icon"
-            />
-            {operator === operatorSymbols.startswith && (
-              <span style={{ lineHeight: "1" }} className="ml-1">
-                ....
-              </span>
-            )}
-          </InputGroupText>
-        </InputGroupAddon>
+              Contains
+            </DropdownItem>
+            <DropdownItem
+              active={operatorSelected(operatorSymbols.doesnotcontain)}
+              onClick={() => updateOperator(operatorSymbols.doesnotcontain)}
+            >
+              Does not contain
+            </DropdownItem>
+            <DropdownItem
+              active={operatorSelected(operatorSymbols.startswith)}
+              onClick={() => updateOperator(operatorSymbols.startswith)}
+            >
+              Starts with
+            </DropdownItem>
+            <DropdownItem
+              active={operatorSelected(operatorSymbols.endswith)}
+              onClick={() => updateOperator(operatorSymbols.endswith)}
+            >
+              Ends with
+            </DropdownItem>
+            <DropdownItem
+              active={operatorSelected(operatorSymbols.eq)}
+              onClick={() => updateOperator(operatorSymbols.eq)}
+            >
+              Equal
+            </DropdownItem>
+            <DropdownItem
+              active={operatorSelected(operatorSymbols.ne)}
+              onClick={() => updateOperator(operatorSymbols.ne)}
+            >
+              Not equal
+            </DropdownItem>
+          </DropdownMenu>
+        </ButtonDropdown>
+        <InputGroupText className="text-muted">
+          {operator === operatorSymbols.endswith && (
+            <span style={{ lineHeight: "1" }} className="me-1">
+              ....
+            </span>
+          )}
+          <FontAwesomeIcon
+            icon={faIconByOperator[operator]}
+            className="filter-operator-icon"
+          />
+          {operator === operatorSymbols.startswith && (
+            <span style={{ lineHeight: "1" }} className="ms-1">
+              ....
+            </span>
+          )}
+        </InputGroupText>
       </RenderIf>
     ),
     [

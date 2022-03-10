@@ -5,7 +5,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import {
   InputGroup,
-  InputGroupAddon,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
@@ -140,65 +139,56 @@ const DateTimeFilter: React.FC<IProps> = ({
         labelStyle={styles.label}
       >
         <InputGroup size="sm">
-          <InputGroupAddon addonType="prepend">
-            <ButtonDropdown
-              isOpen={dropdownOpen}
-              toggle={toggleOperatorDropdown}
-            >
-              <DropdownToggle className="p-0 m-0 rounded-left text-muted z-index-auto">
-                <FontAwesomeIcon
-                  icon={faCaretDown}
-                  className="mx-1 text-light"
-                />
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem
-                  active={operatorSelected(operatorSymbols.eq)}
-                  onClick={() => updateOperator(operatorSymbols.eq)}
-                >
-                  Equal
-                </DropdownItem>
-                <DropdownItem
-                  active={operatorSelected(operatorSymbols.ne)}
-                  onClick={() => updateOperator(operatorSymbols.ne)}
-                >
-                  Not equal
-                </DropdownItem>
-                <DropdownItem
-                  active={operatorSelected(operatorSymbols.gt)}
-                  onClick={() => updateOperator(operatorSymbols.gt)}
-                >
-                  Greater than
-                </DropdownItem>
-                <DropdownItem
-                  active={operatorSelected(operatorSymbols.ge)}
-                  onClick={() => updateOperator(operatorSymbols.ge)}
-                >
-                  Greater than or equal
-                </DropdownItem>
-                <DropdownItem
-                  active={operatorSelected(operatorSymbols.lt)}
-                  onClick={() => updateOperator(operatorSymbols.lt)}
-                >
-                  Less than
-                </DropdownItem>
-                <DropdownItem
-                  active={operatorSelected(operatorSymbols.le)}
-                  onClick={() => updateOperator(operatorSymbols.le)}
-                >
-                  Less than or equal
-                </DropdownItem>
-              </DropdownMenu>
-            </ButtonDropdown>
-          </InputGroupAddon>
-          <InputGroupAddon addonType="prepend">
-            <InputGroupText>
-              <FontAwesomeIcon
-                icon={faIconByOperator[operator]}
-                className="filter-operator-icon"
-              />
-            </InputGroupText>
-          </InputGroupAddon>
+          <ButtonDropdown isOpen={dropdownOpen} toggle={toggleOperatorDropdown}>
+            <DropdownToggle className="p-0 m-0 rounded-left text-muted z-index-auto">
+              <FontAwesomeIcon icon={faCaretDown} className="mx-1 text-light" />
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem
+                active={operatorSelected(operatorSymbols.eq)}
+                onClick={() => updateOperator(operatorSymbols.eq)}
+              >
+                Equal
+              </DropdownItem>
+              <DropdownItem
+                active={operatorSelected(operatorSymbols.ne)}
+                onClick={() => updateOperator(operatorSymbols.ne)}
+              >
+                Not equal
+              </DropdownItem>
+              <DropdownItem
+                active={operatorSelected(operatorSymbols.gt)}
+                onClick={() => updateOperator(operatorSymbols.gt)}
+              >
+                Greater than
+              </DropdownItem>
+              <DropdownItem
+                active={operatorSelected(operatorSymbols.ge)}
+                onClick={() => updateOperator(operatorSymbols.ge)}
+              >
+                Greater than or equal
+              </DropdownItem>
+              <DropdownItem
+                active={operatorSelected(operatorSymbols.lt)}
+                onClick={() => updateOperator(operatorSymbols.lt)}
+              >
+                Less than
+              </DropdownItem>
+              <DropdownItem
+                active={operatorSelected(operatorSymbols.le)}
+                onClick={() => updateOperator(operatorSymbols.le)}
+              >
+                Less than or equal
+              </DropdownItem>
+            </DropdownMenu>
+          </ButtonDropdown>
+
+          <InputGroupText>
+            <FontAwesomeIcon
+              icon={faIconByOperator[operator]}
+              className="filter-operator-icon"
+            />
+          </InputGroupText>
           <DatePicker
             ref={inputRef}
             key={`${filteringProperty}-dtmfltr`}
@@ -212,17 +202,15 @@ const DateTimeFilter: React.FC<IProps> = ({
             placeholderText={placeholder ?? label ?? filteringProperty}
           />
           <RenderIf condition={!hideDateTimeSwitch}>
-            <InputGroupAddon addonType="append">
-              <InputGroupText
-                onClick={toggleTimeComponent}
-                className="cursor-pointer"
-              >
-                <FontAwesomeIcon icon={faCalendarAlt} fixedWidth />
-                {showTime && (
-                  <FontAwesomeIcon className="ml-1" icon={faClock} fixedWidth />
-                )}
-              </InputGroupText>
-            </InputGroupAddon>
+            <InputGroupText
+              onClick={toggleTimeComponent}
+              className="cursor-pointer"
+            >
+              <FontAwesomeIcon icon={faCalendarAlt} fixedWidth />
+              {showTime && (
+                <FontAwesomeIcon className="ms-1" icon={faClock} fixedWidth />
+              )}
+            </InputGroupText>
           </RenderIf>
         </InputGroup>
       </FilterDecorator>

@@ -104,7 +104,7 @@ const UserFilters: React.FC<IProps> = ({
       isMulti
       filteringProperty="Region"
       options={["Šumadija", "Banat", "Srem"]}
-      className="text-left mb-3"
+      className="text-start mb-3"
     />
     <ResetFiltersButton containerId={containerId} />
   </div>

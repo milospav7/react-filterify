@@ -13,7 +13,7 @@ test("Button group filter with label", () => {
       isMulti
       filteringProperty="Region"
       options={["Šumadija", "Banat", "Srem"]}
-      className="text-left mb-3"
+      className="text-start mb-3"
     />
   );
   expect(screen.getByText(/region/i)).toBeInTheDocument();
@@ -29,7 +29,7 @@ test("Button group filter without label", () => {
       isMulti
       filteringProperty="Region"
       options={["Šumadija", "Banat", "Srem"]}
-      className="text-left mb-3"
+      className="text-start mb-3"
     />
   );
   expect(screen.queryByText(/region/i)).not.toBeInTheDocument(); // ** getByText will throw error if nothing found
@@ -48,7 +48,7 @@ it("Render ButtonGroupFilter as expected", () => {
       isMulti
       filteringProperty="Region"
       options={["Šumadija", "Banat", "Srem"]}
-      className="text-left mb-3"
+      className="text-start mb-3"
     />
   ).toJSON();
 

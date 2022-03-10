@@ -16,7 +16,7 @@ const FilterDecorator: React.FC<IProps> = ({
   children,
   className = "mb-2",
   label,
-  labelClassName = "pb-0 text-dark font-weight-bold d-block text-left",
+  labelClassName = "pb-0 text-dark font-weight-bold d-block text-start",
   displayLabel = false,
   style,
   labelStyle,

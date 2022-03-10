@@ -18,7 +18,7 @@ function App() {
         </div>
         <div className="p-3">
           <h5 className="text-muted mb-4">IN-MEMORY STATE</h5>
-          <p className="mb-2 border border-secondary rounded text-left p-2">
+          <p className="mb-2 border border-secondary rounded text-start p-2">
             Generated filter query string:{" "}
             <span className="font-weight-bold">{queryString}</span>{" "}
           </p>

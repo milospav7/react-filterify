@@ -2,7 +2,6 @@ import React, { useState, useMemo, useRef, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import {
   InputGroup,
-  InputGroupAddon,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
@@ -93,65 +92,62 @@ const NumericFilter: React.FC<IProps> = ({
     [operator]
   );
 
+  // TODO: Replace hardcoded items with .map and structured specification
   const filterOperators = useMemo(
     () => (
       <RenderIf condition={!!multipleOperators}>
-        <InputGroupAddon addonType="prepend">
-          <ButtonDropdown isOpen={operatorsListOpen} toggle={toggleDropdown}>
-            <DropdownToggle
-              className="p-0 m-0 rounded-left text-muted z-index-auto"
-              data-testid={`${containerId}-oprs-menu-btn`}
+        <ButtonDropdown isOpen={operatorsListOpen} toggle={toggleDropdown}>
+          <DropdownToggle
+            className="p-0 m-0 rounded-left text-muted z-index-auto"
+            data-testid={`${containerId}-oprs-menu-btn`}
+          >
+            <FontAwesomeIcon icon={faCaretDown} className="mx-1 text-light" />
+          </DropdownToggle>
+          <DropdownMenu>
+            <DropdownItem
+              active={operatorSelected(numericOperatorSymbols.eq)}
+              onClick={() => updateOperator(numericOperatorSymbols.eq)}
             >
-              <FontAwesomeIcon icon={faCaretDown} className="mx-1 text-light" />
-            </DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem
-                active={operatorSelected(numericOperatorSymbols.eq)}
-                onClick={() => updateOperator(numericOperatorSymbols.eq)}
-              >
-                Equal
-              </DropdownItem>
-              <DropdownItem
-                active={operatorSelected(numericOperatorSymbols.ne)}
-                onClick={() => updateOperator(numericOperatorSymbols.ne)}
-              >
-                Not equal
-              </DropdownItem>
-              <DropdownItem
-                active={operatorSelected(numericOperatorSymbols.gt)}
-                onClick={() => updateOperator(numericOperatorSymbols.gt)}
-              >
-                Greater than
-              </DropdownItem>
-              <DropdownItem
-                active={operatorSelected(numericOperatorSymbols.ge)}
-                onClick={() => updateOperator(numericOperatorSymbols.ge)}
-              >
-                Greater than or equal
-              </DropdownItem>
-              <DropdownItem
-                active={operatorSelected(numericOperatorSymbols.lt)}
-                onClick={() => updateOperator(numericOperatorSymbols.lt)}
-              >
-                Less than
-              </DropdownItem>
-              <DropdownItem
-                active={operatorSelected(numericOperatorSymbols.le)}
-                onClick={() => updateOperator(numericOperatorSymbols.le)}
-              >
-                Less than or equal
-              </DropdownItem>
-            </DropdownMenu>
-          </ButtonDropdown>
-        </InputGroupAddon>
-        <InputGroupAddon addonType="prepend">
-          <InputGroupText>
-            <FontAwesomeIcon
-              icon={faIconByOperator[operator]}
-              className="filter-operator-icon"
-            />
-          </InputGroupText>
-        </InputGroupAddon>
+              Equal
+            </DropdownItem>
+            <DropdownItem
+              active={operatorSelected(numericOperatorSymbols.ne)}
+              onClick={() => updateOperator(numericOperatorSymbols.ne)}
+            >
+              Not equal
+            </DropdownItem>
+            <DropdownItem
+              active={operatorSelected(numericOperatorSymbols.gt)}
+              onClick={() => updateOperator(numericOperatorSymbols.gt)}
+            >
+              Greater than
+            </DropdownItem>
+            <DropdownItem
+              active={operatorSelected(numericOperatorSymbols.ge)}
+              onClick={() => updateOperator(numericOperatorSymbols.ge)}
+            >
+              Greater than or equal
+            </DropdownItem>
+            <DropdownItem
+              active={operatorSelected(numericOperatorSymbols.lt)}
+              onClick={() => updateOperator(numericOperatorSymbols.lt)}
+            >
+              Less than
+            </DropdownItem>
+            <DropdownItem
+              active={operatorSelected(numericOperatorSymbols.le)}
+              onClick={() => updateOperator(numericOperatorSymbols.le)}
+            >
+              Less than or equal
+            </DropdownItem>
+          </DropdownMenu>
+        </ButtonDropdown>
+        <InputGroupText>
+          <FontAwesomeIcon
+            icon={faIconByOperator[operator]}
+            className="filter-operator-icon"
+          />
+        </InputGroupText>
       </RenderIf>
     ),
     [

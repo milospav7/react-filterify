@@ -1,6 +1,6 @@
 import { ChangeEvent, CSSProperties, Ref, useEffect, useState } from "react";
 import { Input } from "reactstrap";
-import { InputType } from "reactstrap/es/Input";
+import { InputType } from "reactstrap/types/lib/Input";
 
 const DEBOUNCE_INTERVAL = 350; // In ms
 
@@ -21,7 +21,7 @@ export const DebouncedInputField: React.FC<IDebouncedFieldProps> = ({
   inputRef,
   onChange,
   filterValue,
-  type,
+  type = "text",
   placeholder,
   style,
 }) => {
@@ -52,7 +52,7 @@ export const DebouncedInputField: React.FC<IDebouncedFieldProps> = ({
       bsSize="sm"
       placeholder={placeholder}
       name={filteringProperty}
-      type={type ?? "text"}
+      type={type}
       value={debouncedValue}
       onChange={saveWithDebounce}
       style={style}
