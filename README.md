@@ -33,11 +33,10 @@ React Filterify includes these generic components:
 All generic components have well structured API, with a set of common props related with configuration of property which filter should be bound with, and with set of props related with styling components. All this results in an imperceptible difference, from the code level, when using any generic component.
 
 ## Todo
-- Make built-in support only for first level navigation property filter, while other(more complex) filters should be handled with custom filter schema prop(eg: customSchema="Users/any(u: u/Books/any(b: b/Name eq {{value}}))")
+- Other(more complex) filters should be handled with custom filter schema prop(eg: customSchema="Users/any(u: u/Books/any(b: b/Name eq {{value}}))")
 - Use redux-toolkit to avoid boilerplate code
 - Introduce 'type' parameter in filter description (number, boolean, string, datetime, etc..)
 - Optional prop to hide additional filter operators (useful when external service does not support built-in operators, e.g. basic filtering in REST APIs when only 'equal' is supported)
 - Optional exclude of ceratin built-in operator/s
 - Extend documentation with real examples
 - Async dropdown filter to support searchable and dynamic dropdown options, not just static ones as supported with DropdownFilter component
-- Feature related with OData filtering: support for multi-level filter on navigation properties (so far it is supported only first level nav prop filtering, e.g. Books/any(b: b/Name eq 'Clean Code'), and it should be useful to support creation of something like Books/any(b: b/Publishers/any(p: p/Name eq 'Nora Library')) )
