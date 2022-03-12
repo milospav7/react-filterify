@@ -96,14 +96,11 @@ const editForms = createSlice({
         );
       } else {
         // Insert new one
-        state.functionFilters = [
-          ...state.functionFilters,
-          {
-            filteringProperty,
-            queryString: filterQueryString,
-            values,
-          },
-        ];
+        state.functionFilters.push({
+          filteringProperty,
+          queryString: filterQueryString,
+          values,
+        });
       }
     },
   },
