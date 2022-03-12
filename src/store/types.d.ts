@@ -39,7 +39,7 @@ type FilterComputedOutputs = {
   oDataFilterString: string;
 };
 
-type FilterEvents = {
+type FilterEventHandlers = {
   onChange: (
     _containerState: any,
     processedOutputs: FilterComputedOutputs
@@ -65,7 +65,7 @@ export {
   ValueTypedObject,
   Container,
   FilterOption,
-  FilterEvents,
+  FilterEventHandlers,
   FilterOperator,
   TStyles,
   ContainerStyle,

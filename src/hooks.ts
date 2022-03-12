@@ -8,7 +8,7 @@ import {
 } from "./store/actionCreators";
 import { ContainerHelperMethods } from "./store/containerReducer";
 import {
-  FilterEvents,
+  FilterEventHandlers,
   FilterOperator,
   ContainerStyle,
 } from "./store/types";
@@ -69,7 +69,7 @@ export const useContainerStyleSchema = (containerId: string) => {
 
 export const useContainerSubscription = (
   containerId: string,
-  eventHandlers: FilterEvents,
+  eventHandlers: FilterEventHandlers,
   raiseEventOnMount = false
 ) => {
   const { onChange } = eventHandlers;
