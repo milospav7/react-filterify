@@ -103,6 +103,9 @@ const editForms = createSlice({
         });
       }
     },
+    resetAllFilters(state) {
+      return { ...state, ...containerInitialState };
+    },
   },
 });
 
