@@ -30,6 +30,12 @@ interface IFunctionFilterUpdate {
   values: any;
 }
 
+interface IOverridedFilters {
+  propertyFilters?: any;
+  navigationPropertyFilters?: any;
+  functionFilters?: any[];
+}
+
 const editForms = createSlice({
   name: "filterify_container",
   initialState: containerInitialState,
@@ -105,6 +111,14 @@ const editForms = createSlice({
     },
     resetAllFilters(state) {
       return { ...state, ...containerInitialState };
+    },
+    overrideFilters(state, action: PayloadAction<IOverridedFilters>) {
+      const { propertyFilters, navigationPropertyFilters, functionFilters } =
+        action.payload;
+      if (propertyFilters) state.propertyFilters = propertyFilters;
+      if (navigationPropertyFilters)
+        state.navigationPropertyFilters = propertyFilters;
+      if (functionFilters) state.functionFilters = functionFilters;
     },
   },
 });
