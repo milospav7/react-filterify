@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useMemo } from "react";
 import Select from "react-select";
-import { BaseFilterProps } from "../store/interfaces";
-import FilterDecorator from "./FilterDecorator";
+import { BaseFilterProps } from "../../store/interfaces";
+import FilterDecorator from "../shared/FilterDecorator";
 import {
   useContainerStyleSchema,
   useFilterActions,
   useFilterState,
-} from "../hooks";
+} from "../../hooks";
 
 const options = [
   { value: true, label: "Yes" },

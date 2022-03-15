@@ -1,5 +1,5 @@
 import { fireEvent, screen } from "@testing-library/react";
-import NumericFilter from "../../../components/NumericFilter";
+import NumericFilter from "../../../components/NumericFilter/NumericFilter";
 import { CONTAINER_IDS } from "../../../store/store";
 import { render, rtrCreate } from "../../../test-utils";
 

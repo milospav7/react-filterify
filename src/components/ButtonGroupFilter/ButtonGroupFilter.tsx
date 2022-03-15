@@ -2,13 +2,13 @@
 import React, { useCallback, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { Button, ButtonGroup } from "reactstrap";
-import { BaseFilterProps } from "../store/interfaces";
-import FilterDecorator from "./FilterDecorator";
+import { BaseFilterProps } from "../../store/interfaces";
+import FilterDecorator from "../shared/FilterDecorator";
 import {
   useContainerStyleSchema,
   useFilterActions,
   useFilterState,
-} from "../hooks";
+} from "../../hooks";
 
 interface IProps extends BaseFilterProps {
   options: Array<any>;

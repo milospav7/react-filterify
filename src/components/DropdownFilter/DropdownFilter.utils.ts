@@ -1,4 +1,4 @@
-import { ValueTypedObject } from "../store/types";
+import { ValueTypedObject } from "../../store/types";
 
 type DropdownStyleType = {
   size: "sm" | "lg";

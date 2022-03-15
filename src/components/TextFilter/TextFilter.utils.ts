@@ -1,4 +1,4 @@
-import { ValueTypedObject } from "../store/types";
+import { ValueTypedObject } from "../../store/types";
 
 const operatorSymbols: ValueTypedObject<string> = {
   contains: "contains",

@@ -1,5 +1,5 @@
 import { screen } from "@testing-library/react";
-import ButtonGroupFilter from "../../../components/ButtonGroupFilter";
+import ButtonGroupFilter from "../../../components/ButtonGroupFilter/ButtonGroupFilter";
 import { CONTAINER_IDS } from "../../../store/store";
 import { render, rtrCreate } from "../../../test-utils";
 

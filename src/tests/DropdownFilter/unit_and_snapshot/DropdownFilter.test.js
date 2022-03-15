@@ -1,5 +1,5 @@
 import { screen } from "@testing-library/react";
-import DropdownFilter from "../../../components/DropdownFilter";
+import DropdownFilter from "../../../components/DropdownFilter/DropdownFilter";
 import { CONTAINER_IDS } from "../../../store/store";
 import { render, rtrCreate } from "../../../test-utils";
 

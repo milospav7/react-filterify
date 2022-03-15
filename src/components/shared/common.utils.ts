@@ -9,7 +9,7 @@ import {
   faLessThanEqual,
   faNotEqual,
 } from "@fortawesome/free-solid-svg-icons";
-import { ValueTypedObject } from "../store/types";
+import { ValueTypedObject } from "../../store/types";
 
 const faIconByOperator: ValueTypedObject<any> = {
   eq: faEquals,

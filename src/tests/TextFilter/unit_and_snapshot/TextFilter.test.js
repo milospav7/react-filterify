@@ -1,5 +1,5 @@
 import { fireEvent, screen } from "@testing-library/react";
-import TextFilter from "../../../components/TextFilter";
+import TextFilter from "../../../components/TextFilter/TextFilter";
 import { CONTAINER_IDS } from "../../../store/store";
 import { render, rtrCreate } from "../../../test-utils";
 

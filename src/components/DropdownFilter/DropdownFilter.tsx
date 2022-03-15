@@ -12,16 +12,16 @@ import {
   InputGroup,
   InputGroupText,
 } from "reactstrap";
-import { BaseFilterProps } from "../store/interfaces";
-import { FilterOption } from "../store/types";
-import { faIconByOperator } from "./common.utils";
+import { BaseFilterProps } from "../../store/interfaces";
+import { FilterOption } from "../../store/types";
+import { faIconByOperator } from "../shared/common.utils";
 import { getDropdownStyles } from "./DropdownFilter.utils";
-import FilterDecorator from "./FilterDecorator";
+import FilterDecorator from "../shared/FilterDecorator";
 import {
   useContainerStyleSchema,
   useFilterActions,
   useFilterState,
-} from "../hooks";
+} from "../../hooks";
 
 interface IProps extends BaseFilterProps {
   options: Array<Option | FilterOption>;

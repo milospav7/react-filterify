@@ -1,11 +1,11 @@
 import React from "react";
-import BooleanFilter from "../components/BooleanFilter";
-import ButtonGroupFilter from "../components/ButtonGroupFilter";
-import ResetFiltersButton from "../components/ResetFiltersButton";
-import DateTimeFilter from "../components/DateTimeFilter";
-import DropdownFilter from "../components/DropdownFilter";
-import NumericFilter from "../components/NumericFilter";
-import TextFilter from "../components/TextFilter";
+import BooleanFilter from "../components/BooleanFilter/BooleanFilter";
+import ButtonGroupFilter from "../components/ButtonGroupFilter/ButtonGroupFilter";
+import ResetFiltersButton from "../components/shared/ResetFiltersButton";
+import DateTimeFilter from "../components/DateTimeFilter/DateTimeFilter";
+import DropdownFilter from "../components/DropdownFilter/DropdownFilter";
+import NumericFilter from "../components/NumericFilter/NumericFilter";
+import TextFilter from "../components/TextFilter/TextFilter";
 
 interface IProps {
   containerId: string;

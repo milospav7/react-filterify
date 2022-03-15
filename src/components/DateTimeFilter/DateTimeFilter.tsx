@@ -23,15 +23,15 @@ import {
   faNotEqual,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import RenderIf from "./RenderIf";
+import RenderIf from "../shared/RenderIf";
 import {
   useContainerStyleSchema,
   useFilterActions,
   useFilterState,
-} from "../hooks";
-import { BaseFilterProps } from "../store/interfaces";
-import { ValueTypedObject } from "../store/types";
-import FilterDecorator from "./FilterDecorator";
+} from "../../hooks";
+import { BaseFilterProps } from "../../store/interfaces";
+import { ValueTypedObject } from "../../store/types";
+import FilterDecorator from "../shared/FilterDecorator";
 
 const operatorSymbols: ValueTypedObject<string> = {
   eq: "eq",

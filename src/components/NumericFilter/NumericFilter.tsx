@@ -15,14 +15,14 @@ import {
   useContainerStyleSchema,
   useFilterActions,
   useFilterState,
-} from "../hooks";
-import { updatePropertyFilter } from "../store/actionCreators";
-import { DebouncedInputField } from "./DebouncedInputField";
-import { BaseFilterProps } from "../store/interfaces";
-import FilterDecorator from "./FilterDecorator";
-import RenderIf from "./RenderIf";
+} from "../../hooks";
+import { updatePropertyFilter } from "../../store/actionCreators";
+import { DebouncedInputField } from "../shared/DebouncedInputField";
+import { BaseFilterProps } from "../../store/interfaces";
+import FilterDecorator from "../shared/FilterDecorator";
+import RenderIf from "../shared/RenderIf";
 import { numericOperatorSymbols } from "./NumericFilter.utils";
-import { faIconByOperator } from "./common.utils";
+import { faIconByOperator } from "../shared/common.utils";
 
 interface IProps extends BaseFilterProps {
   placeholder?: string;

@@ -16,13 +16,13 @@ import {
   useFilterState,
   useContainerState,
   useContainerStyleSchema,
-} from "../hooks";
-import { DebouncedInputField } from "./DebouncedInputField";
-import { BaseFilterProps } from "../store/interfaces";
-import FilterDecorator from "./FilterDecorator";
+} from "../../hooks";
+import { DebouncedInputField } from "../shared/DebouncedInputField";
+import { BaseFilterProps } from "../../store/interfaces";
+import FilterDecorator from "../shared/FilterDecorator";
 import { generateCustomExpression, operatorSymbols } from "./TextFilter.utils";
-import RenderIf from "./RenderIf";
-import { faIconByOperator } from "./common.utils";
+import RenderIf from "../shared/RenderIf";
+import { faIconByOperator } from "../shared/common.utils";
 
 interface IProps extends BaseFilterProps {
   multipleOperators?: boolean;
