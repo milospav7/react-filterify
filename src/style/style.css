@@ -5,3 +5,13 @@
   .filter-operator-icon {
     font-size: .9em;
   }
+
+  .no-higlight-focus:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  .btn-light.active {
+    background-color: #5c636a;
+    color: #fff;
+  }
