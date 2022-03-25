@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -129,6 +128,7 @@ export const useODataFilterQuery = (containerId: string) => {
         navigationPropertyFilters,
         functionFilters,
       }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [dateTimeUpdated]
   );
 
@@ -146,11 +146,7 @@ export const useFilterActions = (
   const dispatcher = useDispatch();
 
   const updateFilter = useCallback(
-    (
-      filterValue: any,
-      symbols?: FilterOperator,
-      customExpression?: string
-    ) => {
+    (filterValue: any, symbols?: FilterOperator, customExpression?: string) => {
       if (navigationProperty) {
         dispatcher(
           updateNavigationPropertyFilter(
@@ -192,8 +188,10 @@ export const useFilterState = (
       return navigationPropertyFilters[filteringProperty]?.value ?? null;
     return propertyFilters[filteringProperty]?.value ?? null;
   }, [
-    navigationPropertyFilters[filteringProperty]?.value,
-    propertyFilters[filteringProperty]?.value,
+    filteringProperty,
+    navigationProperty,
+    navigationPropertyFilters,
+    propertyFilters,
   ]);
 
   return { filterValue, filterOperator };
