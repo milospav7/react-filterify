@@ -15,7 +15,7 @@ const filterifyFilters = configureFilterfyReducer([
     styleSchema: {
       highlightWhenInUse: true,
       labelColor: "black",
-      labelFontSize: ".8em",
+      labelFontSize: "1em",
     },
   },
   {
