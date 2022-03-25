@@ -1,6 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useMemo } from "react";
-import { useDispatch } from "react-redux";
 import { Button, ButtonGroup } from "reactstrap";
 import { BaseFilterProps } from "../../store/interfaces";
 import FilterDecorator from "../shared/FilterDecorator";
@@ -30,14 +28,12 @@ const ButtonGroupFilter: React.FC<IProps> = ({
   logic = "or",
   size = "sm",
 }) => {
-  const dispatcher = useDispatch();
-
   const { updateFilter } = useFilterActions(
     containerId,
     filteringProperty,
     navigationProperty
   );
-  const { filterValue, filterOperator } = useFilterState(
+  const { filterValue } = useFilterState(
     containerId,
     filteringProperty,
     navigationProperty
@@ -59,7 +55,7 @@ const ButtonGroupFilter: React.FC<IProps> = ({
 
       updateFilter(modifiedFilter, { operator: "eq", logic });
     },
-    [containerId, dispatcher, filteringProperty, filterValue]
+    [filterValue, updateFilter, logic]
   );
 
   const updateInSingleMode = useCallback(
@@ -67,7 +63,7 @@ const ButtonGroupFilter: React.FC<IProps> = ({
       const modifiedFilter = filterValue === value ? null : value;
       updateFilter(modifiedFilter, { operator: "eq", logic });
     },
-    [containerId, filterValue, dispatcher, filteringProperty, filterOperator]
+    [filterValue, updateFilter, logic]
   );
 
   const updateTargetFilter = useCallback(
@@ -99,7 +95,7 @@ const ButtonGroupFilter: React.FC<IProps> = ({
         style={style}
         labelStyle={styles.label}
       >
-        <ButtonGroup key={`bgf-${filteringProperty}`} size={size}>
+        <ButtonGroup className="border border-muted rounded" key={`bgf-${filteringProperty}`} size={size}>
           {options.map((opt, ind) => (
             <Button
               key={`${ind}-${filteringProperty}`}
@@ -117,8 +113,14 @@ const ButtonGroupFilter: React.FC<IProps> = ({
       </FilterDecorator>
     ),
     [
+      withAssociatedLabel,
       className,
+      labelClassName,
+      label,
+      style,
+      styles.label,
       filteringProperty,
+      size,
       options,
       isOptionSelected,
       updateTargetFilter,

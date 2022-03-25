@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useCallback, useMemo, useState } from "react";
@@ -59,22 +58,28 @@ const DropdownFilter: React.FC<IProps> = ({
   const { styles } = useContainerStyleSchema(containerId);
 
   const [dropdownOpen, setOpen] = useState(false);
-  const toggle = () => setOpen(!dropdownOpen);
+  const toggle = useCallback(() => setOpen((p) => !p), []);
   const [operator, setOperator] = useState(filterOperator ?? "eq");
 
   const updateTargetFilter = useCallback(
     (value) => updateFilter(value, { operator: operator }),
-    [operator]
+    [operator, updateFilter]
   );
 
-  const updateOperator = (op: string) => {
-    if (op !== operator) {
-      if (filterValue) updateFilter(filterValue, { operator: op });
-      setOperator(op);
-    }
-  };
+  const updateOperator = useCallback(
+    (op: string) => {
+      if (op !== operator) {
+        if (filterValue) updateFilter(filterValue, { operator: op });
+        setOperator(op);
+      }
+    },
+    [filterValue, operator, updateFilter]
+  );
 
-  const operatorSelected = (op: string) => operator === op;
+  const operatorSelected = useCallback(
+    (op: string) => operator === op,
+    [operator]
+  );
 
   const memoizedFilter = useMemo(
     () => (
@@ -131,7 +136,29 @@ const DropdownFilter: React.FC<IProps> = ({
         </InputGroup>
       </FilterDecorator>
     ),
-    [filterValue, isLoading, options, size, dropdownOpen, operator]
+    [
+      withAssociatedLabel,
+      className,
+      labelClassName,
+      label,
+      style,
+      styles.label,
+      styles.input,
+      size,
+      dropdownOpen,
+      toggle,
+      operatorSelected,
+      operator,
+      filteringProperty,
+      options,
+      filterValue,
+      isMulti,
+      updateTargetFilter,
+      isClearable,
+      isLoading,
+      placeholder,
+      updateOperator,
+    ]
   );
 
   return memoizedFilter;

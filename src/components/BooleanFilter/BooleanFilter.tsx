@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useMemo } from "react";
 import Select from "react-select";
 import { BaseFilterProps } from "../../store/interfaces";
@@ -46,7 +45,10 @@ const BooleanFilter: React.FC<IProps> = ({
   );
   const { styles } = useContainerStyleSchema(containerId);
 
-  const updateTargetFilter = useCallback((value) => updateFilter(value), []);
+  const updateTargetFilter = useCallback(
+    (value) => updateFilter(value),
+    [updateFilter]
+  );
 
   const memoizedFilter = useMemo(
     () => (
@@ -73,7 +75,22 @@ const BooleanFilter: React.FC<IProps> = ({
         />
       </FilterDecorator>
     ),
-    [filterValue, isLoading, options]
+    [
+      className,
+      filterValue,
+      filteringProperty,
+      isClearable,
+      isLoading,
+      isMulti,
+      label,
+      labelClassName,
+      size,
+      style,
+      styles.input,
+      styles.label,
+      updateTargetFilter,
+      withAssociatedLabel,
+    ]
   );
 
   return memoizedFilter;
