@@ -35,6 +35,7 @@ All generic components have well structured API, with a set of common props rela
 ## Todo
 - Other(more complex) filters should be handled with custom filter schema prop(eg: customSchema="Users/any(u: u/Books/any(b: b/Name eq {{value}}))")
 - Use redux-toolkit to avoid boilerplate code
+- Support for operators show/hide flag on container's reducer configuration
 - Introduce 'type' parameter in filter description (number, boolean, string, datetime, etc..)
 - Optional prop to hide additional filter operators (useful when external service does not support built-in operators, e.g. basic filtering in REST APIs when only 'equal' is supported)
 - Optional exclude of ceratin built-in operator/s
