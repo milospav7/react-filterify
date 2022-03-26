@@ -2,6 +2,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { valueShouldBeRemoved } from "./helpers";
 import { Container } from "./types";
 
+// WORK IN PROGRESS (will replace "old" reducer)
+
 const containerInitialState: Container = {
   propertyFilters: {},
   navigationPropertyFilters: {},
@@ -36,7 +38,7 @@ interface IOverridedFilters {
   functionFilters?: any[];
 }
 
-const editForms = createSlice({
+const container = createSlice({
   name: "filterify_container",
   initialState: containerInitialState,
   reducers: {
@@ -124,7 +126,7 @@ const editForms = createSlice({
 });
 
 // Extract the action creators object and the reducer
-const { actions, reducer } = editForms;
+const { actions, reducer } = container;
 
 // Extract and export each action creator by name
 export const { updatePropertyFilter } = actions;
