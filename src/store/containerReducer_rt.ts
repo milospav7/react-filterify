@@ -4,30 +4,34 @@ import { Container } from "./types";
 
 // WORK IN PROGRESS (will replace "old" reducer)
 
-const containerInitialState: Container = {
+export const containerInitialState: Container = {
   propertyFilters: {},
   navigationPropertyFilters: {},
   functionFilters: [],
 };
 
-interface IPayload {
-  filteringProperty: string;
-  filteringValue: any;
+interface IBasePayload {
+  containerId: string;
+}
+
+interface IPayload extends IBasePayload {
+  property: string;
+  filterValue: any;
 }
 
 interface IPropertyFilterUpdate extends IPayload {
   operator: string;
-  logic: string;
-  allowNullValue: boolean;
+  logic: "and" | "or";
+  allowNullValue?: boolean;
 }
 
 interface INavigationPropertyFilterUpdate extends IPayload {
   navigationProperty: string;
-  generatedExpression: string;
+  generatedExpression?: string;
 }
 
 interface IFunctionFilterUpdate {
-  filteringProperty: string;
+  property: string;
   filterQueryString: string;
   values: any;
 }
@@ -43,21 +47,18 @@ const container = createSlice({
   initialState: containerInitialState,
   reducers: {
     updatePropertyFilter(state, action: PayloadAction<IPropertyFilterUpdate>) {
-      const {
-        filteringProperty,
-        filteringValue,
-        operator,
-        logic,
-        allowNullValue,
-      } = action.payload;
+      debugger
+      console.log(action)
+      const { property, filterValue, operator, logic, allowNullValue } =
+        action.payload;
       const shouldRemoveFilter =
-        !allowNullValue && valueShouldBeRemoved(filteringValue);
+        !allowNullValue && valueShouldBeRemoved(filterValue);
 
       if (shouldRemoveFilter) {
-        delete state.propertyFilters[filteringProperty];
+        delete state.propertyFilters[property];
       } else {
-        state.propertyFilters[filteringProperty] = {
-          value: filteringValue,
+        state.propertyFilters[property] = {
+          value: filterValue,
           operator,
           logic,
         };
@@ -67,51 +68,47 @@ const container = createSlice({
       state,
       action: PayloadAction<INavigationPropertyFilterUpdate>
     ) {
-      const {
-        navigationProperty,
-        filteringProperty,
-        filteringValue,
-        generatedExpression,
-      } = action.payload;
-      const shouldRemoveFilter = valueShouldBeRemoved(filteringValue);
+      const { navigationProperty, property, filterValue, generatedExpression } =
+        action.payload;
+      const shouldRemoveFilter = valueShouldBeRemoved(filterValue);
 
       if (shouldRemoveFilter) {
-        delete state.navigationPropertyFilters[filteringProperty];
+        delete state.navigationPropertyFilters[property];
       } else {
-        state.navigationPropertyFilters[filteringProperty] = {
-          value: filteringValue,
+        state.navigationPropertyFilters[property] = {
+          value: filterValue,
           navigationProperty,
           generatedExpression,
         };
       }
     },
     updateFunctionFilter(state, action: PayloadAction<IFunctionFilterUpdate>) {
-      const { filteringProperty, filterQueryString, values } = action.payload;
+      const { property, filterQueryString, values } = action.payload;
       const shouldRemoveFilter = filterQueryString === null;
       const onlyUpdateExisting = state.functionFilters.some(
-        (f) => f.filteringProperty === filteringProperty
+        (f) => f.property === property
       );
 
       if (shouldRemoveFilter) {
         state.functionFilters = state.functionFilters.filter(
-          (f) => f.filteringProperty !== filteringProperty
+          (f) => f.property !== property
         );
       } else if (onlyUpdateExisting) {
         state.functionFilters = state.functionFilters.map((f) =>
-          f.filteringProperty === filteringProperty
+          f.property === property
             ? { ...f, queryString: filterQueryString, values }
             : f
         );
       } else {
         // Insert new one
         state.functionFilters.push({
-          filteringProperty,
+          property,
           queryString: filterQueryString,
           values,
         });
       }
     },
-    resetAllFilters() {
+    resetAllFilters(_state, action: PayloadAction<IBasePayload>) {
       return { ...containerInitialState };
     },
     overrideFilters(state, action: PayloadAction<IOverridedFilters>) {
@@ -125,15 +122,11 @@ const container = createSlice({
   },
 });
 
-// Extract the action creators object and the reducer
-const { actions, reducer } = container;
-
-// Extract and export each action creator by name
 export const {
-  updatePropertyFilter,
-  updateNavigationPropertyFilter,
-  resetAllFilters,
-} = actions;
-
-// Export the reducer, either as a default or named export
-export default reducer;
+  actions: {
+    updatePropertyFilter,
+    updateNavigationPropertyFilter,
+    resetAllFilters,
+  },
+  reducer: containerReducer,
+} = container;

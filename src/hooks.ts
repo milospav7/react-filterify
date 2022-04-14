@@ -4,7 +4,7 @@ import {
   resetAllFilters,
   updateNavigationPropertyFilter,
   updatePropertyFilter,
-} from "./store/actionCreators";
+} from "./store/containerReducer_rt";
 import { ContainerHelperMethods } from "./store/containerReducer";
 import {
   FilterEventHandlers,
@@ -107,7 +107,7 @@ export const useContainerActions = (containerId: string) => {
   const dispatcher = useDispatch();
 
   const removeAllFilters = useCallback(() => {
-    dispatcher(resetAllFilters(containerId));
+    dispatcher(resetAllFilters({ containerId }));
   }, [dispatcher, containerId]);
 
   return { removeAllFilters };
@@ -140,35 +140,39 @@ export const useODataFilterQuery = (containerId: string) => {
 
 export const useFilterActions = (
   containerId: string,
-  filteringProperty: string,
+  property: string,
   navigationProperty?: string
 ) => {
   const dispatcher = useDispatch();
 
   const updateFilter = useCallback(
-    (filterValue: any, symbols?: FilterOperator, customExpression?: string) => {
+    (
+      filterValue: any,
+      symbols?: FilterOperator,
+      generatedExpression?: string
+    ) => {
       if (navigationProperty) {
         dispatcher(
-          updateNavigationPropertyFilter(
+          updateNavigationPropertyFilter({
             containerId,
             navigationProperty,
-            filteringProperty,
+            property,
             filterValue,
-            customExpression
-          )
+            generatedExpression,
+          })
         );
       } else
         dispatcher(
-          updatePropertyFilter(
+          updatePropertyFilter({
             containerId,
-            filteringProperty,
+            property,
             filterValue,
-            symbols?.operator,
-            symbols?.logic
-          )
+            operator: symbols?.operator ?? "eq",
+            logic: symbols?.logic ?? "and",
+          })
         );
     },
-    [containerId, dispatcher, filteringProperty, navigationProperty]
+    [containerId, dispatcher, property, navigationProperty]
   );
 
   return { updateFilter };

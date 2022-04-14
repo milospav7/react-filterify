@@ -1,10 +1,9 @@
-import { containerInitialState, containerReducer } from "./containerReducer";
+import { containerInitialState, containerReducer } from "./containerReducer_rt";
 import { Container, FilterConfiguration, ValueTypedObject } from "./types";
 
 let CONTAINERS: ValueTypedObject<Container> = {};
 
-const getStorageKey = (containerId: string) =>
-  `${containerId}_filterify_container`; // HERE WE CAN MODIFY SELECTOR KEY
+const getStorageKey = (containerId: string) => `RF_CONTAINER_${containerId}`; // HERE WE CAN MODIFY SELECTOR KEY
 
 const tryGetInitStateFromStorage = (
   containerId: string,
@@ -23,24 +22,26 @@ const tryGetInitStateFromStorage = (
 
 const shouldSaveInStorage = (id: string) => CONTAINERS[id]?.saveToLocalStorage;
 
+// TODO: sync with rt types
 const containers = (state = CONTAINERS, action: any) => {
-  if (!action.id) return state;
+  const containerId = action.payload?.containerId;
+  if (!containerId) return state;
 
-  const container = state[action.id];
+  const container = state[containerId];
   const updatedFiltersContainer = containerReducer(container, action);
 
   const enrichedFilterState = {
     ...updatedFiltersContainer,
     dateTimeUpdated: new Date().toString(), // Enrich for datetime stamp
   };
-  if (shouldSaveInStorage(action.id)) {
-    const key = getStorageKey(action.id);
+  if (shouldSaveInStorage(containerId)) {
+    const key = getStorageKey(containerId);
     localStorage.setItem(key, JSON.stringify(enrichedFilterState));
   }
 
   return {
     ...state,
-    [action.id]: enrichedFilterState,
+    [containerId]: enrichedFilterState,
   };
 };
 

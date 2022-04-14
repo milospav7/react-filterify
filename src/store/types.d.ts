@@ -46,7 +46,7 @@ type FilterEventHandlers = {
   ) => void;
 };
 
-type FilterOperator = { operator: string; logic?: string };
+type FilterOperator = { operator: string; logic?: "and" | "or" };
 
 type TStyles = ValueTypedObject<CSSProperties>;
 
