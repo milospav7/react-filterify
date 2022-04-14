@@ -41,10 +41,10 @@ const NumericFilter: React.FC<IProps> = ({
   style,
   multipleOperators,
 }) => {
-  const [operatorsListOpen, setOperatorsListOpen] = useState(false);
+  const [operatorsDropdownOpen, setOperatorsDropdownOpen] = useState(false);
   const toggleDropdown = useCallback(
-    () => setOperatorsListOpen(!operatorsListOpen),
-    [operatorsListOpen]
+    () => setOperatorsDropdownOpen(!operatorsDropdownOpen),
+    [operatorsDropdownOpen]
   );
   const inputRef = useRef<Input>(null);
 
@@ -91,7 +91,7 @@ const NumericFilter: React.FC<IProps> = ({
   const filterOperators = useMemo(
     () => (
       <RenderIf condition={!!multipleOperators}>
-        <ButtonDropdown isOpen={operatorsListOpen} toggle={toggleDropdown}>
+        <ButtonDropdown isOpen={operatorsDropdownOpen} toggle={toggleDropdown}>
           <DropdownToggle
             className="p-0 m-0 rounded-left text-muted z-index-auto"
             data-testid={`${containerId}-oprs-menu-btn`}
@@ -147,7 +147,7 @@ const NumericFilter: React.FC<IProps> = ({
     ),
     [
       containerId,
-      operatorsListOpen,
+      operatorsDropdownOpen,
       multipleOperators,
       operator,
       operatorSelected,
