@@ -39,7 +39,7 @@ interface IOverridedFilters {
 }
 
 const container = createSlice({
-  name: "filterify_container",
+  name: "[FILTERIFY_CONTAINER]",
   initialState: containerInitialState,
   reducers: {
     updatePropertyFilter(state, action: PayloadAction<IPropertyFilterUpdate>) {
@@ -111,8 +111,8 @@ const container = createSlice({
         });
       }
     },
-    resetAllFilters(state) {
-      return { ...state, ...containerInitialState };
+    resetAllFilters() {
+      return { ...containerInitialState };
     },
     overrideFilters(state, action: PayloadAction<IOverridedFilters>) {
       const { propertyFilters, navigationPropertyFilters, functionFilters } =
@@ -129,6 +129,11 @@ const container = createSlice({
 const { actions, reducer } = container;
 
 // Extract and export each action creator by name
-export const { updatePropertyFilter } = actions;
+export const {
+  updatePropertyFilter,
+  updateNavigationPropertyFilter,
+  resetAllFilters,
+} = actions;
 
 // Export the reducer, either as a default or named export
+export default reducer;

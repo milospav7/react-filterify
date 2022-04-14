@@ -1,11 +1,7 @@
 import { containerInitialState, containerReducer } from "./containerReducer";
-import {
-  Container,
-  FilterConfiguration,
-  ValueTypedObject,
-} from "./types";
+import { Container, FilterConfiguration, ValueTypedObject } from "./types";
 
-let FILTER_CONTAINERS: ValueTypedObject<Container> = {};
+let CONTAINERS: ValueTypedObject<Container> = {};
 
 const getStorageKey = (containerId: string) =>
   `${containerId}_filterify_container`; // HERE WE CAN MODIFY SELECTOR KEY
@@ -15,7 +11,9 @@ const tryGetInitStateFromStorage = (
   defaultState: Container
 ) => {
   try {
-    const fromLocalStorage = localStorage.getItem(getStorageKey(containerId));
+    const key = getStorageKey(containerId);
+    const fromLocalStorage = localStorage.getItem(key);
+
     if (fromLocalStorage) return JSON.parse(fromLocalStorage);
     return defaultState;
   } catch (_error) {
@@ -23,10 +21,9 @@ const tryGetInitStateFromStorage = (
   }
 };
 
-const shouldSaveInStorage = (id: string) =>
-  FILTER_CONTAINERS[id]?.saveToLocalStorage;
+const shouldSaveInStorage = (id: string) => CONTAINERS[id]?.saveToLocalStorage;
 
-const filterifyFilters = (state = FILTER_CONTAINERS, action: any) => {
+const containers = (state = CONTAINERS, action: any) => {
   if (!action.id) return state;
 
   const container = state[action.id];
@@ -36,11 +33,10 @@ const filterifyFilters = (state = FILTER_CONTAINERS, action: any) => {
     ...updatedFiltersContainer,
     dateTimeUpdated: new Date().toString(), // Enrich for datetime stamp
   };
-  if (shouldSaveInStorage(action.id))
-    localStorage.setItem(
-      getStorageKey(action.id),
-      JSON.stringify(enrichedFilterState)
-    );
+  if (shouldSaveInStorage(action.id)) {
+    const key = getStorageKey(action.id);
+    localStorage.setItem(key, JSON.stringify(enrichedFilterState));
+  }
 
   return {
     ...state,
@@ -53,7 +49,7 @@ export const configureFilterfyReducer = (
 ) => {
   if (preconfigurations.length === 0)
     throw new Error(
-      "Filteirfy reducer configurator function 'configureFilterfyReducer' must receive at least one filter configuration."
+      "Filterify reducer configurator function 'configureFilterfyReducer' must receive at least one container configuration."
     );
 
   preconfigurations.forEach((config: FilterConfiguration) => {
@@ -61,12 +57,12 @@ export const configureFilterfyReducer = (
       ? tryGetInitStateFromStorage(config.id, containerInitialState)
       : containerInitialState;
 
-    FILTER_CONTAINERS[config.id] = {
+    CONTAINERS[config.id] = {
       ...initialState,
       saveToLocalStorage: config.saveToLocalStorage,
       styleSchema: config.styleSchema,
     };
   });
 
-  return filterifyFilters;
+  return containers;
 };
