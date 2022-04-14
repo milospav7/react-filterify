@@ -1,4 +1,4 @@
-import { containerInitialState, containerReducer } from "./containerReducer_rt";
+import { containerInitialState, containerReducer } from "./containerReducer";
 import { Container, FilterConfiguration, ValueTypedObject } from "./types";
 
 let CONTAINERS: ValueTypedObject<Container> = {};

@@ -73,6 +73,7 @@ const UserFilters: React.FC<IProps> = ({
       filteringProperty="YearJoined"
       containerId={containerId}
       placeholder="Year when joined.."
+      multipleOperators
 
     />
     <BooleanFilter

@@ -1,5 +1,4 @@
 import React, { useState, useMemo, useRef, useCallback } from "react";
-import { useDispatch } from "react-redux";
 import {
   InputGroup,
   DropdownToggle,
@@ -16,7 +15,6 @@ import {
   useFilterActions,
   useFilterState,
 } from "../../hooks";
-import { updatePropertyFilter } from "../../store/actionCreators";
 import { DebouncedInputField } from "../shared/DebouncedInputField";
 import { BaseFilterProps } from "../../store/interfaces";
 import FilterDecorator from "../shared/FilterDecorator";
@@ -48,7 +46,6 @@ const NumericFilter: React.FC<IProps> = ({
     () => setOperatorsListOpen(!operatorsListOpen),
     [operatorsListOpen]
   );
-  const dispatcher = useDispatch();
   const inputRef = useRef<Input>(null);
 
   const { updateFilter } = useFilterActions(
@@ -79,12 +76,10 @@ const NumericFilter: React.FC<IProps> = ({
       if (op !== operator) {
         const val = inputRef.current?.props.value?.toString() ?? "";
         const parsed = useDecimal ? parseFloat(val) : parseInt(val, 10);
-        dispatcher(
-          updatePropertyFilter(containerId, filteringProperty, parsed, op)
-        );
+        updateFilter(parsed, { operator: op });
       }
     },
-    [containerId, dispatcher, filteringProperty, operator, useDecimal]
+    [operator, updateFilter, useDecimal]
   );
 
   const operatorSelected = useCallback(

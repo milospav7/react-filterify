@@ -4,8 +4,8 @@ import {
   resetAllFilters,
   updateNavigationPropertyFilter,
   updatePropertyFilter,
-} from "./store/containerReducer_rt";
-import { ContainerHelperMethods } from "./store/containerReducer";
+} from "./store/containerReducer";
+import { ContainerHelperMethods } from "./store/utils";
 import {
   FilterEventHandlers,
   FilterOperator,
@@ -13,7 +13,6 @@ import {
 } from "./store/types";
 
 //#region Container specific hooks
-
 export const useContainerState = (containerId: string) => ({
   propertyFilters: useSelector(
     (state: any) => state.filterifyFilters[containerId]?.propertyFilters
