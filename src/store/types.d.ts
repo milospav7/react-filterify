@@ -41,7 +41,7 @@ type FilterComputedOutputs = {
 
 type FilterEventHandlers = {
   onChange: (
-    _containerState: any,
+    containerState: Container,
     processedOutputs: FilterComputedOutputs
   ) => void;
 };
