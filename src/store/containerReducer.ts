@@ -26,6 +26,7 @@ interface IPropertyFilterUpdate extends IPayload {
 interface INavigationPropertyFilterUpdate extends IPayload {
   navigationProperty: string;
   generatedExpression?: string;
+  operator: string;
 }
 
 interface IFunctionFilterUpdate {
@@ -64,8 +65,13 @@ const container = createSlice({
       state,
       action: PayloadAction<INavigationPropertyFilterUpdate>
     ) {
-      const { navigationProperty, property, filterValue, generatedExpression } =
-        action.payload;
+      const {
+        navigationProperty,
+        property,
+        filterValue,
+        generatedExpression,
+        operator,
+      } = action.payload;
       const shouldRemoveFilter = valueShouldBeRemoved(filterValue);
 
       if (shouldRemoveFilter) {
@@ -75,6 +81,7 @@ const container = createSlice({
           value: filterValue,
           navigationProperty,
           generatedExpression,
+          operator,
         };
       }
     },

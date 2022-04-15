@@ -158,6 +158,7 @@ export const useFilterActions = (
             property,
             filterValue,
             generatedExpression,
+            operator: symbols?.operator ?? "eq",
           })
         );
       } else
