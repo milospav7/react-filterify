@@ -20,14 +20,14 @@ const UserFilters: React.FC<IProps> = ({
   <div className={wrapperClassName}>
     <TextFilter
       key="usn"
-      withAssociatedLabel
+      withLabel
       label="User name"
       filteringProperty="UserName"
       containerId={containerId}
     />
     <TextFilter
       key="sbs"
-      withAssociatedLabel
+      withLabel
       label="Book name"
       navigationProperty="Books"
       filteringProperty="Name"
@@ -35,7 +35,7 @@ const UserFilters: React.FC<IProps> = ({
     />
     <DropdownFilter
       key="bndgz"
-      withAssociatedLabel
+      withLabel
       label="Book writer"
       size="sm"
       containerId={containerId}
@@ -54,7 +54,7 @@ const UserFilters: React.FC<IProps> = ({
     />
     <DropdownFilter
       key="plsts"
-      withAssociatedLabel
+      withLabel
       label="User status"
       size="sm"
       containerId={containerId}
@@ -68,7 +68,7 @@ const UserFilters: React.FC<IProps> = ({
     />
     <NumericFilter
       key="ply"
-      withAssociatedLabel
+      withLabel
       label="Year when joined"
       filteringProperty="YearJoined"
       containerId={containerId}
@@ -78,7 +78,7 @@ const UserFilters: React.FC<IProps> = ({
     />
     <BooleanFilter
       key="iscnt"
-      withAssociatedLabel
+      withLabel
       label="Is premium user"
       size="sm"
       containerId={containerId}
@@ -87,20 +87,20 @@ const UserFilters: React.FC<IProps> = ({
     />
     <TextFilter
       key="usrnm"
-      withAssociatedLabel
+      withLabel
       label="Registered by"
       containerId={containerId}
       filteringProperty="RegisterdBy"
     />
     <DateTimeFilter
       containerId={containerId}
-      withAssociatedLabel
+      withLabel
       label="Date of registration"
       filteringProperty="DateTimeRegistered"
     />
     <ButtonGroupFilter
       containerId={containerId}
-      withAssociatedLabel
+      withLabel
       label="Region"
       isMulti
       filteringProperty="Region"

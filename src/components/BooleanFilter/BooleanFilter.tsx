@@ -28,7 +28,7 @@ const BooleanFilter: React.FC<IProps> = ({
   isLoading,
   isClearable,
   className,
-  withAssociatedLabel,
+  withLabel,
   labelClassName,
   label,
   style,
@@ -53,7 +53,7 @@ const BooleanFilter: React.FC<IProps> = ({
   const memoizedFilter = useMemo(
     () => (
       <FilterDecorator
-        displayLabel={withAssociatedLabel}
+        withLabel={withLabel}
         className={className}
         labelClassName={labelClassName}
         label={label}
@@ -89,7 +89,7 @@ const BooleanFilter: React.FC<IProps> = ({
       styles.input,
       styles.label,
       updateTargetFilter,
-      withAssociatedLabel,
+      withLabel,
     ]
   );
 

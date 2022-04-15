@@ -39,7 +39,7 @@ const DropdownFilter: React.FC<IProps> = ({
   isLoading,
   isClearable,
   className,
-  withAssociatedLabel,
+  withLabel,
   labelClassName,
   label,
   style,
@@ -84,7 +84,7 @@ const DropdownFilter: React.FC<IProps> = ({
   const memoizedFilter = useMemo(
     () => (
       <FilterDecorator
-        displayLabel={withAssociatedLabel}
+        withLabel={withLabel}
         className={className}
         labelClassName={labelClassName}
         label={label}
@@ -137,7 +137,7 @@ const DropdownFilter: React.FC<IProps> = ({
       </FilterDecorator>
     ),
     [
-      withAssociatedLabel,
+      withLabel,
       className,
       labelClassName,
       label,

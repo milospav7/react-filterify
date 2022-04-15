@@ -7,7 +7,7 @@ import { render, rtrCreate } from "../../../test-utils";
 test("Text filter with label", () => {
   render(
     <TextFilter
-      withAssociatedLabel
+      withLabel
       label="User name"
       filteringProperty="UserName"
       displayName="User name"

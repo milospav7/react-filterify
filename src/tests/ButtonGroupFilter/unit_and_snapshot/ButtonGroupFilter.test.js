@@ -8,7 +8,7 @@ test("Button group filter with label", () => {
   render(
     <ButtonGroupFilter
       containerId={CONTAINER_IDS.C2_Test}
-      withAssociatedLabel
+      withLabel
       label="Region"
       isMulti
       filteringProperty="Region"

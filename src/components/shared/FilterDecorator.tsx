@@ -7,7 +7,7 @@ interface IProps {
   className?: string;
   label?: string;
   labelClassName?: string;
-  displayLabel?: boolean;
+  withLabel?: boolean;
   style?: CSSProperties;
   labelStyle?: CSSProperties;
 }
@@ -17,14 +17,14 @@ const FilterDecorator: React.FC<IProps> = ({
   className = "mb-2",
   label,
   labelClassName = "pb-0 text-dark font-weight-bold d-block text-start",
-  displayLabel = false,
+  withLabel = false,
   style,
   labelStyle,
 }) => {
   const memoizedFilter = useMemo(
     () => (
       <>
-        <RenderIf condition={displayLabel}>
+        <RenderIf condition={withLabel}>
           <Label style={labelStyle} className={labelClassName} size="sm">
             {label}
           </Label>
@@ -32,7 +32,7 @@ const FilterDecorator: React.FC<IProps> = ({
         {children}
       </>
     ),
-    [children, displayLabel, label, labelClassName, labelStyle]
+    [children, withLabel, label, labelClassName, labelStyle]
   );
 
   return (

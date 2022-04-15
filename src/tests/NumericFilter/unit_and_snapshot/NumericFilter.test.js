@@ -8,7 +8,7 @@ test("Numeric filter with label", () => {
   render(
     <NumericFilter
       containerId={CONTAINER_IDS.C2_Test}
-      withAssociatedLabel
+      withLabel
       label="Year when joined"
       filteringProperty="YearJoined"
       placeholder="Datetime when joined.."

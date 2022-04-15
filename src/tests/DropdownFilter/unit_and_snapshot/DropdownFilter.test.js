@@ -7,7 +7,7 @@ import { render, rtrCreate } from "../../../test-utils";
 test("Dropdown filter with label", () => {
   render(
     <DropdownFilter
-      withAssociatedLabel
+      withLabel
       label="User status"
       size="sm"
       containerId={CONTAINER_IDS.C2_Test}

@@ -33,7 +33,7 @@ const TextFilter: React.FC<IProps> = ({
   filteringProperty,
   navigationProperty,
   className,
-  withAssociatedLabel,
+  withLabel,
   labelClassName,
   label,
   style,
@@ -196,7 +196,7 @@ const TextFilter: React.FC<IProps> = ({
   const memoizedFilter = useMemo(
     () => (
       <FilterDecorator
-        displayLabel={withAssociatedLabel}
+        withLabel={withLabel}
         className={className}
         labelClassName={labelClassName}
         label={label}
@@ -219,7 +219,7 @@ const TextFilter: React.FC<IProps> = ({
       </FilterDecorator>
     ),
     [
-      withAssociatedLabel,
+      withLabel,
       className,
       labelClassName,
       label,

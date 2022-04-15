@@ -35,7 +35,7 @@ const NumericFilter: React.FC<IProps> = ({
   useDecimal,
   placeholder,
   className,
-  withAssociatedLabel,
+  withLabel,
   labelClassName,
   label,
   style,
@@ -87,7 +87,7 @@ const NumericFilter: React.FC<IProps> = ({
     [operator]
   );
 
-  // TODO: Replace hardcoded items with .map and structured specification
+  // TODO: Replace hardcoded items with .map and structured specifications
   const filterOperators = useMemo(
     () => (
       <RenderIf condition={!!multipleOperators}>
@@ -159,31 +159,29 @@ const NumericFilter: React.FC<IProps> = ({
   const memoizedFilter = useMemo(
     () => (
       <FilterDecorator
-        displayLabel={withAssociatedLabel}
+        withLabel={withLabel}
         className={className}
         labelClassName={labelClassName}
         label={label}
         style={style}
         labelStyle={styles.label}
       >
-        <>
-          <InputGroup size="sm">
-            {filterOperators}
-            <DebouncedInputField
-              inputRef={inputRef}
-              filteringProperty={filteringProperty}
-              filterValue={filterValue}
-              onChange={updateTargetFilter}
-              type="number"
-              placeholder={placeholder ?? label}
-              style={styles.input}
-            />
-          </InputGroup>
-        </>
+        <InputGroup size="sm">
+          {filterOperators}
+          <DebouncedInputField
+            inputRef={inputRef}
+            filteringProperty={filteringProperty}
+            filterValue={filterValue}
+            onChange={updateTargetFilter}
+            type="number"
+            placeholder={placeholder ?? label}
+            style={styles.input}
+          />
+        </InputGroup>
       </FilterDecorator>
     ),
     [
-      withAssociatedLabel,
+      withLabel,
       className,
       labelClassName,
       label,

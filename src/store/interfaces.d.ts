@@ -6,7 +6,7 @@ interface BaseFilterProps {
   navigationProperty?: string; // TODO: Support for complex type in order to support more than one level navigation props filtering
   size?: "sm" | "lg";
   className?: string;
-  withAssociatedLabel?: boolean;
+  withLabel?: boolean;
   labelClassName?: string;
   label?: string;
   style?: CSSProperties;

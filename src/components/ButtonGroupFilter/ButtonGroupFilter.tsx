@@ -21,7 +21,7 @@ const ButtonGroupFilter: React.FC<IProps> = ({
   options,
   isMulti = false,
   className,
-  withAssociatedLabel,
+  withLabel,
   labelClassName,
   label,
   style,
@@ -88,7 +88,7 @@ const ButtonGroupFilter: React.FC<IProps> = ({
   const memoizedFilter = useMemo(
     () => (
       <FilterDecorator
-        displayLabel={withAssociatedLabel}
+        withLabel={withLabel}
         className={className}
         labelClassName={labelClassName}
         label={label}
@@ -113,7 +113,7 @@ const ButtonGroupFilter: React.FC<IProps> = ({
       </FilterDecorator>
     ),
     [
-      withAssociatedLabel,
+      withLabel,
       className,
       labelClassName,
       label,

@@ -67,7 +67,7 @@ const DateTimeFilter: React.FC<IProps> = ({
   placeholder,
   navigationProperty,
   className,
-  withAssociatedLabel,
+  withLabel,
   labelClassName,
   label,
   style,
@@ -131,7 +131,7 @@ const DateTimeFilter: React.FC<IProps> = ({
   const memoizedFilter = useMemo(
     () => (
       <FilterDecorator
-        displayLabel={withAssociatedLabel}
+        withLabel={withLabel}
         className={className}
         labelClassName={labelClassName}
         label={label}
