@@ -6,7 +6,7 @@ import {
   useContainerStyleSchema,
   useFilterActions,
   useFilterState,
-} from "../../hooks";
+} from "../../store/hooks";
 
 const options = [
   { value: true, label: "Yes" },

@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { Button } from "reactstrap";
-import { useContainerActiveFiltersCounter, useContainerActions } from "../../hooks";
+import { useContainerActiveFiltersCounter, useContainerActions } from "../../store/hooks";
 
 interface IResetFiltersButtonProps {
   containerId: string;

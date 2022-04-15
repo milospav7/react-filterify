@@ -20,7 +20,7 @@ import {
   useContainerStyleSchema,
   useFilterActions,
   useFilterState,
-} from "../../hooks";
+} from "../../store/hooks";
 
 interface IProps extends BaseFilterProps {
   options: Array<Option | FilterOption>;
