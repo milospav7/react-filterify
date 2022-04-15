@@ -71,12 +71,14 @@ export const useContainerSubscription = (
   const firstRenderRef = useRef(true);
   const { current: isFirstRender } = firstRenderRef;
 
-  const {
-    propertyFilters,
-    navigationPropertyFilters,
-    functionFilters,
-    dateTimeUpdated: dateTimeFilterUpdated,
-  } = useContainerState(containerId);
+  const shouldFireEvent = useMemo(() => {
+    if (isFirstRender && raiseEventOnMount) return true;
+    if (!isFirstRender) return true;
+    return false;
+  }, [isFirstRender, raiseEventOnMount]);
+
+  const { propertyFilters, navigationPropertyFilters, functionFilters } =
+    useContainerState(containerId);
 
   useEffect(() => {
     if (raiseEventOnMount)
@@ -84,6 +86,7 @@ export const useContainerSubscription = (
         { propertyFilters, navigationPropertyFilters, functionFilters },
         { oDataFilterString: filterString }
       );
+    firstRenderRef.current = false;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -93,9 +96,15 @@ export const useContainerSubscription = (
         { propertyFilters, navigationPropertyFilters, functionFilters },
         { oDataFilterString: filterString }
       );
-    firstRenderRef.current = false;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dateTimeFilterUpdated]);
+  }, [
+    filterString,
+    functionFilters,
+    isFirstRender,
+    navigationPropertyFilters,
+    onChange,
+    propertyFilters,
+    shouldFireEvent,
+  ]);
 };
 
 export const useContainerActions = (containerId: string) => {

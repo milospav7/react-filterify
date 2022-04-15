@@ -45,8 +45,6 @@ const container = createSlice({
   initialState: containerInitialState,
   reducers: {
     updatePropertyFilter(state, action: PayloadAction<IPropertyFilterUpdate>) {
-      debugger
-      console.log(action)
       const { property, filterValue, operator, logic, allowNullValue } =
         action.payload;
       const shouldRemoveFilter =

@@ -57,9 +57,10 @@ const TestTable = ({ containerId }: IProps) => {
 
   useContainerSubscription(containerId, {
     onChange: () => {
+        console.log('triggered')
       // Filter data by exposed state
     },
-  });
+  }, true);
 
   return (
     <table>
