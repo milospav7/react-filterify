@@ -34,7 +34,7 @@ All generic components have well structured API, with a set of common props rela
 
 ## Todo
 - Pixel-perfect unification of filters design(height, placeholders, font size etc..)
-- Support for operators show/hide flag on container's reducer configuration
+- Support for operators show/hide flag on container's reducer configuration level
 - Other(more complex) filters should be handled with custom filter schema prop(eg: customSchema="Users/any(u: u/Books/any(b: b/Name eq {{value}}))")
 - Introduce 'type' parameter in filter description (number, boolean, string, datetime, etc..)
 - Optional prop to hide additional filter operators (useful when external service does not support built-in operators, e.g. basic filtering in REST APIs when only 'equal' is supported)
