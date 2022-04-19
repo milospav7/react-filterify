@@ -14,6 +14,7 @@ import {
 } from "./types";
 
 //#region Container specific hooks
+// TODO: this should be selector, rather than hook
 export const useContainerState = (containerId: string) => ({
   propertyFilters: useSelector(
     (state: any) => state.filterifyFilters[containerId]?.propertyFilters
