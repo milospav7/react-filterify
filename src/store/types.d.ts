@@ -39,11 +39,13 @@ type FilterComputedOutputs = {
   oDataFilterString: string;
 };
 
+export type FilterChangeEvent = {
+  containerState: Container;
+  processedOutputs: FilterComputedOutputs;
+};
+
 type FilterEventHandlers = {
-  onChange: (
-    containerState: Container,
-    processedOutputs: FilterComputedOutputs
-  ) => void;
+  onChange: (event: FilterChangeEvent) => void;
 };
 
 type FilterOperator = { operator: string; logic?: "and" | "or" };

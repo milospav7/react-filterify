@@ -6,7 +6,12 @@ import {
   updatePropertyFilter,
 } from "./containerReducer";
 import { ContainerHelperMethods } from "./utils";
-import { FilterEventHandlers, FilterOperator, ContainerStyle } from "./types";
+import {
+  FilterEventHandlers,
+  FilterOperator,
+  ContainerStyle,
+  FilterChangeEvent,
+} from "./types";
 
 //#region Container specific hooks
 export const useContainerState = (containerId: string) => ({
@@ -71,40 +76,35 @@ export const useContainerSubscription = (
   const firstRenderRef = useRef(true);
   const { current: isFirstRender } = firstRenderRef;
 
-  const shouldFireEvent = useMemo(() => {
-    if (isFirstRender && raiseEventOnMount) return true;
-    if (!isFirstRender) return true;
-    return false;
-  }, [isFirstRender, raiseEventOnMount]);
+  const {
+    propertyFilters,
+    navigationPropertyFilters,
+    functionFilters,
+    dateTimeUpdated,
+  } = useContainerState(containerId);
 
-  const { propertyFilters, navigationPropertyFilters, functionFilters } =
-    useContainerState(containerId);
+  const dataToExposeOnEvent = useMemo<FilterChangeEvent>(
+    () => ({
+      containerState: {
+        propertyFilters,
+        navigationPropertyFilters,
+        functionFilters,
+      },
+      processedOutputs: { oDataFilterString: filterString },
+    }),
+    [filterString, functionFilters, navigationPropertyFilters, propertyFilters]
+  );
 
   useEffect(() => {
-    if (raiseEventOnMount)
-      onChange(
-        { propertyFilters, navigationPropertyFilters, functionFilters },
-        { oDataFilterString: filterString }
-      );
+    if (raiseEventOnMount) onChange(dataToExposeOnEvent);
     firstRenderRef.current = false;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    if (!isFirstRender)
-      onChange(
-        { propertyFilters, navigationPropertyFilters, functionFilters },
-        { oDataFilterString: filterString }
-      );
-  }, [
-    filterString,
-    functionFilters,
-    isFirstRender,
-    navigationPropertyFilters,
-    onChange,
-    propertyFilters,
-    shouldFireEvent,
-  ]);
+    if (!isFirstRender) onChange(dataToExposeOnEvent);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dateTimeUpdated]);
 };
 
 export const useContainerActions = (containerId: string) => {
