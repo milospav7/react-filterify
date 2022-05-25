@@ -13,23 +13,29 @@ import {
   FilterChangeEvent,
 } from "./types";
 
-//#region Container specific hooks
+//#region Container hooks
 // TODO: this should be selector, rather than hook
-export const useContainerState = (containerId: string) => ({
-  propertyFilters: useSelector(
-    (state: any) => state.filterifyFilters[containerId]?.propertyFilters
-  ),
-  navigationPropertyFilters: useSelector(
-    (state: any) =>
-      state.filterifyFilters[containerId]?.navigationPropertyFilters
-  ),
-  functionFilters: useSelector(
-    (state: any) => state.filterifyFilters[containerId]?.functionFilters
-  ),
-  dateTimeUpdated: useSelector(
-    (state: any) => state.filterifyFilters[containerId]?.dateTimeUpdated
-  ),
-});
+export const useContainerState = (containerId: string) => {
+  const {
+    propertyFilters,
+    navigationPropertyFilters,
+    functionFilters,
+    dateTimeUpdated,
+  } = useSelector((state: any) => ({
+    propertyFilters: state.filterifyFilters[containerId]?.propertyFilters,
+    navigationPropertyFilters:
+      state.filterifyFilters[containerId]?.navigationPropertyFilters,
+    functionFilters: state.filterifyFilters[containerId]?.functionFilters,
+    dateTimeUpdated: state.filterifyFilters[containerId]?.dateTimeUpdated,
+  }));
+
+  return {
+    propertyFilters,
+    navigationPropertyFilters,
+    functionFilters,
+    dateTimeUpdated,
+  };
+};
 
 export const useContainerActiveFiltersCounter = (containerId: string) => {
   let counter = 0;
