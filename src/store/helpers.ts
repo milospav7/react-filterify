@@ -1,3 +1,6 @@
+import { containerInitialState } from "./containerReducer";
+import { Container, ContainerConfiguration } from "./types";
+
 export const isBoolean = (val: any) => typeof val === "boolean";
 
 export const cloneDeep = (obj: any) => {
@@ -55,6 +58,23 @@ export const concatFilterQuerySubstrings = (...args: any) => {
   return concated;
 };
 
+export const getStorageKey = (containerId: string) => `RF_CONTAINER_${containerId}`; // HERE WE CAN MODIFY SELECTOR KEY
+
+export const tryGetInitStateFromStorage = (
+  containerId: string,
+  defaultState: Container
+) => {
+  try {
+    const key = getStorageKey(containerId);
+    const fromLocalStorage = localStorage.getItem(key);
+
+    if (fromLocalStorage) return JSON.parse(fromLocalStorage);
+    return defaultState;
+  } catch (_error) {
+    return defaultState; // fallback if somehow parsing fails
+  }
+};
+
 export const includeFilterSubstring = (
   queryString: any,
   substring: any,
@@ -75,4 +95,10 @@ export const includeFilterSubstring = (
       : "";
 
   return `${remaining}$filter=${substring} ${opr} ${filterSubstring}`;
+};
+
+export const resolveInitialState = (config: ContainerConfiguration) => {
+  if (config.saveToLocalStorage)
+    return tryGetInitStateFromStorage(config.id, containerInitialState);
+  return containerInitialState;
 };

@@ -1,16 +1,16 @@
 import { CSSProperties } from "react";
 
-type FilterStyleSchema = {
+type ContainerStyleSchema = {
   labelFontSize: string;
   placeholderFontSize: string;
   labelColor: string;
   highlightWhenInUse: boolean;
 };
 
-type FilterConfiguration = {
+type ContainerConfiguration = {
   id: string;
   saveToLocalStorage: boolean;
-  styleSchema?: FilterStyleSchema;
+  styleSchema?: ContainerStyleSchema;
 };
 
 type AnyObject = {
@@ -31,7 +31,7 @@ type Container = {
   navigationPropertyFilters: AnyObject;
   functionFilters: AnyObject[];
   saveToLocalStorage?: boolean;
-  styleSchema?: null | FilterStyleSchema;
+  styleSchema?: null | ContainerStyleSchema;
   dateTimeUpdated?: null | string;
 };
 
@@ -62,8 +62,8 @@ type ContainerStyle = {
 
 export {
   AnyObject,
-  FilterStyleSchema,
-  FilterConfiguration,
+  ContainerStyleSchema,
+  ContainerConfiguration,
   ValueTypedObject,
   Container,
   FilterOption,
