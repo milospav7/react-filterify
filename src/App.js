@@ -2,7 +2,7 @@ import ReactJson from "react-json-view";
 import "./App.css";
 import "./style/style.css";
 import { useContainerState, useODataFilterQuery } from "./store/hooks";
-import TestContainer from "./tests/TestContainer";
+import UserFilters from "./tests/UserFilters";
 import { CONTAINER_IDS } from "./store/store";
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
       <div className="d-flex flex-row p-5">
         <div className="col-3">
           <h5 className="text-muted">USER FILTERS</h5>
-          <TestContainer containerId={CONTAINER_IDS.C1} />
+          <UserFilters containerId={CONTAINER_IDS.C1} />
         </div>
         <div className="p-3">
           <h5 className="text-muted mb-4">IN-MEMORY STATE</h5>
