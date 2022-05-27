@@ -166,18 +166,14 @@ const TextFilter: React.FC<IProps> = ({
         </ButtonDropdown>
         <InputGroupText className="text-muted">
           {operator === operatorSymbols.endswith && (
-            <span style={{ lineHeight: "1" }} className="me-1">
-              ....
-            </span>
+            <span className="me-1">....</span>
           )}
           <FontAwesomeIcon
             icon={faIconByOperator[operator]}
             className="filter-operator-icon"
           />
           {operator === operatorSymbols.startswith && (
-            <span style={{ lineHeight: "1" }} className="ms-1">
-              ....
-            </span>
+            <span className="ms-1">....</span>
           )}
         </InputGroupText>
       </RenderIf>
