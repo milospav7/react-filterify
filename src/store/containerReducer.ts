@@ -111,7 +111,7 @@ const container = createSlice({
         });
       }
     },
-    resetAllFilters(_state, action: PayloadAction<IBasePayload>) {
+    resetAllFilters(_state, _action: PayloadAction<IBasePayload>) {
       return { ...containerInitialState };
     },
     overrideFilters(state, action: PayloadAction<IOverridedFilters>) {
