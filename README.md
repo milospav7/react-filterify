@@ -40,3 +40,4 @@ All generic components have well structured API, with a set of common props rela
 - Optional exclude of ceratin built-in operator/s
 - Extend documentation with real examples
 - Async dropdown filter to support searchable and dynamic dropdown options, not just static ones as supported with DropdownFilter component
+- Container strong typing
