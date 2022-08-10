@@ -1,8 +1,8 @@
 import { containerReducer } from "./containerReducer";
 import { getStorageKey, resolveInitialState } from "./helpers";
-import { Container, ContainerConfiguration, ValueTypedObject } from "./types";
+import { Container, ContainerConfiguration } from "./types";
 
-let CONTAINERS: ValueTypedObject<Container> = {};
+let CONTAINERS: Record<string, Container> = {};
 
 const shouldSaveInStorage = (id: string) => CONTAINERS[id]?.saveToLocalStorage;
 

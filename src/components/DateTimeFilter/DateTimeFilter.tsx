@@ -30,10 +30,9 @@ import {
   useFilterState,
 } from "../../store/hooks";
 import { BaseFilterProps } from "../../store/interfaces";
-import { ValueTypedObject } from "../../store/types";
 import FilterDecorator from "../shared/FilterDecorator";
 
-const operatorSymbols: ValueTypedObject<string> = {
+const operatorSymbols: Record<string, string> = {
   eq: "eq",
   ne: "ne",
   gt: "gt",
@@ -42,7 +41,7 @@ const operatorSymbols: ValueTypedObject<string> = {
   le: "le",
 };
 
-const faIconByOperator: ValueTypedObject<any> = {
+const faIconByOperator: Record<string, any> = {
   eq: faEquals,
   ne: faNotEqual,
   gt: faGreaterThan,

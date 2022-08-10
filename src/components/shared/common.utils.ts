@@ -8,10 +8,10 @@ import {
   faLessThan,
   faLessThanEqual,
   faNotEqual,
+  IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
-import { ValueTypedObject } from "../../store/types";
 
-const faIconByOperator: ValueTypedObject<any> = {
+const faIconByOperator: Record<string, IconDefinition> = {
   eq: faEquals,
   ne: faNotEqual,
   gt: faGreaterThan,

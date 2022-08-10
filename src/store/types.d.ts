@@ -13,23 +13,15 @@ type ContainerConfiguration = {
   styleSchema?: ContainerStyleSchema;
 };
 
-type AnyObject = {
-  [key: string]: any;
-};
-
 type FilterOption = {
   label: string;
   value: string;
 };
 
-type ValueTypedObject<T> = {
-  [key: string]: T;
-};
-
 type Container = {
-  propertyFilters: AnyObject;
-  navigationPropertyFilters: AnyObject;
-  functionFilters: AnyObject[];
+  propertyFilters: Record<string, any>;
+  navigationPropertyFilters: Record<string, any>;
+  functionFilters: Record<string, any>[];
   saveToLocalStorage?: boolean;
   styleSchema?: null | ContainerStyleSchema;
   dateTimeUpdated?: null | string;
@@ -50,25 +42,23 @@ type FilterEventHandlers = {
 
 type FilterOperator = { operator: string; logic?: "and" | "or" };
 
-type TStyles = ValueTypedObject<CSSProperties>;
+type TNestedStyles = Record<string, CSSProperties>;
 
 type ContainerStyle = {
   styles: {
-    label: TStyles;
-    input: TStyles;
+    label: TNestedStyles;
+    input: TNestedStyles;
   };
   highlightWhenInUse: boolean | undefined;
 };
 
 export {
-  AnyObject,
   ContainerStyleSchema,
   ContainerConfiguration,
-  ValueTypedObject,
   Container,
   FilterOption,
   FilterEventHandlers,
   FilterOperator,
-  TStyles,
+  TNestedStyles,
   ContainerStyle,
 };

@@ -1,6 +1,4 @@
-import { ValueTypedObject } from "../../store/types";
-
-const operatorSymbols: ValueTypedObject<string> = {
+const operatorSymbols: Record<string, string> = {
   contains: "contains",
   doesnotcontain: "doesnotcontain",
   startswith: "startswith",

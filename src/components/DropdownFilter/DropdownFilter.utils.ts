@@ -1,8 +1,6 @@
-import { ValueTypedObject } from "../../store/types";
-
 type DropdownStyleType = {
   size: "sm" | "lg";
-  colorCodesMap?: ValueTypedObject<string>;
+  colorCodesMap?: Record<string, string>;
 };
 
 const getLgSelectStyle = (colorCodes: any) => ({
